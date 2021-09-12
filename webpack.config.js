@@ -5,7 +5,7 @@ module.exports = (_env, argv) => {
     const config = {
         entry: "./src/index.tsx",
         output: {
-            path: resolve('dist'),
+            path: resolve('build'),
             filename: "[name].js"
         },
         module: {
