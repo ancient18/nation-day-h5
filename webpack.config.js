@@ -6,7 +6,8 @@ module.exports = (_env, argv) => {
         entry: "./src/index.tsx",
         output: {
             path: resolve('build'),
-            filename: "[name].js"
+            filename: "[name].js",
+            publicPath: '/national-day-h5-2021',
         },
         module: {
             rules: [{
