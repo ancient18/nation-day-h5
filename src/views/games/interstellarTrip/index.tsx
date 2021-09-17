@@ -1,8 +1,8 @@
 import { ReactElement, useRef, useEffect } from "react";
 
-import "../../../assets/styles/interstellartrip.less"
+import "../../../assets/styles/interstellarTrip.less"
 
-import stone1 from "../../../assets/images/spacecraft.png"
+import spacecraft from "../../../assets/images/spacecraft.png"
 
 
 type Vector = {
@@ -105,9 +105,6 @@ const InterstellarTrip = (): ReactElement => {
 
 
 
-        // if (timer) {
-        //     return
-        // }
 
         
     }
@@ -154,16 +151,21 @@ const InterstellarTrip = (): ReactElement => {
                 context.fillText("挑战成功",100,250)
             } else if (!player.destroyed) {
                 if (!context) return
-                counter++
-                context.clearRect(0, 0, width, height)
-                fillCanvas(context, player, "pink")
-                player.coordinate.x += player.velocity.x
-                Stones.forEach(item => {
-                    fillCanvas(context,item,"green")
-                    item.coordinate.x += item.velocity.x      
-                    item.coordinate.y += item.velocity.y
-                    isColliding(player, item)
-                })
+                // counter++
+                // context.clearRect(0, 0, width, height)
+                // fillCanvas(context, player, "pink")
+                // player.coordinate.x += player.velocity.x
+                // Stones.forEach(item => {
+                //     fillCanvas(context,item,"green")
+                //     item.coordinate.x += item.velocity.x      
+                //     item.coordinate.y += item.velocity.y
+                //     isColliding(player, item)
+                // })
+                const img = new Image()
+                img.onload = function () {
+                    context.drawImage(img,100,100)
+                }
+                img.src = spacecraft
                 
             } else {
                 if (!context) return

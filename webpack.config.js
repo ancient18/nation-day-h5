@@ -1,38 +1,47 @@
-const { resolve } = require("path")
-const HtmlWebpackPlugin = require("html-webpack-plugin")
+const { resolve } = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = (_env, argv) => {
-    const config = {
-        entry: "./src/index.tsx",
-        output: {
-            path: resolve('build'),
-            filename: "[name].js",
-            publicPath: '/national-day-h5-2021',
+  const config = {
+    entry: "./src/index.tsx",
+    output: {
+      path: resolve("build"),
+      filename: "[name].js",
+      publicPath: "/national-day-h5-2021",
+    },
+    module: {
+      rules: [
+        {
+          test: /\.tsx$/,
+          include: resolve("src"),
+          use: "babel-loader",
         },
-        module: {
-            rules: [{
-                test: /\.tsx$/,
-                include: resolve("src"),
-                use: "babel-loader"
-            }, {
-                test: /\.less$/,
-                include: resolve("src"),
-                use: ["style-loader", "css-loader", "less-loader"]
-            }]
+        {
+          test: /\.less$/,
+          include: resolve("src"),
+          use: ["style-loader", "css-loader", "less-loader"],
         },
-        plugins: [new HtmlWebpackPlugin({
-            template: "./template/index.html"
-        })],
-        resolve: {
-            extensions: [".tsx", ".js"]
+        {
+          test: /\.png/,
+          type: "asset/resource",
         },
-        devtool: argv.mode === "development" ? "eval-source-map" : "source-map",
-        devServer: {
-            host: "0.0.0.0",
-            port: 3000,
-            open: true,
-            useLocalIp: true,
-        }
-    }
-    return config;
-}
+      ],
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: "./template/index.html",
+      }),
+    ],
+    resolve: {
+      extensions: [".tsx", ".js"],
+    },
+    devtool: argv.mode === "development" ? "eval-source-map" : "source-map",
+    devServer: {
+      host: "0.0.0.0",
+      port: 3000,
+      open: true,
+      useLocalIp: true,
+    },
+  };
+  return config;
+};
