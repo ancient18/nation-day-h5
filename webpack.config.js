@@ -7,7 +7,7 @@ module.exports = (_env, argv) => {
     output: {
       path: resolve("build"),
       filename: "[name].js",
-      publicPath: "/national-day-h5-2021",
+      publicPath: argv.mode === "development" ? "/" : "/national-day-h5-2021",
     },
     module: {
       rules: [
