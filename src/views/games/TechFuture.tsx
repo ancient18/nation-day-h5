@@ -15,6 +15,7 @@ interface BasicBody {
 
 interface MovableBody extends BasicBody {
     velocity: Vector,
+    status: string,
 }
 
 const sprites: BasicBody[] = Array.from({ length: 1000 }, (_, i) => ({
@@ -39,6 +40,7 @@ const player: MovableBody = {
         x: 50,
         y: 50
     },
+    status: "normal",
     visible: true
 }
 
@@ -66,8 +68,14 @@ function render(context: CanvasRenderingContext2D) {
 
 function isColliding(body1: BasicBody, body2: BasicBody): boolean {
     if (
-        Math.abs(body1.coordinate.x - body2.coordinate.x) < (body1.size.x + body2.size.x) / 2 &&
-        Math.abs(body1.coordinate.y - body2.coordinate.y) < (body1.size.y + body2.size.y) / 2
+        Math.abs(
+            (body1.coordinate.x + body1.size.x) -
+            (body2.coordinate.x + body2.size.x)
+        ) < (body1.size.x + body2.size.x) / 2 &&
+        Math.abs(
+            (body1.coordinate.y + body1.size.y) -
+            (body2.coordinate.y + body2.size.y)
+        ) < (body1.size.y + body2.size.y) / 2
     ) {
         return true;
     } else {
@@ -98,7 +106,7 @@ const TechFuture = (): ReactElement => {
         context.clearRect(0, 0, width, height);
         render(context);
         player.velocity.y = gravity / FPS + player.velocity.y;
-        
+
         player.coordinate = {
             x: player.velocity.x / FPS + player.coordinate.x,
             y: player.velocity.y / FPS + player.coordinate.y,
@@ -106,18 +114,33 @@ const TechFuture = (): ReactElement => {
         camera.x = player.coordinate.x - 50;
         if (player.coordinate.y < 0) {
             player.coordinate.y = 0;
-            player.velocity.y = -player.velocity.y/2;
+            player.velocity.y = -player.velocity.y / 2;
         }
         if (player.coordinate.y + player.size.y > height) {
             player.coordinate.y = height - player.size.y;
-            player.velocity.y = -player.velocity.y/2;
+            player.velocity.y = -player.velocity.y / 2;
         }
-        console.log(player.velocity.y)
         sprites.forEach(sprite => {
             if (isColliding(player, sprite)) {
                 sprite.visible = false;
+                player.status = "scale_up";
             }
         })
+        // if (player.status === "scale_up") {
+        //     console.log("scale_up", player.size.x)
+        //     player.size.x += 3;
+        //     player.size.y += 3;
+        //     if (player.size.x > 60) {
+        //         player.status = "scale_down";
+        //     }
+        // } else if (player.status === "scale_down") {
+        //     console.log("scale_down", player.size.x)
+        //     player.size.x -= 3;
+        //     player.size.y -= 3;
+        //     if (player.size.x <= 50) {
+        //         player.status = "normal";
+        //     }
+        // }
     }, 1000 / FPS);
     return (
         <canvas ref={canvasRef} onClick={liftPlayer}></canvas>
