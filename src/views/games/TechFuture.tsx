@@ -120,27 +120,25 @@ const TechFuture = (): ReactElement => {
             player.coordinate.y = height - player.size.y;
             player.velocity.y = -player.velocity.y / 2;
         }
-        sprites.forEach(sprite => {
+        sprites.filter(sprite => sprite.visible).forEach(sprite => {
             if (isColliding(player, sprite)) {
                 sprite.visible = false;
                 player.status = "scale_up";
             }
         })
-        // if (player.status === "scale_up") {
-        //     console.log("scale_up", player.size.x)
-        //     player.size.x += 3;
-        //     player.size.y += 3;
-        //     if (player.size.x > 60) {
-        //         player.status = "scale_down";
-        //     }
-        // } else if (player.status === "scale_down") {
-        //     console.log("scale_down", player.size.x)
-        //     player.size.x -= 3;
-        //     player.size.y -= 3;
-        //     if (player.size.x <= 50) {
-        //         player.status = "normal";
-        //     }
-        // }
+        if (player.status === "scale_up") {
+            player.size.x += 1;
+            player.size.y += 1;
+            if (player.size.x > 56) {
+                player.status = "scale_down";
+            }
+        } else if (player.status === "scale_down") {
+            player.size.x -= 1;
+            player.size.y -= 1;
+            if (player.size.x <= 50) {
+                player.status = "normal";
+            }
+        }
     }, 1000 / FPS);
     return (
         <canvas ref={canvasRef} onClick={liftPlayer}></canvas>
