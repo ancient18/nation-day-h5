@@ -2,6 +2,9 @@ import { useRef, ReactElement, useEffect } from "react";
 
 import '../../assets/styles/techFuture.less'
 
+// @ts-ignore
+import { juanjuan } from "../../assets/images/tech-future/images.ts"
+
 type Vector = {
     x: number,
     y: number,
@@ -10,7 +13,6 @@ type Vector = {
 interface BasicBody {
     coordinate: Vector,
     size: Vector,
-    visible: boolean
 }
 
 interface MovableBody extends BasicBody {
@@ -18,14 +20,77 @@ interface MovableBody extends BasicBody {
     status: string,
 }
 
-const sprites: BasicBody[] = Array.from({ length: 1000 }, (_, i) => ({
-    coordinate: { x: 100 + 200 * i, y: Math.random() },
-    size: { x: 40, y: 40 },
+interface RewardingItem extends BasicBody {
+    visible: boolean
+}
+
+const sprites: RewardingItem[] = [{
+    coordinate: { x: 0.331, y: 0.610 },
+    size: { x: 0.132, y: 0.130 },
     visible: true
-}))
+}, {
+    coordinate: { x: 0.403, y: 0.306 },
+    size: { x: 0.160, y: 0.156 },
+    visible: true
+}, {
+    coordinate: { x: 0.690, y: 0.468 },
+    size: { x: 0.157, y: 0.159 },
+    visible: true
+}, {
+    coordinate: { x: 0.993, y: 0.528 },
+    size: { x: 0.160, y: 0.162 },
+    visible: true
+}, {
+    coordinate: { x: 1.100, y: 0.288 },
+    size: { x: 0.189, y: 0.192 },
+    visible: true
+}, {
+    coordinate: { x: 1.465, y: 0.552 },
+    size: { x: 0.177, y: 0.178 },
+    visible: true
+}, {
+    coordinate: { x: 1.760, y: 0.384 },
+    size: { x: 0.112, y: 0.109 },
+    visible: true
+}, {
+    coordinate: { x: 1.982, y: 0.259 },
+    size: { x: 0.123, y: 0.124 },
+    visible: true
+}, {
+    coordinate: { x: 2.123, y: 0.481 },
+    size: { x: 0.189, y: 0.192 },
+    visible: true
+}, {
+    coordinate: { x: 2.493, y: 0.537 },
+    size: { x: 0.168, y: 0.166 },
+    visible: true
+}, {
+    coordinate: { x: 2.804, y: 0.363 },
+    size: { x: 0.213, y: 0.216 },
+    visible: true
+}, {
+    coordinate: { x: 3.163, y: 0.310 },
+    size: { x: 0.160, y: 0.156 },
+    visible: true
+}, {
+    coordinate: { x: 3.333, y: 0.522 },
+    size: { x: 0.148, y: 0.150 },
+    visible: true
+}, {
+    coordinate: { x: 3.564, y: 0.370 },
+    size: { x: 0.166, y: 0.165 },
+    visible: true
+}]
+
+
+const height = document.documentElement.clientHeight;
+const width = document.documentElement.clientWidth;
 
 const FPS = 60;
 const gravity = 600;
+
+const initalPlayerWidth = 112;
+const initalPlayerHeight = 80;
 
 const player: MovableBody = {
     coordinate: {
@@ -37,11 +102,10 @@ const player: MovableBody = {
         y: 0,
     },
     size: {
-        x: 50,
-        y: 50
+        x: initalPlayerWidth,
+        y: initalPlayerHeight
     },
-    status: "normal",
-    visible: true
+    status: "normal"
 }
 
 const camera: Vector = {
@@ -50,18 +114,28 @@ const camera: Vector = {
 }
 
 function render(context: CanvasRenderingContext2D) {
-    context.fillRect(
+    context.drawImage(
+        juanjuan,
         player.coordinate.x - camera.x,
         player.coordinate.y - camera.y,
         player.size.x,
-        player.size.y);
+        player.size.y
+    );
     sprites.forEach(sprite => {
         if (!sprite.visible) return;
+        console.log(sprite.coordinate.y);
+        
+        console.log(`context.fillRect(
+            ${sprite.coordinate.x * height} - ${camera.x},
+            ${sprite.coordinate.y * height} - ${camera.y},
+            ${sprite.size.x * height},
+            ${sprite.size.y * height}
+        )`)
         context.fillRect(
-            sprite.coordinate.x - camera.x,
-            sprite.coordinate.y - camera.y,
-            sprite.size.x,
-            sprite.size.y
+            sprite.coordinate.x * height - camera.x,
+            sprite.coordinate.y * height - camera.y,
+            sprite.size.x * height,
+            sprite.size.y * height
         );
     })
 }
@@ -87,19 +161,15 @@ function liftPlayer() {
     player.velocity.y = -300;
 }
 
+
 const TechFuture = (): ReactElement => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     let context: CanvasRenderingContext2D;
-    let height = 0;
-    let width = 0;
     useEffect(() => {
-        height = document.documentElement.clientHeight;
-        width = document.documentElement.clientWidth;
         canvasRef.current!.setAttribute("height", height.toString());
         canvasRef.current!.setAttribute("width", width.toString());
         context = canvasRef.current?.getContext('2d')!;
         player.coordinate.y = height / 2;
-        sprites.forEach(sprite => sprite.coordinate.y = sprite.coordinate.y * height)
     }, []);
     setInterval(() => {
         if (!context) return;
@@ -111,7 +181,7 @@ const TechFuture = (): ReactElement => {
             x: player.velocity.x / FPS + player.coordinate.x,
             y: player.velocity.y / FPS + player.coordinate.y,
         }
-        camera.x = player.coordinate.x - 50;
+        camera.x = player.coordinate.x - 0.055 * height;
         if (player.coordinate.y < 0) {
             player.coordinate.y = 0;
             player.velocity.y = -player.velocity.y / 2;
@@ -129,13 +199,13 @@ const TechFuture = (): ReactElement => {
         if (player.status === "scale_up") {
             player.size.x += 1;
             player.size.y += 1;
-            if (player.size.x > 56) {
+            if (player.size.x > initalPlayerWidth * 1.1) {
                 player.status = "scale_down";
             }
         } else if (player.status === "scale_down") {
             player.size.x -= 1;
             player.size.y -= 1;
-            if (player.size.x <= 50) {
+            if (player.size.x <= initalPlayerWidth) {
                 player.status = "normal";
             }
         }
