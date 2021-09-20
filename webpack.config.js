@@ -11,7 +11,7 @@ module.exports = (_env, argv) => {
         },
         module: {
             rules: [{
-                test: /\.tsx$/,
+                test: /\.tsx?$/,
                 include: resolve("src"),
                 use: "babel-loader"
             }, {
@@ -27,7 +27,7 @@ module.exports = (_env, argv) => {
             template: "./template/index.html"
         })],
         resolve: {
-            extensions: [".tsx", ".js"]
+            extensions: [".ts", ".tsx", ".js"]
         },
         devtool: argv.mode === "development" ? "eval-source-map" : "source-map",
         devServer: {
