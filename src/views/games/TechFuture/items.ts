@@ -1,7 +1,9 @@
 const height = document.documentElement.clientHeight;
 const width = document.documentElement.clientWidth;
 
-const rewardingItems: RewardingItem[] = [{
+import { juanjuan, itemImages } from "../../../assets/images/tech-future/images";
+
+const items: Item[] = [{
     coordinate: { x: 0.331, y: 0.610 },
     size: { x: 0.132, y: 0.130 },
 }, {
@@ -43,7 +45,7 @@ const rewardingItems: RewardingItem[] = [{
 }, {
     coordinate: { x: 3.564, y: 0.370 },
     size: { x: 0.166, y: 0.165 },
-}].map(v => ({
+}].map((v, i) => ({
     coordinate: {
         x: v.coordinate.x * height,
         y: v.coordinate.y * height
@@ -52,7 +54,8 @@ const rewardingItems: RewardingItem[] = [{
         x: v.size.x * height,
         y: v.size.y * height
     },
-    visible: true
+    visible: true,
+    image: itemImages[i]
 }))
 
-export { rewardingItems };
+export { items };

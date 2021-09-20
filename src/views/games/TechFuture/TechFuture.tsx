@@ -3,7 +3,7 @@ import { useRef, ReactElement, useEffect } from "react";
 import '../../../assets/styles/techFuture.less'
 
 import { juanjuan } from "../../../assets/images/tech-future/images";
-import { rewardingItems } from "./rewardingItems";
+import { items } from "./items";
 
 
 const height = document.documentElement.clientHeight;
@@ -12,7 +12,7 @@ const width = document.documentElement.clientWidth;
 const FPS = 60;
 const gravity = 600;
 
-const initalPlayerWidth = 112;
+const initalPlayerWidth = 138;
 const initalPlayerHeight = 80;
 
 const player: MovableBody = {
@@ -28,7 +28,8 @@ const player: MovableBody = {
         x: initalPlayerWidth,
         y: initalPlayerHeight
     },
-    status: "normal"
+    status: "normal",
+    image: juanjuan,
 }
 
 const camera: Vector = {
@@ -36,22 +37,21 @@ const camera: Vector = {
     y: 0
 }
 
-function render(context: CanvasRenderingContext2D) {
-    context.drawImage(
-        juanjuan,
-        player.coordinate.x - camera.x,
-        player.coordinate.y - camera.y,
-        player.size.x,
-        player.size.y
+function drawSprite(ctx: CanvasRenderingContext2D, sprite: BasicBody) {
+    ctx.drawImage(
+        sprite.image,
+        sprite.coordinate.x - camera.x,
+        sprite.coordinate.y - camera.y,
+        sprite.size.x,
+        sprite.size.y
     );
-    rewardingItems.forEach(item => {
+}
+
+function render(context: CanvasRenderingContext2D) {
+    drawSprite(context, player);
+    items.forEach(item => {
         if (!item.visible) return;
-        context.fillRect(
-            item.coordinate.x - camera.x,
-            item.coordinate.y - camera.y,
-            item.size.x,
-            item.size.y
-        );
+        drawSprite(context, item);
     })
 }
 
@@ -105,7 +105,7 @@ const TechFuture = (): ReactElement => {
             player.coordinate.y = height - player.size.y;
             player.velocity.y = -player.velocity.y / 2;
         }
-        rewardingItems.filter(item => item.visible).forEach(item => {
+        items.filter(item => item.visible).forEach(item => {
             if (isColliding(player, item)) {
                 item.visible = false;
                 player.status = "scale_up";

@@ -6,6 +6,7 @@ type Vector = {
 interface BasicBody {
     coordinate: Vector,
     size: Vector,
+    image: HTMLImageElement
 }
 
 interface MovableBody extends BasicBody {
@@ -13,6 +14,6 @@ interface MovableBody extends BasicBody {
     status: string,
 }
 
-interface RewardingItem extends BasicBody {
+interface Item extends BasicBody {
     visible: boolean
 }
