@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background: #FFFDD2;
+}
+.item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.item-list li {
+  position: absolute;
+}
+.item-list .insect1 {
+  width: 20.8vw;
+  height: 22.96533333vw;
+  background-size: cover;
+}
+.item-list .insect2 {
+  width: 16.09866667vw;
+  height: 21.86666667vw;
+  background-size: cover;
+}
+.item-list .wheat1 {
+  width: 20.82133333vw;
+  height: 36vw;
+  background-size: cover;
+}
+.item-list .wheat2 {
+  width: 22.544vw;
+  height: 29.6vw;
+  background-size: cover;
+}
+.item-list .branch {
+  width: 21.08266667vw;
+  height: 36vw;
+  background-size: cover;
+}
+.item-list .maple {
+  width: 23.46666667vw;
+  height: 21.76266667vw;
+  background-size: cover;
+}
+.item-list .mushroom {
+  width: 24.38666667vw;
+  height: 26.93333333vw;
+  background-size: cover;
+}
+.item-list .vine {
+  width: 24.53333333vw;
+  height: 26.61866667vw;
+  background-size: cover;
+}

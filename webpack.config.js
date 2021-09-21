@@ -18,6 +18,10 @@ module.exports = (_env, argv) => {
                 test: /\.less$/,
                 include: resolve("src"),
                 use: ["style-loader", "css-loader", "less-loader"]
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
             }]
         },
         plugins: [new HtmlWebpackPlugin({
