@@ -12,6 +12,12 @@ interface Sprite {
 interface Player extends Sprite {
     velocity: Vector,
     status: string,
+    collision: {
+        top: number,
+        left: number,
+        height: number,
+        width: number
+    }
 }
 
 interface Reward extends Sprite {

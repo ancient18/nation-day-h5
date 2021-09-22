@@ -28,6 +28,12 @@ const player: Player = {
         x: initalPlayerWidth,
         y: initalPlayerHeight
     },
+    collision: {
+        top: 17 / 667 * height,
+        height: 57 / 667 * height,
+        left: 30 / 667 * height,
+        width: 100 / 667 * height
+    },
     status: "normal",
     image: juanjuan,
 }
@@ -57,10 +63,10 @@ function render(context: CanvasRenderingContext2D) {
     context.drawImage(background, -camera.x, -camera.y, height * background.width / background.height, height);
 
     context.strokeRect(
-        player.coordinate.x - camera.x,
-        player.coordinate.y - camera.y,
-        player.size.x,
-        player.size.y
+        player.coordinate.x + player.collision.left - camera.x,
+        player.coordinate.y + player.collision.top - camera.y,
+        player.collision.width,
+        player.collision.height
     );
     context.drawImage(
         player.image,
@@ -78,13 +84,13 @@ function render(context: CanvasRenderingContext2D) {
 function isColliding(reward: Reward): boolean {
     if (
         Math.abs(
-            (player.coordinate.x + player.size.x / 2) -
+            (player.coordinate.x + player.collision.left + player.size.x / 2) -
             (reward.coordinate.x + reward.size.x / 2)
-        ) < (player.size.x + reward.size.x) / 2 &&
+        ) < (player.collision.width + reward.size.x) / 2 &&
         Math.abs(
-            (player.coordinate.y + player.size.y / 2) -
+            (player.coordinate.y + player.collision.top + player.size.y / 2) -
             (reward.coordinate.y + reward.size.y / 2)
-        ) < (player.size.y + reward.size.y) / 2
+        ) < (player.collision.height + reward.size.y) / 2
     ) {
         return true;
     } else {
@@ -134,14 +140,19 @@ const TechFuture = (): ReactElement => {
             }
         })
         if (player.status === "scale_up") {
-            player.size.x += 1;
-            player.size.y += 1;
+            player.size.x *= 1.01;
+            player.size.y *= 1.01;
+            player.collision.height *= 1.01;
+            player.collision.top *= 1.01;
             if (player.size.x > initalPlayerWidth * 1.1) {
                 player.status = "scale_down";
             }
         } else if (player.status === "scale_down") {
-            player.size.x -= 1;
-            player.size.y -= 1;
+            player.size.x *= 0.99;
+            player.size.y *= 0.99;
+
+            player.collision.height *= 0.99;
+            player.collision.top *= 0.99;
             if (player.size.x <= initalPlayerWidth) {
                 player.status = "normal";
             }
