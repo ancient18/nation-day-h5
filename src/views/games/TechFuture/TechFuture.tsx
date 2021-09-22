@@ -75,16 +75,16 @@ function render(context: CanvasRenderingContext2D) {
     })
 }
 
-function isColliding(body1: Sprite, body2: Reward): boolean {
+function isColliding(reward: Reward): boolean {
     if (
         Math.abs(
-            (body1.coordinate.x + body1.size.x / 2) -
-            (body2.coordinate.x + body2.size.x / 2)
-        ) < (body1.size.x + body2.size.x) / 2 &&
+            (player.coordinate.x + player.size.x / 2) -
+            (reward.coordinate.x + reward.size.x / 2)
+        ) < (player.size.x + reward.size.x) / 2 &&
         Math.abs(
-            (body1.coordinate.y + body1.size.y / 2) -
-            (body2.coordinate.y + body2.size.y / 2)
-        ) < (body1.size.y + body2.size.y) / 2
+            (player.coordinate.y + player.size.y / 2) -
+            (reward.coordinate.y + reward.size.y / 2)
+        ) < (player.size.y + reward.size.y) / 2
     ) {
         return true;
     } else {
@@ -128,7 +128,7 @@ const TechFuture = (): ReactElement => {
         }
         items.filter((item)=> item.visible).forEach((item, i) => {
             console.log(i)
-            if (isColliding(player, item)) {
+            if (isColliding(item)) {
                 item.visible = false;
                 player.status = "scale_up";
             }
