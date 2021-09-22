@@ -3,17 +3,17 @@ type Vector = {
     y: number,
 }
 
-interface BasicBody {
+interface Sprite {
     coordinate: Vector,
     size: Vector,
     image: HTMLImageElement
 }
 
-interface MovableBody extends BasicBody {
+interface Player extends Sprite {
     velocity: Vector,
     status: string,
 }
 
-interface Item extends BasicBody {
+interface Reward extends Sprite {
     visible: boolean
 }

@@ -15,7 +15,7 @@ const gravity = 600;
 const initalPlayerWidth = 138 / 667 * height;
 const initalPlayerHeight = 80 / 667 * height;
 
-const player: MovableBody = {
+const player: Player = {
     coordinate: {
         x: 0.055 * height,
         y: 100,
@@ -37,19 +37,19 @@ const camera: Vector = {
     y: 0
 }
 
-function drawSprite(ctx: CanvasRenderingContext2D, item: Item) {
+function drawSprite(ctx: CanvasRenderingContext2D, reward: Reward) {
     ctx.strokeRect(
-        item.coordinate.x - camera.x,
-        item.coordinate.y - camera.y,
-        item.size.x,
-        item.size.y
+        reward.coordinate.x - camera.x,
+        reward.coordinate.y - camera.y,
+        reward.size.x,
+        reward.size.y
     );
     ctx.drawImage(
-        item.image,
-        item.coordinate.x - camera.x,
-        item.coordinate.y - camera.y,
-        item.size.x,
-        item.size.y
+        reward.image,
+        reward.coordinate.x - camera.x,
+        reward.coordinate.y - camera.y,
+        reward.size.x,
+        reward.size.y
     );
 }
 
@@ -75,7 +75,7 @@ function render(context: CanvasRenderingContext2D) {
     })
 }
 
-function isColliding(body1: BasicBody, body2: BasicBody): boolean {
+function isColliding(body1: Sprite, body2: Reward): boolean {
     if (
         Math.abs(
             (body1.coordinate.x + body1.size.x / 2) -
