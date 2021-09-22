@@ -2,7 +2,7 @@ import { useRef, ReactElement, useEffect } from "react";
 
 import '../../../assets/styles/techFuture.less'
 
-import { juanjuan } from "../../../assets/images/tech-future/images";
+import { background, juanjuan } from "../../../assets/images/tech-future/images";
 import { items } from "./items";
 
 
@@ -12,12 +12,12 @@ const width = document.documentElement.clientWidth;
 const FPS = 60;
 const gravity = 600;
 
-const initalPlayerWidth = 138;
-const initalPlayerHeight = 80;
+const initalPlayerWidth = 138 / 667 * height;
+const initalPlayerHeight = 80 / 667 * height;
 
 const player: MovableBody = {
     coordinate: {
-        x: 0,
+        x: 0.055 * height,
         y: 100,
     },
     velocity: {
@@ -37,18 +37,38 @@ const camera: Vector = {
     y: 0
 }
 
-function drawSprite(ctx: CanvasRenderingContext2D, sprite: BasicBody) {
+function drawSprite(ctx: CanvasRenderingContext2D, item: Item) {
+    ctx.strokeRect(
+        item.coordinate.x - camera.x,
+        item.coordinate.y - camera.y,
+        item.size.x,
+        item.size.y
+    );
     ctx.drawImage(
-        sprite.image,
-        sprite.coordinate.x - camera.x,
-        sprite.coordinate.y - camera.y,
-        sprite.size.x,
-        sprite.size.y
+        item.image,
+        item.coordinate.x - camera.x,
+        item.coordinate.y - camera.y,
+        item.size.x,
+        item.size.y
     );
 }
 
 function render(context: CanvasRenderingContext2D) {
-    drawSprite(context, player);
+    context.drawImage(background, -camera.x, -camera.y, height * background.width / background.height, height);
+
+    context.strokeRect(
+        player.coordinate.x - camera.x,
+        player.coordinate.y - camera.y,
+        player.size.x,
+        player.size.y
+    );
+    context.drawImage(
+        player.image,
+        player.coordinate.x - camera.x,
+        player.coordinate.y - camera.y,
+        player.size.x,
+        player.size.y
+    );
     items.forEach(item => {
         if (!item.visible) return;
         drawSprite(context, item);
@@ -58,12 +78,12 @@ function render(context: CanvasRenderingContext2D) {
 function isColliding(body1: BasicBody, body2: BasicBody): boolean {
     if (
         Math.abs(
-            (body1.coordinate.x + body1.size.x) -
-            (body2.coordinate.x + body2.size.x)
+            (body1.coordinate.x + body1.size.x / 2) -
+            (body2.coordinate.x + body2.size.x / 2)
         ) < (body1.size.x + body2.size.x) / 2 &&
         Math.abs(
-            (body1.coordinate.y + body1.size.y) -
-            (body2.coordinate.y + body2.size.y)
+            (body1.coordinate.y + body1.size.y / 2) -
+            (body2.coordinate.y + body2.size.y / 2)
         ) < (body1.size.y + body2.size.y) / 2
     ) {
         return true;
@@ -84,6 +104,7 @@ const TechFuture = (): ReactElement => {
         canvasRef.current!.setAttribute("height", height.toString());
         canvasRef.current!.setAttribute("width", width.toString());
         context = canvasRef.current?.getContext('2d')!;
+        context.strokeStyle = "red"
         player.coordinate.y = height / 2;
     }, []);
     setInterval(() => {
@@ -105,7 +126,8 @@ const TechFuture = (): ReactElement => {
             player.coordinate.y = height - player.size.y;
             player.velocity.y = -player.velocity.y / 2;
         }
-        items.filter(item => item.visible).forEach(item => {
+        items.filter((item)=> item.visible).forEach((item, i) => {
+            console.log(i)
             if (isColliding(player, item)) {
                 item.visible = false;
                 player.status = "scale_up";

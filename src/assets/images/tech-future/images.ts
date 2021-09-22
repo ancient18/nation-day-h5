@@ -1,4 +1,5 @@
 import juanjuanSrc from "./juanjuan.png"
+import backgroundSrc from "./background.png"
 import item1 from "./1.png"
 import item2 from "./2.png"
 import item3 from "./3.png"
@@ -18,6 +19,9 @@ import item14 from "./14.png"
 const juanjuan = new Image();
 juanjuan.src = juanjuanSrc;
 
+const background = new Image();
+background.src = backgroundSrc;
+
 const itemImages = Array.from({ length: 14}, () => new Image());
 itemImages[0].src = item1;
 itemImages[1].src = item2;
@@ -36,5 +40,6 @@ itemImages[13].src = item14;
 
 export {
     juanjuan,
+    background,
     itemImages
 }

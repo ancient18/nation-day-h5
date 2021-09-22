@@ -1,7 +1,7 @@
 const height = document.documentElement.clientHeight;
 const width = document.documentElement.clientWidth;
 
-import { juanjuan, itemImages } from "../../../assets/images/tech-future/images";
+import { itemImages } from "../../../assets/images/tech-future/images";
 
 const items: Item[] = [{
     coordinate: { x: 0.331, y: 0.610 },
