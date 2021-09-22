@@ -3,7 +3,7 @@ const width = document.documentElement.clientWidth;
 
 import { itemImages } from "../../../assets/images/tech-future/images";
 
-const items: Item[] = [
+const items: Reward[] = [
     // rocket
     {
         coordinate: { x: 0.331, y: 0.610 },
