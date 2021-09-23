@@ -1,4 +1,4 @@
-import { useRef, ReactElement, useEffect } from "react";
+import { useRef, ReactElement, useEffect, useState } from "react";
 
 import '../../../assets/styles/techFuture.less'
 
@@ -59,7 +59,7 @@ function drawSprite(ctx: CanvasRenderingContext2D, reward: Reward) {
     );
 }
 
-function render(context: CanvasRenderingContext2D) {
+function graphicalUpdate(context: CanvasRenderingContext2D) {
     context.drawImage(background, -camera.x, -camera.y, height * background.width / background.height, height);
 
     context.strokeRect(
@@ -79,6 +79,48 @@ function render(context: CanvasRenderingContext2D) {
         if (!item.visible) return;
         drawSprite(context, item);
     })
+}
+
+function physicalUpdate() {
+    player.velocity.y = gravity / FPS + player.velocity.y;
+
+    player.coordinate = {
+        x: player.velocity.x / FPS + player.coordinate.x,
+        y: player.velocity.y / FPS + player.coordinate.y,
+    }
+    camera.x = player.coordinate.x - 0.055 * height;
+    if (player.coordinate.y < 0) {
+        player.coordinate.y = 0;
+        player.velocity.y = -player.velocity.y / 2;
+    }
+    if (player.coordinate.y + player.size.y > height) {
+        player.coordinate.y = height - player.size.y;
+        player.velocity.y = -player.velocity.y / 2;
+    }
+    items.filter((item) => item.visible).forEach((item) => {
+        if (isColliding(item)) {
+            item.visible = false;
+            player.status = "scale_up";
+        }
+    })
+    if (player.status === "scale_up") {
+        player.size.x *= 1.01;
+        player.size.y *= 1.01;
+        player.collision.height *= 1.01;
+        player.collision.top *= 1.01;
+        if (player.size.x > initalPlayerWidth * 1.1) {
+            player.status = "scale_down";
+        }
+    } else if (player.status === "scale_down") {
+        player.size.x *= 0.99;
+        player.size.y *= 0.99;
+
+        player.collision.height *= 0.99;
+        player.collision.top *= 0.99;
+        if (player.size.x <= initalPlayerWidth) {
+            player.status = "normal";
+        }
+    }
 }
 
 function isColliding(reward: Reward): boolean {
@@ -105,62 +147,43 @@ function liftPlayer() {
 
 const TechFuture = (): ReactElement => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [gameState, setGameState] = useState(0);
     let context: CanvasRenderingContext2D;
     useEffect(() => {
-        canvasRef.current!.setAttribute("height", height.toString());
-        canvasRef.current!.setAttribute("width", width.toString());
-        context = canvasRef.current?.getContext('2d')!;
+        if (!canvasRef.current) return;
+        canvasRef.current.setAttribute("height", height.toString());
+        canvasRef.current.setAttribute("width", width.toString());
+        context = canvasRef.current.getContext('2d')!;
         context.strokeStyle = "red"
         player.coordinate.y = height / 2;
     }, []);
-    setInterval(() => {
+    const frameTimer = setInterval(() => {
         if (!context) return;
         context.clearRect(0, 0, width, height);
-        render(context);
-        player.velocity.y = gravity / FPS + player.velocity.y;
-
-        player.coordinate = {
-            x: player.velocity.x / FPS + player.coordinate.x,
-            y: player.velocity.y / FPS + player.coordinate.y,
-        }
-        camera.x = player.coordinate.x - 0.055 * height;
-        if (player.coordinate.y < 0) {
-            player.coordinate.y = 0;
-            player.velocity.y = -player.velocity.y / 2;
-        }
-        if (player.coordinate.y + player.size.y > height) {
-            player.coordinate.y = height - player.size.y;
-            player.velocity.y = -player.velocity.y / 2;
-        }
-        items.filter((item)=> item.visible).forEach((item, i) => {
-            console.log(i)
-            if (isColliding(item)) {
-                item.visible = false;
-                player.status = "scale_up";
-            }
-        })
-        if (player.status === "scale_up") {
-            player.size.x *= 1.01;
-            player.size.y *= 1.01;
-            player.collision.height *= 1.01;
-            player.collision.top *= 1.01;
-            if (player.size.x > initalPlayerWidth * 1.1) {
-                player.status = "scale_down";
-            }
-        } else if (player.status === "scale_down") {
-            player.size.x *= 0.99;
-            player.size.y *= 0.99;
-
-            player.collision.height *= 0.99;
-            player.collision.top *= 0.99;
-            if (player.size.x <= initalPlayerWidth) {
-                player.status = "normal";
-            }
+        graphicalUpdate(context);
+        physicalUpdate();
+        if (player.coordinate.x > background.width / background.height * height) {
+            if (items.every(item => !item.visible))
+                setGameState(2);
+            else
+                setGameState(1);
+            clearInterval(frameTimer)
         }
     }, 1000 / FPS);
-    return (
+
+
+    return <>
+        {(() => {
+            if (gameState === 1) {
+                return <p>Failed</p>
+            } else if (gameState === 2) {
+                return <p>Success</p>
+            } else {
+                return null;
+            }
+        })()}
         <canvas ref={canvasRef} onClick={liftPlayer}></canvas>
-    )
+    </>
 }
 
 export default TechFuture;
