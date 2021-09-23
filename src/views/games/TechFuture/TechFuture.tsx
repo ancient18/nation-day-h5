@@ -88,7 +88,12 @@ function physicalUpdate() {
         x: player.velocity.x / FPS + player.coordinate.x,
         y: player.velocity.y / FPS + player.coordinate.y,
     }
-    camera.x = player.coordinate.x - 0.055 * height;
+    if (
+        background.width / background.height * height - player.coordinate.x >
+        width - 37 / 667 * height
+    ) {
+        camera.x = player.coordinate.x - 37 / 667 * height;
+    }
     if (player.coordinate.y < 0) {
         player.coordinate.y = 0;
         player.velocity.y = -player.velocity.y / 2;
