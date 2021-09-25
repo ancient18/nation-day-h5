@@ -1,3 +1,60 @@
+// import { fail, playAgain, selectGame } from "../../../../assets/images/tech-future/images";
+
+
+@success: "../images/tech-future/success.png";
+
 body {
     overflow: hidden;
+}
+
+.tech-future {
+
+    .fail-window,
+    .success-window {
+        padding: 20vh 0;
+        overflow-y: auto;
+        height: 60vh;
+        background-color: rgba(255, 255, 255, 0);
+        position: fixed;
+        .background {
+            position: relative;
+            width: 100vw;
+            background-size: 100% 100%;
+            & > * {
+                position: absolute;
+            }
+        }
+    }
+
+    .fail-window {
+        .background {
+            background-image: url("../images/tech-future/failure.png");
+            height: 77.0666667vw;
+            
+            .play-again {
+                left: 13.8666667vw;
+                top: 40.266666667vw;
+                width: 37.6vw;
+            }
+
+            .select-game {
+                left: 57.866666667vw;
+                top: 40.266666667vw;
+                width: 27.7333333vw;
+            }
+        }
+    }
+
+    .success-window {
+        .background {
+            background-image: url("../images/tech-future/success.png");
+            height: 213.272230546vw;
+
+            .back {
+                left: 39.863693781vw;
+                top: 178.314385594vw;
+                width: 20.269674804vw;
+            }
+        }
+    }
 }

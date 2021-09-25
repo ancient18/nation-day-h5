@@ -1,5 +1,10 @@
 import juanjuanSrc from "./juanjuan.png"
 import backgroundSrc from "./background.png"
+import failureSrc from "./failure.png"
+import successSrc from "./success.png"
+import selectGameSrc from "./select_game.png"
+import playAgainSrc from "./play_again.png"
+import backSrc from "./back.png"
 import item1 from "./1.png"
 import item2 from "./2.png"
 import item3 from "./3.png"
@@ -19,8 +24,23 @@ import item14 from "./14.png"
 const juanjuan = new Image();
 juanjuan.src = juanjuanSrc;
 
+const failure = new Image();
+failure.src = failureSrc;
+
+const success = new Image();
+success.src = successSrc;
+
 const background = new Image();
 background.src = backgroundSrc;
+
+const playAgain = new Image();
+playAgain.src = playAgainSrc;
+
+const selectGame = new Image();
+selectGame.src = selectGameSrc;
+
+const back = new Image();
+back.src = backSrc;
 
 const itemImages = Array.from({ length: 14}, () => new Image());
 itemImages[0].src = item1;
@@ -41,5 +61,10 @@ itemImages[13].src = item14;
 export {
     juanjuan,
     background,
+    back,
+    failure,
+    success,
+    selectGame,
+    playAgain,
     itemImages
 }

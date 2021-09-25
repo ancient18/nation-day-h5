@@ -5,6 +5,8 @@ import '../../../assets/styles/techFuture.less'
 import { background, juanjuan } from "../../../assets/images/tech-future/images";
 import { items } from "./items";
 
+import FailureWindow from "./views/FailureWindow";
+import SuccessWindow from "./views/SuccessWindow";
 
 const height = document.documentElement.clientHeight;
 const width = document.documentElement.clientWidth;
@@ -145,6 +147,10 @@ function isColliding(reward: Reward): boolean {
     }
 }
 
+function isGameOver() {
+    return player.coordinate.x > background.width / background.height * height
+}
+
 function liftPlayer() {
     player.velocity.y = -300;
 }
@@ -164,10 +170,10 @@ const TechFuture = (): ReactElement => {
     }, []);
     const frameTimer = setInterval(() => {
         if (!context) return;
-        context.clearRect(0, 0, width, height);
         graphicalUpdate(context);
         physicalUpdate();
-        if (player.coordinate.x > background.width / background.height * height) {
+        
+        if (isGameOver()) {
             if (items.every(item => !item.visible))
                 setGameState(2);
             else
@@ -177,18 +183,18 @@ const TechFuture = (): ReactElement => {
     }, 1000 / FPS);
 
 
-    return <>
+    return <div className="tech-future">
         {(() => {
             if (gameState === 1) {
-                return <p>Failed</p>
+                return <FailureWindow />
             } else if (gameState === 2) {
-                return <p>Success</p>
+                return <SuccessWindow />
             } else {
                 return null;
             }
         })()}
         <canvas ref={canvasRef} onClick={liftPlayer}></canvas>
-    </>
+    </div>
 }
 
 export default TechFuture;
