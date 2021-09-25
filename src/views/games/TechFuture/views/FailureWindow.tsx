@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-import { failure, playAgain, selectGame } from "../../../../assets/images/tech-future/images";
+import { playAgain, selectGame } from "../../../../assets/images/tech-future/images";
 
 
 const FailWindow = (): ReactElement => {

@@ -1,6 +1,6 @@
 import { useRef, ReactElement, useEffect, useState } from "react";
 
-import '../../../assets/styles/techFuture.less'
+import '../../../assets/styles/techFuture.less';
 
 import { background, juanjuan } from "../../../assets/images/tech-future/images";
 import { items } from "./items";
@@ -158,7 +158,7 @@ function liftPlayer() {
 
 const TechFuture = (): ReactElement => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [gameState, setGameState] = useState(0);
+    const [gameState, setGameState] = useState<"SUCCESS" | "FAILURE" | "PLAYING">("PLAYING");
     let context: CanvasRenderingContext2D;
     useEffect(() => {
         if (!canvasRef.current) return;
@@ -172,22 +172,27 @@ const TechFuture = (): ReactElement => {
         if (!context) return;
         graphicalUpdate(context);
         physicalUpdate();
-        
-        if (isGameOver()) {
-            if (items.every(item => !item.visible))
-                setGameState(2);
-            else
-                setGameState(1);
+
+        if (items.every(item => !item.visible)) {
+            setGameState("SUCCESS");
             clearInterval(frameTimer)
+        }
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            if (item.visible && item.coordinate.x + item.size.x < player.coordinate.x) {
+                setGameState("FAILURE");
+                clearInterval(frameTimer);
+                break;
+            }
         }
     }, 1000 / FPS);
 
 
     return <div className="tech-future">
         {(() => {
-            if (gameState === 1) {
+            if (gameState === "FAILURE") {
                 return <FailureWindow />
-            } else if (gameState === 2) {
+            } else if (gameState === "SUCCESS") {
                 return <SuccessWindow />
             } else {
                 return null;
