@@ -147,10 +147,6 @@ function isColliding(reward: Reward): boolean {
     }
 }
 
-function isGameOver() {
-    return player.coordinate.x > background.width / background.height * height
-}
-
 function liftPlayer() {
     player.velocity.y = -300;
 }
@@ -167,25 +163,30 @@ const TechFuture = (): ReactElement => {
         context = canvasRef.current.getContext('2d')!;
         context.strokeStyle = "red"
         player.coordinate.y = height / 2;
-    }, []);
-    const frameTimer = setInterval(() => {
-        if (!context) return;
-        graphicalUpdate(context);
-        physicalUpdate();
 
-        if (items.every(item => !item.visible)) {
-            setGameState("SUCCESS");
-            clearInterval(frameTimer)
-        }
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            if (item.visible && item.coordinate.x + item.size.x < player.coordinate.x) {
-                setGameState("FAILURE");
-                clearInterval(frameTimer);
-                break;
+        const frameTimer = setInterval(() => {
+            if (!context) return;
+            graphicalUpdate(context);
+            physicalUpdate();
+    
+            if (items.every(item => !item.visible)) {
+                setGameState("SUCCESS");
+                clearInterval(frameTimer)
             }
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (item.visible && item.coordinate.x + item.size.x < player.coordinate.x) {
+                    setGameState("FAILURE");
+                    clearInterval(frameTimer);
+                    break;
+                }
+            }
+        }, 1000 / FPS);
+
+        return () => {
+            clearInterval(frameTimer);
         }
-    }, 1000 / FPS);
+    }, []);
 
 
     return <div className="tech-future">
