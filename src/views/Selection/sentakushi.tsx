@@ -2,7 +2,8 @@ import { ReactElement } from "react";
 
 type Props = {
     type: "antiEpidemic" | "techFuture" | "interstellarTrip" | "harvest";
-    status: "normal" | "done" | "expand";
+    done: boolean;
+    expand: boolean;
 }
 
 /**
@@ -17,7 +18,7 @@ const Sentakushi = (props: Props): ReactElement => (
 )
 
 Sentakushi.defaultProps = {
-    status: "normal"
+    expand: false
 }
 
 export default Sentakushi;

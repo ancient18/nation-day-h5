@@ -1,5 +1,6 @@
 const { resolve } = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const apiMocker = require('mocker-api');
 
 module.exports = (_env, argv) => {
     const config = {
@@ -35,6 +36,9 @@ module.exports = (_env, argv) => {
             port: 3000,
             open: true,
             useLocalIp: true,
+            before(app) {
+                apiMocker(app, resolve('./mocker/index.js'))
+            }
         }
     }
     return config;
