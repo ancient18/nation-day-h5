@@ -6,20 +6,24 @@ import {
     Link,
 } from "react-router-dom";
 
-import Home from "./views/Home"
+import Home from "./views/Home";
+import Selection from "./views/Selection";
 import {
     Harvest,
     TechFuture,
     AntiEpidemic,   
     InterstellarTrip,
-} from "./views/games"
+} from "./views/games";
 
-import "./assets/styles/main.less"
+import "./assets/styles/main.less";
 
 const App = (): ReactElement => (
     <StrictMode>
         <Router>
             <Switch>
+                <Route path="/selection">
+                    <Selection />
+                </Route>
                 {/* games */}
                 <Route path="/harvest">
                     <Harvest />
