@@ -20,8 +20,12 @@ import {
     background
 } from "../assets/images/selection";
 
+import "../assets/styles/selection.less";
+
 const Home = (): ReactElement => (
-    <div>Selection</div>
+    <div className="selection">
+        
+    </div>
 )
 
 export default Home;
