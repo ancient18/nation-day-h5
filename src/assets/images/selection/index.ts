@@ -13,6 +13,8 @@ import techFutureExpand from './anti-epidemic-expand.png';
 import interstellarTripExpand from './anti-epidemic-expand.png';
 import harvestExpand from './anti-epidemic-expand.png';
 
+import background from './background.png';
+
 export {
     antiEpidemic,
     antiEpidemicDone,
@@ -28,5 +30,7 @@ export {
     
     harvest,
     harvestDone,
-    harvestExpand
+    harvestExpand,
+
+    background
 }

@@ -15,7 +15,9 @@ import {
 
     harvest,
     harvestDone,
-    harvestExpand
+    harvestExpand,
+
+    background
 } from "../assets/images/selection";
 
 const Home = (): ReactElement => (
