@@ -48,10 +48,12 @@ const Selection = (): ReactElement => {
 
     return (
         <div className="selection">
-            <Sentakushi type="harvest" done={dones.harvest} />
-            <Sentakushi type="interstellarTrip" done={dones.interstellar_trip} />
-            <Sentakushi type="antiEpidemic" done={dones.anti_epidemic} />
-            <Sentakushi type="techFuture" done={dones.tech_future} />
+            <div className="sentakushis">
+                <Sentakushi type="harvest" done={dones.harvest} />
+                <Sentakushi type="interstellarTrip" done={dones.interstellar_trip} />
+                <Sentakushi type="antiEpidemic" done={dones.anti_epidemic} />
+                <Sentakushi type="techFuture" done={dones.tech_future} />
+            </div>
         </div>
     )
 }

@@ -11,8 +11,8 @@ type Props = {
  * 
  * 選択肢「せんたくし」「SENTAKUSHI」
 **/
-const Sentakushi = (props: Props): ReactElement => (
-    <div className="sentakushi">
+const Sentakushi = ({type, done, expand}: Props): ReactElement => (
+    <div className={`sentakushi ${type}`}>
 
     </div>
 )
