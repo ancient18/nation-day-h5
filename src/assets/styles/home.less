@@ -2,7 +2,10 @@
 .home{
     position: relative;
     background-image: url(../images/home/home-background-image.png);
-    background-size: cover;
+    // background-size: cover;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    // background-size: 100% 100%;
     top: 0;
     left: 0;
     width: 100vw;
@@ -44,9 +47,9 @@
             border: none;
             background-color: #FAF8EC;
             margin: 13./@vv 0 0 18./@vv;
-            font-family: ZhanKuQingKeHuangYouTi;
+            font-family: Zhan;
             color: #C84D1B;
-            font-size: 11.88./@vv;
+            font-size: 12./@vv;
             padding: 0;
         }
         .loginPopConfirm{
@@ -62,6 +65,15 @@
             background-image: url(../images/home/home-loginPop-noID.png);
             background-size: cover;
             margin-left: 69./@vv;
+        }
+        .loginPop-input-error{
+            display: none;
+            color: #C84D1B;
+            font-family: LianMeng;
+            font-size: 11./@vv;
+            position: absolute;
+            left: 114./@vv;
+            top: 117.89./@vv;
         }
     }
     ul{
@@ -91,7 +103,7 @@
             background-size: cover;
             .stuID{
                 font-size: 19./@vv;
-                font-family: ZhanKuQingKeHuangYouTi;
+                font-family: Zhan;
                 color: #C84D1C;
                 position: absolute;
                 top: 0;

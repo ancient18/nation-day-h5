@@ -1,7 +1,8 @@
 .home {
   position: relative;
   background-image: url(../images/home/home-background-image.png);
-  background-size: cover;
+  background-size: 100%;
+  background-repeat: no-repeat;
   top: 0;
   left: 0;
   width: 100vw;
@@ -44,9 +45,9 @@
   border: none;
   background-color: #FAF8EC;
   margin: 3.46666667vw 0 0 4.8vw;
-  font-family: ZhanKuQingKeHuangYouTi;
+  font-family: Zhan;
   color: #C84D1B;
-  font-size: 3.168vw;
+  font-size: 3.2vw;
   padding: 0;
 }
 .home .loginPop .loginPopConfirm {
@@ -62,6 +63,15 @@
   background-image: url(../images/home/home-loginPop-noID.png);
   background-size: cover;
   margin-left: 18.4vw;
+}
+.home .loginPop .loginPop-input-error {
+  display: none;
+  color: #C84D1B;
+  font-family: LianMeng;
+  font-size: 2.93333333vw;
+  position: absolute;
+  left: 30.4vw;
+  top: 31.43733333vw;
 }
 .home ul {
   position: absolute;
@@ -92,7 +102,7 @@
 }
 .home ul .stuIDBox .stuID {
   font-size: 5.06666667vw;
-  font-family: ZhanKuQingKeHuangYouTi;
+  font-family: Zhan;
   color: #C84D1C;
   position: absolute;
   top: 0;
