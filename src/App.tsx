@@ -17,8 +17,12 @@ import {
 
 import "./assets/styles/main.less";
 
+import Music from '../src/components/music'
+
 const App = (): ReactElement => (
-    <StrictMode>
+    // <StrictMode>
+    <div>
+        <Music />
         <Router>
             <Switch>
                 <Route path="/selection">
@@ -43,7 +47,8 @@ const App = (): ReactElement => (
                 </Route>
             </Switch>
         </Router>
-    </StrictMode>
+    </div>
+    // </StrictMode>
 );
 
 export default App;
