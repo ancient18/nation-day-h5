@@ -1,0 +1,87 @@
+body {
+  touch-action:none;
+  overflow: hidden;
+}
+
+.interstellar_trip {
+  position: relative;
+}
+
+#interstellartrip {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+.success {
+  z-index: 10;
+  width: 100vw;
+  height:100vh;
+  overflow-y: auto;
+  position: fixed;
+}
+
+.success_page {
+  position: relative;
+  top: calc(162vw * 100 / 375);
+  left: calc(40vw * 100 / 375);
+  height: calc(731vw * 100 / 375);
+  width: calc(291vw * 100 / 375);
+  z-index: 10;
+  overflow-y:hidden;
+}
+
+.success_button {
+  position: absolute;
+  top:calc(772vw * 100 / 375);
+  left: calc(150vw * 100 / 375);
+  width: calc(72vw * 100 / 375);
+  height: calc(73vw * 100 / 375);
+  z-index: 10;
+}
+
+
+
+.failure {
+  position: absolute;
+  z-index: 10;
+}
+
+.failed_page {
+  position: absolute;
+  top: calc(256vw * 100 / 375);
+  left: calc(44vw * 100 / 375);
+  width: calc(290vw * 100 / 375);
+  height: calc(216vw * 100 / 375);
+  z-index: 10;
+}
+
+.failed_change {
+  position: absolute;
+  top: calc(376vw * 100 / 375);
+  left: calc(214vw * 100 / 375);
+  width: calc(87vw * 100 / 375);
+  height: calc(40vw * 100 / 375);
+  z-index: 10;
+}
+
+.failed_again {
+  position: absolute;
+  top: calc(376vw * 100 / 375);
+  left: calc(77vw * 100 / 375);
+  width: calc(120vw * 100 / 375);
+  height: calc(40vw * 100 / 375);
+  z-index: 10;
+}
+
+
+.bgc_box {
+  width: 100vw;
+  .bgc {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 0;
+    object-fit:cover;
+    overflow: hidden;
+  }
+}

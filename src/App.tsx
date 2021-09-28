@@ -7,10 +7,11 @@ import {
 } from "react-router-dom";
 
 import Home from "./views/Home"
+
 import {
     Harvest,
     TechFuture,
-    AntiEpidemic,   
+    AntiEpidemic,
     InterstellarTrip,
 } from "./views/games"
 
