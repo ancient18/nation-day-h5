@@ -32,13 +32,13 @@ interface Item {
     type: string,
     key: number,
     boxStyle: string,
-    isStop: boolean
+    isStop: boolean //stop用来当点击障碍物或者漏点麦穗的时候来停下物体移动
 }
 
 //一些基础配置
 const config = {
     isNew: true, //  控制是否生成新物体,
-    isStop: false,
+    isStop: false, //stop用来当点击障碍物或者漏点麦穗的时候来停下物体移动
     newTimes: 1,
     isSuccess: true, //  设置是否成功
     isLast: false,
@@ -103,17 +103,18 @@ function changeY(node: HTMLLIElement, item: Item, setItems: ((func: (items: Item
             item.coordinate.y += 1;
             node.style.transform = 'translateY(' + item.coordinate.y + 'vh)'
             changeY(node, item, setItems, gameOverPopNode, coverNode)
-            // console.log(item.coordinate.y);
         }
         else {
             if ((item.type === 'wheat1' || item.type === 'wheat2') && !item.isStop) {
                 if (item.visible) {
+                    node.style.display = 'none'
                     stopMoveAndNew(setItems)
                     gameOver(gameOverPopNode, coverNode)
                 }
             }
             if (item.type !== 'wheat1' && item.type !== 'wheat2' && !item.isStop) {
-                node.style.zIndex = '-100'
+                // node.style.zIndex = '-100'
+                node.style.display = 'none' //使障碍物消失
             }
         }
     }, 16.5)
@@ -158,13 +159,11 @@ const handleGoodClick = (node: HTMLLIElement, item: Item, wheatNum: number, succ
         setTimeout(() => {
             node.style.display = 'none';
             item.visible = false;
-            // console.log('itemNum:', config.itemNum);
-            // console.log('wheatNum:', config.wheatNum);
             if (config.isLast && wheatNum === config.wheatNum) {
                 console.log('sucess');
                 setTimeout(() => success(successPopNode, containerNode, coverNode), 500)
             }
-        }, 500);
+        }, 200);
     })
 }
 
