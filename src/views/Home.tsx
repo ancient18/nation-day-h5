@@ -1,23 +1,31 @@
 import { ReactElement, useState } from "react";
 import { withRouter } from 'react-router-dom'
-import { Route } from "react-router-dom";
 import '../../src/assets/styles/home.less'
 import '../../src/assets/font/font.less'
-import Harvest from "./games/Harvest"
+
+import { API_URL } from "../config"
 
 const Home = (props: any): ReactElement => {
     let [stuID, setStuID] = useState<any>(0);
     let stuIDNode: HTMLInputElement | null, coverNode: HTMLDivElement | null, loginPopNode: HTMLDivElement | null, rulePopNode: HTMLDivElement | null, stuIDShowNode: HTMLSpanElement | null, loginPopErrorNode: HTMLDivElement | null;
 
-    const handleConfirmID = () => {
+    const handleConfirmID = async () => {
         stuID = stuIDNode!.value;
         var regu = /^[1-9]\d*$/;
         var regu2 = /^[\da-zA-Z]{10}$/
         if (regu.test(stuID) && regu2.test(stuID)) {
-            // fetch(`https://be-dev.redrock.cqupt.edu.cn/national-day/status?stu_number=${stuID}`).then((res) => { 
-            // })
-            stuIDShowNode!.innerHTML = stuID
-            showHome()
+            const response = await fetch(`${API_URL}/status?stu_number=${stuID}`)
+            const data = await response.json()
+
+            if (data.info === 'success') {
+                stuIDShowNode!.innerHTML = stuID
+                showHome()
+            } else {
+                loginPopErrorNode!.style.display = 'block'
+                setTimeout(() => {
+                    loginPopErrorNode!.style.display = 'none'
+                }, 1000);
+            }
         }
         else {
             loginPopErrorNode!.style.display = 'block'
