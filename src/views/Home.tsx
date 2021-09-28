@@ -7,17 +7,25 @@ import Harvest from "./games/Harvest"
 
 const Home = (props: any): ReactElement => {
     let [stuID, setStuID] = useState<any>(0);
-    let stuIDNode: HTMLInputElement | null, coverNode: HTMLDivElement | null, loginPopNode: HTMLDivElement | null, rulePopNode: HTMLDivElement | null;
+    let stuIDNode: HTMLInputElement | null, coverNode: HTMLDivElement | null, loginPopNode: HTMLDivElement | null, rulePopNode: HTMLDivElement | null, stuIDShowNode: HTMLSpanElement | null, loginPopErrorNode: HTMLDivElement | null;
 
     const handleConfirmID = () => {
         stuID = stuIDNode!.value;
-        const reNumber = /^\d+$/;
-        const reRealNumber1 = /^[1-9]\d*[.]\d+$/
-        console.log('reNumber:', reNumber.test(stuID));
-        console.log();
-
-        // fetch(`https://be-dev.redrock.cqupt.edu.cn/national-day/status?stu_number=${stuID}`).then((res) => { 
-        // })
+        var regu = /^[1-9]\d*$/;
+        var regu2 = /^[\da-zA-Z]{10}$/
+        if (regu.test(stuID) && regu2.test(stuID)) {
+            // fetch(`https://be-dev.redrock.cqupt.edu.cn/national-day/status?stu_number=${stuID}`).then((res) => { 
+            // })
+            stuIDShowNode!.innerHTML = stuID
+            showHome()
+        }
+        else {
+            loginPopErrorNode!.style.display = 'block'
+            setTimeout(() => {
+                loginPopErrorNode!.style.display = 'none'
+            }, 1000);
+            console.log('输入错误，请重新输入');
+        }
     }
 
     const handleNoID = () => {
@@ -48,6 +56,7 @@ const Home = (props: any): ReactElement => {
                 <div className="loginPop" ref={currentNode => loginPopNode = currentNode}>
                     <div className="loginPop-input-box" >
                         <input type="text" name="" id="" className="loginPop-input" ref={currentNode => stuIDNode = currentNode} />
+                        <div className="loginPop-input-error" ref={currentNode => loginPopErrorNode = currentNode}>请输入正确的学号</div>
                     </div>
                     <div className="loginPopConfirm" onClick={handleConfirmID}></div>
                     <div className="loginPopNoID" onClick={handleNoID}></div>
@@ -57,8 +66,8 @@ const Home = (props: any): ReactElement => {
                     {/* <Route path="/selection" component={Harvest} ></Route> */}
                     <li className="button2" onClick={getRule}></li>
                     <li className="stuIDBox">
-                        <span className="stuID">
-                            2020211524
+                        <span className="stuID" ref={currentNode => stuIDShowNode = currentNode}>
+                            **********
                         </span>
                     </li>
                 </ul>
