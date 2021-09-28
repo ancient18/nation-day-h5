@@ -14,6 +14,7 @@ import {
     InterstellarTrip,
 } from "./views/games"
 
+
 import "./assets/styles/main.less"
 
 const App = (): ReactElement => (
