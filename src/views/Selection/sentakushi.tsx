@@ -1,9 +1,18 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useRouteMatch,
+    useParams
+} from "react-router-dom";
+
+import * as images from "../../assets/images/selection"
 
 type Props = {
     type: "antiEpidemic" | "techFuture" | "interstellarTrip" | "harvest";
     done: boolean;
-    expand: boolean;
 }
 
 /**
@@ -11,14 +20,32 @@ type Props = {
  * 
  * 選択肢「せんたくし」「SENTAKUSHI」
 **/
-const Sentakushi = ({type, done, expand}: Props): ReactElement => (
-    <div className={`sentakushi ${type}`}>
 
-    </div>
-)
+function mapImageName(name: string): string {
+    switch (name) {
+        case "antiEpidemic": return "anti-epidemic";
+        case "techFuture": return "tech-future";
+        case "interstellarTrip": return "interstellar-trip";
+        default: return name;
+    }
+}
 
-Sentakushi.defaultProps = {
-    expand: false
+const Sentakushi = ({ type, done }: Props): ReactElement => {
+    const [expand, setExpand] = useState(false);
+    return (
+        <div
+            className={`sentakushi ${type} ${expand ? "expanded" : ""}`}
+        >
+            <img
+                className="preview"
+                src={images[`${type}`]}
+                onClick={() => setExpand(!expand)}
+            ></img>
+            <Link to={mapImageName(type)}>
+                <img src={images.startGame} className="start-game" />
+            </Link>
+        </div>
+    )
 }
 
 export default Sentakushi;

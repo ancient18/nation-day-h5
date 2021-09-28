@@ -8,8 +8,8 @@ import { items } from "./items";
 import FailureWindow from "./views/FailureWindow";
 import SuccessWindow from "./views/SuccessWindow";
 
-const height = document.documentElement.clientHeight;
-const width = document.documentElement.clientWidth;
+const height = document.documentElement.clientHeight ;
+const width = document.documentElement.clientWidth ;
 
 const FPS = 60;
 const gravity = 600;
@@ -23,7 +23,7 @@ const player: Player = {
         y: 100,
     },
     velocity: {
-        x: 50,
+        x: 300,
         y: 0,
     },
     size: {
@@ -81,6 +81,8 @@ function graphicalUpdate(context: CanvasRenderingContext2D) {
         if (!item.visible) return;
         drawSprite(context, item);
     })
+
+    // console.log(player, items)
 }
 
 function physicalUpdate() {
@@ -133,11 +135,11 @@ function physicalUpdate() {
 function isColliding(reward: Reward): boolean {
     if (
         Math.abs(
-            (player.coordinate.x + player.collision.left + player.size.x / 2) -
+            (player.coordinate.x + player.collision.left + player.collision.width / 2) -
             (reward.coordinate.x + reward.size.x / 2)
         ) < (player.collision.width + reward.size.x) / 2 &&
         Math.abs(
-            (player.coordinate.y + player.collision.top + player.size.y / 2) -
+            (player.coordinate.y + player.collision.top + player.collision.height / 2) -
             (reward.coordinate.y + reward.size.y / 2)
         ) < (player.collision.height + reward.size.y) / 2
     ) {
@@ -154,7 +156,7 @@ function liftPlayer() {
 
 const TechFuture = (): ReactElement => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [gameState, setGameState] = useState<"SUCCESS" | "FAILURE" | "PLAYING">("PLAYING");
+    const [gameState, setGameState] = useState<"TO_SUCCESS" |"SUCCESS" | "FAILURE" | "PLAYING">("PLAYING");
     let context: CanvasRenderingContext2D;
     useEffect(() => {
         if (!canvasRef.current) return;
@@ -166,13 +168,19 @@ const TechFuture = (): ReactElement => {
 
         const frameTimer = setInterval(() => {
             if (!context) return;
-            graphicalUpdate(context);
             physicalUpdate();
+            graphicalUpdate(context);
     
-            if (items.every(item => !item.visible)) {
-                setGameState("SUCCESS");
-                clearInterval(frameTimer)
+            if (gameState === "PLAYING") {
+                if (items.every(item => !item.visible)) {
+                    setGameState("TO_SUCCESS");
+                    setTimeout(() => {
+                        setGameState("SUCCESS");
+                        clearInterval(frameTimer)
+                    }, 1000)
+                }
             }
+            
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 if (item.visible && item.coordinate.x + item.size.x < player.coordinate.x) {

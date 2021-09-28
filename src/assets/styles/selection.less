@@ -1,33 +1,100 @@
 .selection {
     background-image: url("../images/selection/background.png");
     background-size: 100% 100%;
-    min-height: 100vh;
+    height: 100vh;
     width: 100%;
+    overflow-y: auto;
+
     .sentakushis {
 
         padding-top: 32.8vw;
+        padding-bottom: 32.8vw;
+
         .sentakushi {
-            width: 77.184vw;
-            height: 24.8vw;
-            background-size: 100% 100%;
+            // height: 24.8vw;
+            // background-size: 100% 100%;
             margin: 0 auto;
+            overflow: hidden;
+
+            width: 77.333vw;
+            height: 22vw;
+            border-radius: 8vw;
+            background-size: 100% auto;
+            transition: all ease .2s;
+
+            .preview {
+                width: 77.333vw;
+            }
+
+            .start-game {
+                width: 44vw;
+                margin-left: 16.5vw;
+            }
+
+            &.harvest {
+                background-image: url("../images/selection/harvest-expand.png");
+                .start-game {
+                    margin-top: 44.867vw;
+                }
+            }
+
+            &.interstellarTrip {
+                background-image: url("../images/selection/interstellar-trip-expand.png");
+                .start-game {
+                    margin-top: 32.599vw;
+                }
+            }
+
+            &.antiEpidemic {
+                background-image: url("../images/selection/anti-epidemic-expand.png");
+                .start-game {
+                    margin-top: 32.866vw;
+                }
+            }
+
+            &.techFuture {
+                background-image: url("../images/selection/tech-future-expand.png");
+                .start-game {
+                    margin-top: 32.333vw;
+                }
+            }
+
+
+            &.expanded {
+
+                &.harvest {
+                    height: 95vw;
+                }
+
+                &.interstellarTrip {
+                    height: 82vw;
+                }
+
+                &.antiEpidemic {
+                    height: 82vw;
+                }
+
+                &.techFuture {
+                    height: 82vw;
+                }
+            }
         }
 
-        .harvest {
-            background-image: url("../images/selection/harvest.png");
-        }
+        // .harvest {
+        //     background-image: url("../images/selection/harvest.png");
+        // }
 
-        .interstellarTrip {
-            background-image: url("../images/selection/interstellar-trip.png");
-        }
+        // .interstellarTrip {
+        //     background-image: url("../images/selection/interstellar-trip.png");
+        // }
 
-        .antiEpidemic {
-            background-image: url("../images/selection/anti-epidemic.png");
-        }
+        // .antiEpidemic {
+        //     background-image: url("../images/selection/anti-epidemic.png");
+        // }
 
-        .techFuture {
-            background-image: url("../images/selection/tech-future.png");
-        }
+        // .techFuture {
+        //     background-image: url("../images/selection/tech-future.png");
+        // }
     }
-    
+
 }
