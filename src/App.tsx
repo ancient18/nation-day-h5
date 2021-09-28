@@ -17,7 +17,7 @@ import {
 
 import "./assets/styles/main.less";
 
-import Music from '../src/components/music'
+import Music from '../src/components/Music'
 
 const App = (): ReactElement => (
     // <StrictMode>
