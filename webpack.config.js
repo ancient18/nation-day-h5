@@ -20,7 +20,7 @@ module.exports = (_env, argv) => {
                 use: ["style-loader", "css-loader", "less-loader"]
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif|ttf)$/i,
+                test: /\.(png|svg|jpg|jpeg|gif|ttf|mp3)$/i,
                 type: 'asset/resource',
             }]
         },
