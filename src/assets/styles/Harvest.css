@@ -1,55 +1,174 @@
-body {
-  margin: 0;
-  padding: 0;
+.container {
   overflow-y: hidden;
   overflow-x: hidden;
-  background: #FFFDD2;
+  height: 100vh;
+  width: 100vw;
+  background-image: url(../images/harvest/background-image.png);
+  background-size: 100%;
 }
-.item-list {
+.container .item-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.item-list li {
+.container .item-list li {
   position: absolute;
 }
-.item-list .insect1 {
+.container .item-list li ul {
+  list-style: none;
+  position: absolute;
+  opacity: 0;
+  top: 45%;
+}
+.container .item-list li ul li {
+  transform: translate(0, 0);
+  transition: all 0.25s;
+}
+.container .item-list li ul .click1-icon {
+  width: 4.76266667vw;
+  height: 4.53333333vw;
+  background-size: cover;
+  transform: rotate(6.45deg);
+}
+.container .item-list li ul .click2-icon {
+  width: 4.90933333vw;
+  height: 3.49333333vw;
+  background-size: cover;
+}
+.container .item-list li ul .click3-icon {
+  width: 4.76266667vw;
+  height: 4.53333333vw;
+  transform: rotate(10.01deg);
+  background-size: cover;
+}
+.container .item-list li ul .click4-icon {
+  width: 3.36266667vw;
+  height: 3.20266667vw;
+  transform: rotate(-35.98deg);
+  background-size: cover;
+}
+.container .item-list li ul .click5-icon {
+  width: 2.4vw;
+  height: 2.4vw;
+  background-size: cover;
+}
+.container .item-list li ul .click6-icon {
+  width: 5.60266667vw;
+  height: 5.33333333vw;
+  background-size: cover;
+}
+.container .item-list li ul .click7-icon {
+  width: 3.07466667vw;
+  height: 2.928vw;
+  transform: rotate(5.53deg);
+  background-size: cover;
+}
+.container .item-list li ul .click8-icon {
+  width: 4.04533333vw;
+  height: 3.73333333vw;
+  background-size: cover;
+}
+.container .item-list li ul .click9-icon {
+  width: 2.4vw;
+  height: 2.4vw;
+  background-size: cover;
+}
+.container .item-list .insect1 {
   width: 20.8vw;
   height: 22.96533333vw;
   background-size: cover;
 }
-.item-list .insect2 {
+.container .item-list .insect2 {
   width: 16.09866667vw;
   height: 21.86666667vw;
   background-size: cover;
 }
-.item-list .wheat1 {
+.container .item-list .wheat1 {
   width: 20.82133333vw;
   height: 36vw;
   background-size: cover;
 }
-.item-list .wheat2 {
+.container .item-list .wheat2 {
   width: 22.544vw;
   height: 29.6vw;
   background-size: cover;
 }
-.item-list .branch {
+.container .item-list .branch {
   width: 21.08266667vw;
   height: 36vw;
   background-size: cover;
 }
-.item-list .maple {
+.container .item-list .maple {
   width: 23.46666667vw;
   height: 21.76266667vw;
   background-size: cover;
 }
-.item-list .mushroom {
+.container .item-list .mushroom {
   width: 24.38666667vw;
   height: 26.93333333vw;
   background-size: cover;
 }
-.item-list .vine {
+.container .item-list .vine {
   width: 24.53333333vw;
   height: 26.61866667vw;
   background-size: cover;
+}
+.container .cover {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  background: rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100vh;
+  opacity: 0.9s;
+  /*非IE浏览器下设置透明度为60%*/
+  z-index: 99;
+  display: none;
+}
+.container .successPop {
+  position: absolute;
+  width: 81.6vw;
+  height: 185.58133333vw;
+  left: 10.66666667vw;
+  top: -185.58133333vw;
+  z-index: 1000;
+  transition: all 1.5s ease-out;
+  background-image: url(../images/harvest/success.png);
+  background-size: cover;
+}
+.container .successPop .successPopBackBtn {
+  position: absolute;
+  width: 17.33333333vw;
+  height: 17.33333333vw;
+  top: 157.86666667vw;
+  left: 32vw;
+  background-image: url(../images/harvest/success-back-btn.png);
+  background-size: cover;
+}
+.container .gameOverPop {
+  position: absolute;
+  width: 76.53333333vw;
+  height: 56.93333333vw;
+  left: 11.73333333vw;
+  top: -56.93333333vw;
+  background-image: url(../images/harvest/gameover-bgimage.png);
+  background-size: cover;
+  transition: all 0.5s;
+  z-index: 100;
+}
+.container .gameOverPop .gameOverBtn1 {
+  width: 135px;
+  height: 39px;
+  margin: 33.06666667vw 0 0 5.33333333vw;
+  display: inline-block;
+  background-image: url(../images/harvest/gameover-onemore.png);
+  background-size: cover;
+}
+.container .gameOverPop .gameOverBtn2 {
+  width: 105px;
+  height: 39px;
+  display: inline-block;
+  background-image: url(../images/harvest/gameover-choose.png);
+  background-size: cover;
+  margin-left: 2.13333333vw;
 }

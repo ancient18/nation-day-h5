@@ -1,0 +1,138 @@
+@vv: 3.75vw;
+.home{
+    position: relative;
+    background-image: url(../images/home/home-background-image.png);
+    background-size: cover;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    // height: 667./@vv;
+    height: 100vh;
+    overflow: hidden;
+    .cover {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        background: rgba(0, 0, 0, 0.25);
+        width: 100%;
+        height: 100%;
+        opacity: 0.9s; /*非IE浏览器下设置透明度为60%*/
+        z-index: 99;
+    }
+    .loginPop{
+        // display: none;
+        z-index: 1000;
+        background-image: url(../images/home/home-loginPop.png);
+        position: absolute;
+        top: 218./@vv;
+        left: 25./@vv;
+        width: 316./@vv;
+        height: 307./@vv;
+        background-size: cover;
+        transition: all 1s;
+        transform: translateY(0);
+        .loginPop-input-box{
+            width: 223px;
+            height: 40px;
+            background-color: #FAF8EC;
+            margin: 71./@vv 0 25./@vv 52./@vv;
+            border: 1px solid #E1605B;
+            border-radius: 9./@vv;
+        }
+        .loginPop-input{
+            outline-style: none ;
+            border: none;
+            background-color: #FAF8EC;
+            margin: 13./@vv 0 0 18./@vv;
+            font-family: ZhanKuQingKeHuangYouTi;
+            color: #C84D1B;
+            font-size: 11.88./@vv;
+            padding: 0;
+        }
+        .loginPopConfirm{
+            width: 186.99px;
+            height: 56.7px;
+            background-image: url(../images/home/home-loginPop-confirm.png);
+            background-size: cover;
+            margin: 0 0 17.29./@vv 69./@vv;
+        }
+        .loginPopNoID{
+            width: 187px;
+            height: 56.58px;
+            background-image: url(../images/home/home-loginPop-noID.png);
+            background-size: cover;
+            margin-left: 69./@vv;
+        }
+    }
+    ul{
+        position: absolute;
+        top: 315./@vv;
+        left: 74./@vv;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        .button1{
+            width: 227./@vv;
+            height: 80.35./@vv;
+            background-image: url(../images/home/home-button1.png);
+            background-size: cover;
+        }
+        .button2{
+            width: 227./@vv;
+            height: 80.35./@vv;
+            background-image: url(../images/home/home-button2.png);
+            background-size: cover;
+        }
+        .stuIDBox{
+            position: relative;
+            width: 228./@vv;
+            height: 97./@vv;
+            background-image: url(../images/home/home-stuID.png);
+            background-size: cover;
+            .stuID{
+                font-size: 19./@vv;
+                font-family: ZhanKuQingKeHuangYouTi;
+                color: #C84D1C;
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin: 0 auto;
+                width: 228./@vv;
+                height: 19./@vv;
+                text-align: center;
+                margin-top: 50./@vv;
+                // width: 100%;
+                // margin-left: 64./@vv;
+                // margin-top: 50./@vv;
+                // top: 457./@vv;
+                // margin: 48./@vv 0 0 68./@vv;
+            }
+        }
+    }
+    .rulePop{
+        position: absolute;
+        left: 34./@vv;
+        // transform: translateX(34./@vv);
+        transform: translateY(100vh);
+        background-image: url(../images/home/home-rule.png);
+        width: 307./@vv;
+        height: 543.5./@vv;
+        background-size: cover;
+        transition: all 1s;
+        z-index: 10001;
+        .rulePopOK{
+            width: 187./@vv;
+            height: 57.37./@vv;
+            background-image: url(../images/home/home-rule-ok.png);
+            background-size: cover;
+            margin: 408./@vv 0 0 60./@vv;
+        }
+        .rulePopClose{
+            width: 31px;
+            height: 31px;
+            background-image: url(../images/home/home-rule-close.png);
+            background-size: cover;
+            margin: 10./@vv 0 0 265./@vv;
+        }
+    }
+}

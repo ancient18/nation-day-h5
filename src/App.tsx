@@ -16,29 +16,34 @@ import {
 
 import "./assets/styles/main.less"
 
+import Music from '../src/components/music'
+
 const App = (): ReactElement => (
     // <StrictMode>
-    <Router>
-        <Switch>
-            {/* games */}
-            <Route path="/harvest">
-                <Harvest />
-            </Route>
-            <Route path="/tech-future">
-                <TechFuture />
-            </Route>
-            <Route path="/anti-epidemic">
-                <AntiEpidemic />
-            </Route>
-            <Route path="/interstellar-trip">
-                <InterstellarTrip />
-            </Route>
-            {/* homepage */}
-            <Route path="/">
-                <Home />
-            </Route>
-        </Switch>
-    </Router>
+    <div>
+        <Music />
+        <Router>
+            <Switch>
+                {/* games */}
+                <Route path="/harvest">
+                    <Harvest />
+                </Route>
+                <Route path="/tech-future">
+                    <TechFuture />
+                </Route>
+                <Route path="/anti-epidemic">
+                    <AntiEpidemic />
+                </Route>
+                <Route path="/interstellar-trip">
+                    <InterstellarTrip />
+                </Route>
+                {/* homepage */}
+                <Route path="/">
+                    <Home />
+                </Route>
+            </Switch>
+        </Router>
+    </div>
     // </StrictMode>
 );
 

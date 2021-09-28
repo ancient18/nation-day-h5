@@ -1,57 +1,179 @@
 @vv: 3.75vw;
 @item: 15vw;
-body{
-    margin: 0;
-    padding: 0;
+
+.container{
     overflow-y: hidden;
     overflow-x: hidden;
-    background: #FFFDD2;
-}
-.item-list{
-    li{
-        position:absolute;
+    height: 100vh;
+    width: 100vw;
+    background-image:url(../images/harvest/background-image.png);
+    background-size:100%;
+    .item-list{
+        li{
+            position:absolute;
+            ul{
+                list-style: none;
+                position: absolute;
+                // z-index:-1;
+                opacity: 0;
+                top: 45%;
+                li{
+                    transform:translate(0,0);
+                    transition: all 0.25s;
+                }
+                .click1-icon{
+                    width: 17.86./@vv;
+                    height:17./@vv;
+                    background-size:cover;
+                    transform: rotate(6.45deg);
+                }
+                .click2-icon{
+                    width: 18.41./@vv;
+                    height: 13.1./@vv;
+                    background-size:cover;
+                }
+                .click3-icon{
+                    width: 17.86./@vv;
+                    height: 17./@vv;
+                    transform: rotate(10.01deg);
+                    background-size:cover;
+                }
+                .click4-icon{
+                    width: 12.61./@vv;
+                    height: 12.01./@vv;
+                    transform: rotate(-35.98deg);
+                    background-size:cover;
+                }
+                .click5-icon{
+                    width: 9./@vv;
+                    height: 9./@vv;
+                    background-size:cover;
+                }
+                .click6-icon{
+                    width: 21.01./@vv;
+                    height: 20./@vv;
+                    background-size:cover;
+                }
+                .click7-icon{
+                    width: 11.53./@vv;
+                    height: 10.98./@vv;
+                    transform: rotate(5.53deg);
+                    background-size:cover;
+                }
+                .click8-icon{
+                    width: 15.17./@vv;
+                    height: 14./@vv;
+                    background-size:cover;
+                }
+                .click9-icon{
+                    width: 9./@vv;
+                    height:9./@vv;
+                    background-size:cover;
+                }
+            }
+        }
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        .insect1{
+            width: 78./@vv;
+            height: 86.12./@vv;
+            background-size:cover;
+        }
+        .insect2{
+            width: 60.37./@vv;
+            height: 82./@vv;
+            background-size:cover;
+        }
+        .wheat1{
+            width: 78.08./@vv;
+            height: 135./@vv;
+            background-size:cover;
+        }
+        .wheat2{
+            width: 84.54./@vv;
+            height: 111./@vv;
+            background-size:cover;
+        }  
+        .branch{
+            width: 79.06./@vv;
+            height: 135./@vv;
+            background-size:cover;
+        }
+        .maple{
+            width: 88./@vv;
+            height: 81.61./@vv;
+            background-size:cover;
+        }
+        .mushroom{
+            width: 91.45./@vv;
+            height: 101./@vv;
+            background-size:cover;
+        }
+        .vine{
+            width: 92./@vv;
+            height: 99.82./@vv;
+            background-size:cover;
+        }
     }
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    .insect1{
-        width: 78./@vv;
-        height: 86.12./@vv;
-        background-size:cover;
+    .cover {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        background: rgba(0, 0, 0, 0.25);
+        width: 100%;
+        // height: 120vh;
+        height: 100vh;
+        opacity: 0.9s; /*非IE浏览器下设置透明度为60%*/
+        z-index: 99;
+        display: none;
     }
-    .insect2{
-        width: 60.37./@vv;
-        height: 82./@vv;
-        background-size:cover;
+    .successPop{
+        // display: none;
+        position: absolute;
+        width: 306./@vv;
+        height: 695.93./@vv;
+        left: 40./@vv;
+        top: -695.93./@vv;
+        z-index: 1000;
+        transition: all 1.5s ease-out;
+        background-image: url(../images/harvest/success.png);
+        background-size: cover;
+        .successPopBackBtn{
+            position: absolute;
+            width: 65./@vv;
+            height: 65./@vv;
+            top: 592./@vv;
+            left: 120./@vv;
+            background-image: url(../images/harvest/success-back-btn.png);
+            background-size: cover;
+        }
     }
-    .wheat1{
-        width: 78.08./@vv;
-        height: 135./@vv;
-        background-size:cover;
-    }
-    .wheat2{
-        width: 84.54./@vv;
-        height: 111./@vv;
-        background-size:cover;
-    }  
-    .branch{
-        width: 79.06./@vv;
-        height: 135./@vv;
-        background-size:cover;
-    }
-    .maple{
-        width: 88./@vv;
-        height: 81.61./@vv;
-        background-size:cover;
-    }
-    .mushroom{
-        width: 91.45./@vv;
-        height: 101./@vv;
-        background-size:cover;
-    }
-    .vine{
-        width: 92./@vv;
-        height: 99.82./@vv;
-        background-size:cover;
+    .gameOverPop{
+        position: absolute;
+        width: 287./@vv;
+        height: 213.5./@vv;
+        left: 44./@vv;
+        top: -213.5./@vv;
+        background-image: url(../images/harvest/gameover-bgimage.png);
+        background-size: cover;
+        transition: all .5s;
+        z-index: 100;
+        .gameOverBtn1{
+            width: 135px;
+            height: 39px;
+            margin: 124./@vv 0 0 20./@vv;
+            display:inline-block;
+            background-image: url(../images/harvest/gameover-onemore.png);
+            background-size: cover;
+        }
+        .gameOverBtn2{
+            width: 105px;
+            height: 39px;
+            display:inline-block;
+            background-image: url(../images/harvest/gameover-choose.png);
+            background-size: cover;
+            margin-left: 8./@vv;
+        }
     }
 }
