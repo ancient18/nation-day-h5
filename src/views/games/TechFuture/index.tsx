@@ -5,8 +5,8 @@ import '../../../assets/styles/techFuture.less';
 import { background, juanjuan } from "../../../assets/images/tech-future/images";
 import { items } from "./items";
 
-import FailureWindow from "./views/FailureWindow";
-import SuccessWindow from "./views/SuccessWindow";
+import FailureWindow from "./components/FailureWindow";
+import SuccessWindow from "./components/SuccessWindow";
 
 const height = document.documentElement.clientHeight ;
 const width = document.documentElement.clientWidth ;
