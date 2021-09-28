@@ -3,6 +3,7 @@ declare module "*.module.less" {
   export default classes;
 }
 
+declare module "*.less";
 declare module "*.png";
 declare module "*.gif";
 declare module "*.jpg";

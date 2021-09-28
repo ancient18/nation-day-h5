@@ -1,0 +1,69 @@
+
+.loading {
+    position: relative;
+    background-image: url(../../assets/images/loading/bgc.png);
+    background-size: 100vw ( 800vw / 3.75 );
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    .progress_rolls {
+        transform:translate(10vw,75vw);
+        img {
+        width: ( 80vw / 3.75 );
+        height: ( 51.4vw / 3.75);
+        }
+    }
+    .progress_bar {
+        .frame{
+            width: ( 303vw / 3.75 );
+            height: ( 21vw / 3.75 );
+            position: absolute;
+            top: ( 336vw / 3.75 );
+            left: ( 43vw / 3.75 )
+        }
+        .content {
+            width: ( 310vw / 3.75 );
+            height: ( 26vw / 3.75 );
+            position: absolute;
+            top: ( 336vw / 3.75 );
+            left: ( 40vw / 3.75 );
+            clip-path: polygon(0 0,0 0,0 100%,0 100%);
+        }
+    }
+    .progress_flag {
+        // position: relative;
+        // top: 0;
+        // height:0;
+        img {
+            width: (50vw / 3.75);
+            height: (40vw / 3.75);
+            transform:translate(80vw,54vw);
+            animation: raise_flag 2.9s linear;
+        }
+    }
+    .progress_percentage {
+        transform:translate(48vw,71vw)
+    }
+}
+
+// @keyframes progress{
+//     0% {
+//         clip-path: polygon(0 0,0 0,0 100%,0 100%);
+//     }
+//     100% {
+//         clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+//     }
+// }
+
+@keyframes raise_flag {
+    0% {
+        transform:translate(80vw,65vw);
+    }
+    // 75% {
+    //     transform:translate(80vw,65vw);
+    // }
+    100% {
+        transform:translate(80vw,54vw);
+    }
+}

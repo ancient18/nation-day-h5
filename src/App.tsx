@@ -11,7 +11,7 @@ import Selection from "./views/Selection";
 import {
     Harvest,
     TechFuture,
-    AntiEpidemic,   
+    AntiEpidemic,
     InterstellarTrip,
 } from "./views/games";
 
