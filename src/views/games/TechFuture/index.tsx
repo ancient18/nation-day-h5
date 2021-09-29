@@ -3,7 +3,7 @@ import { useRef, ReactElement, useEffect, useState } from "react";
 import '../../../assets/styles/techFuture.less';
 
 import { background, juanjuan } from "../../../assets/images/tech-future/images";
-import { items } from "./data/items";
+import { generateItems } from "./utils/items";
 
 import FailureWindow from "./components/FailureWindow";
 import SuccessWindow from "./components/SuccessWindow";
@@ -20,6 +20,7 @@ const initalPlayerHeight = 80 / 667 * height;
 
 let player: Player;
 let camera: Vector;
+let items: Reward[];
 
 function init() {
     player = {
@@ -49,6 +50,8 @@ function init() {
         x: 0,
         y: 0
     }
+
+    items = generateItems();
 }
 
 function drawSprite(ctx: CanvasRenderingContext2D, reward: Reward) {

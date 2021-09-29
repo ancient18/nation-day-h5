@@ -3,7 +3,7 @@ const width = document.documentElement.clientWidth;
 
 import { itemImages } from "../../../../assets/images/tech-future/images";
 
-const items: Reward[] = [
+const items = [
     // rocket
     {
         coordinate: { x: 0.331, y: 0.610 },
@@ -74,17 +74,21 @@ const items: Reward[] = [
         coordinate: { x: 3.564, y: 0.370 },
         size: { x: 0.166, y: 0.165 },
     }
-].map((v, i) => ({
-    coordinate: {
-        x: v.coordinate.x * height,
-        y: v.coordinate.y * height
-    },
-    size: {
-        x: v.size.x * height,
-        y: v.size.y * height
-    },
-    visible: true,
-    image: itemImages[i]
-}))
+]
 
-export { items };
+function generateItems(): Reward[] {
+    return items.map((v, i) => ({
+        coordinate: {
+            x: v.coordinate.x * height,
+            y: v.coordinate.y * height
+        },
+        size: {
+            x: v.size.x * height,
+            y: v.size.y * height
+        },
+        visible: true,
+        image: itemImages[i]
+    }));
+}
+
+export { generateItems };
