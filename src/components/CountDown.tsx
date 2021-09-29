@@ -1,8 +1,8 @@
 import { ReactElement, useEffect, useRef } from "react";
-import "../assets/styles/countdown.less";
+import "../assets/styles/countDown.less";
 
 const CountDown = (): ReactElement => {
-  let countRef = useRef();
+  let countRef: any = useRef();
 
   useEffect(() => {
     let countdown:any  = countRef.current;
