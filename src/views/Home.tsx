@@ -6,10 +6,8 @@ import '../../src/assets/styles/font.less'
 import { API_URL } from "../config"
 
 const Home = (props: any): ReactElement => {
-    // console.log(sessionStorage.getItem('stuID'));
     let [stuID, setStuID] = useState<any>(0);
     let stuIDNode: HTMLInputElement | null, coverNode: HTMLDivElement | null, loginPopNode: HTMLDivElement | null, rulePopNode: HTMLDivElement | null, stuIDShowNode: HTMLSpanElement | null, loginPopErrorNode: HTMLDivElement | null;
-
     const handleConfirmID = async () => {
         stuID = stuIDNode!.value;
         var regu = /^[1-9]\d*$/;
@@ -17,6 +15,7 @@ const Home = (props: any): ReactElement => {
         if (regu.test(stuID) && regu2.test(stuID)) {
             const response = await fetch(`${API_URL}/status?stu_number=${stuID}`)
             const data = await response.json()
+            // console.log(data);
             if (data.info === 'success') {
                 sessionStorage.setItem('stuID', stuID)
                 stuIDShowNode!.innerHTML = stuID
