@@ -1,0 +1,45 @@
+.countdown {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: all 1s ease-in-out;
+  text-align: center;
+  background: url(../../assets/images/countDown/background.png) no-repeat center;
+  background-size: 100%, 100%;
+  z-index: 999;
+}
+.countdown .three,
+.countdown .two,
+.countdown .one,
+.countdown .go {
+  position: absolute;
+  width: 40vw;
+  height: 40vw;
+  top: 50%;
+  left: 50%;
+  margin-top: -20vw;
+  margin-left: -20vw;
+  background-size: 100%, 100%;
+  transition: all 1s ease-in-out;
+  transform: scale(0.5);
+  display: none;
+}
+.countdown .three {
+  background: url(../../assets/images/countDown/three.png) no-repeat center;
+  /* display: none; */
+}
+.countdown .two {
+  background: url(../../assets/images/countDown/two.png) no-repeat center;
+  /* display: none; */
+}
+.countdown .one {
+  background: url(../../assets/images/countDown/one.png) no-repeat center;
+  /* display: none; */
+}
+.countdown .go {
+  width: 60vw;
+  height: 40vw;
+  margin-left: -30vw;
+  background: url(../../assets/images/countDown/go.png) no-repeat center;
+  /* display:table; */
+}
