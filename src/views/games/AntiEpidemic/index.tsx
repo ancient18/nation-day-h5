@@ -8,6 +8,7 @@ import {
 import "../../../assets/styles/AntiEpidemic/AntiEpidemic.less";
 import BigDiv from "./BigDiv";
 import CountDown from "../../../components/CountDown";
+import Share  from "../../../components/Share";
 
 const AntiEpidemic = (): ReactElement => {
     let boxRef: any = useRef();
@@ -31,8 +32,11 @@ const AntiEpidemic = (): ReactElement => {
         let defate = defateRef.current;
         let victory = victoryRef.current;
 
-        console.log(window.location.pathname);
-        console.log(window.location);
+        for(let i = 0, len = allDiv.length; i < len; i++){
+            allDiv[i].querySelector(".back").innerHTML=i;
+        }
+
+        // allDiv[4].querySelector(".back").innerHTML="卷卷";
 
         defate.querySelector(".left")!.addEventListener("touchend", function () {
             location.reload();
@@ -126,65 +130,77 @@ const AntiEpidemic = (): ReactElement => {
                 setTimeout(function () {
                     box.addEventListener("touchend", fn);
                 }, 1000);
-            }, 8000);
+            }, 6000);
         }, 6000);
 
         // 点击事件
         function fn(e: any) {
-            // console.log(e.target.style["cursor"]);
+            console.log(e.target.innerHTML);
+            
             // 移除点击事件
             box.removeEventListener("touchend", fn);
-            if (e.path[1] === allDiv[4]) {
-                // 找到没带口罩的卷卷
-                e.path[1].style.transform = `rotateY(${0}deg)`;
-                setTimeout(function () {
-                    e.path[1].querySelector(".front").style.display = "table";
-                }, 300);
-                // 延迟一秒翻开其余盒子
-                setTimeout(function () {
-                    for (let i = 0, len = allDiv.length; i < len; i++) {
-                        if (i !== 4) {
-                            allDiv[i].style.transform = `rotateY(${0}deg)`;
-                            setTimeout(function () {
-                                (
-                                    allDiv[i].querySelector(".front") as HTMLElement
-                                ).style.display = "table";
-                            }, 300);
-                        }
+           console.log(e);
+            if(e.target.innerHTML==4){
+                for(let i=0, len = allDiv.length; i < len;i++){
+                    if(allDiv[i].querySelector(".back").innerHTML==4){
+                        allDiv[i].style.transform = `rotateY(${0}deg)`;
+                        setTimeout(function () {
+                            allDiv[i].querySelector(".front").style.display = "table";
+                        }, 300);
+                        setTimeout(function () {
+                            for (let i = 0, len = allDiv.length; i < len; i++) {
+                                if (i !== 4) {
+                                    allDiv[i].style.transform = `rotateY(${0}deg)`;
+                                    setTimeout(function () {
+                                        (
+                                            allDiv[i].querySelector(".front") as HTMLElement
+                                        ).style.display = "table";
+                                    }, 300);
+                                }
+                            }
+                        }, 1000);
+                        window.setTimeout(function () {
+                            victory.style.display = "table";
+                        }, 2000);
                     }
-                }, 1000);
-                window.setTimeout(function () {
-                    victory.style.display = "table";
-                }, 2000);
-            } else {
+                }
+            }
+            else {
+                console.log(e);
                 // 没找到
-                e.path[1].style.transform = `rotateY(${0}deg)`;
-                console.log(e.path[0]);
-                setTimeout(function () {
-                    e.path[1].querySelector(".front").style.display = "table";
-                }, 300);
-                // 延迟一秒翻开其余盒子
-                setTimeout(function () {
-                    for (let i = 0, len = allDiv.length; i < len; i++) {
-                        if (e.target !== e.path[1]) {
-                            allDiv[i].style.transform = `rotateY(${0}deg)`;
-                            setTimeout(function () {
-                                (
-                                    allDiv[i].querySelector(".front") as HTMLElement
-                                ).style.display = "table";
-                            }, 300);
-                        }
+                for(let i=0, len = allDiv.length; i < len;i++){
+                    if(allDiv[i].querySelector(".back").innerHTML==e.target.innerHTML){
+                        allDiv[i].style.transform = `rotateY(${0}deg)`;
+                        setTimeout(function () {
+                            allDiv[i].querySelector(".front").style.display = "table";
+                        }, 300);
+                        setTimeout(function () {
+                            for (let i = 0, len = allDiv.length; i < len; i++) {
+                                if (allDiv[i].querySelector(".back").innerHTML!=e.target.innerHTML) {
+                                    allDiv[i].style.transform = `rotateY(${0}deg)`;
+                                    setTimeout(function () {
+                                        (
+                                            allDiv[i].querySelector(".front") as HTMLElement
+                                        ).style.display = "table";
+                                    }, 300);
+                                }
+                            }
+                        }, 1000);
+                        window.setTimeout(function () {
+                            defate.style.display = "table";
+                        }, 2000);
                     }
-                }, 1000);
-                window.setTimeout(function () {
-                    defate.style.display = "table";
-                }, 2000);
+                }
+
+
+               
             }
         }
     }, [flag]);
 
     return (
         <div className="body">
+            {/* <Share/> */}
             <CountDown/>
             <div className="box" ref={boxRef}>
                 <BigDiv />

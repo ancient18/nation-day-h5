@@ -1,15 +1,13 @@
-import { ReactElement,useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 
 const BigDiv = (): ReactElement => {
-
   return (
     // <div className="bigBox">
-      <div className="big">
+    <div className="big">
       <div className="front"></div>
       <div className="back"></div>
     </div>
     // </div>
-    
   );
 };
 
