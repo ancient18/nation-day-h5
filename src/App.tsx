@@ -3,7 +3,7 @@ import {
     HashRouter as Router,
     Switch,
     Route,
-    Link,
+    Redirect,
 } from "react-router-dom";
 
 import Home from "./views/Home";
@@ -26,26 +26,16 @@ const App = (): ReactElement => (
         <Music />
         <Router>
             <Switch>
-                <Route path="/selection">
-                    <Selection />
-                </Route>
+                {/* pages */}
+                <Route exact path="/" component={Home} />
+                <Route exact path="/selection" component={Selection} />
                 {/* games */}
-                <Route path="/harvest">
-                    <Harvest />
-                </Route>
-                <Route path="/tech-future">
-                    <TechFuture />
-                </Route>
-                <Route path="/anti-epidemic">
-                    <AntiEpidemic />
-                </Route>
-                <Route path="/interstellar-trip">
-                    <InterstellarTrip />
-                </Route>
-                {/* homepage */}
-                <Route path="/">
-                    <Home />
-                </Route>
+                <Route exact path="/harvest" component={Harvest} />
+                <Route exact path="/tech-future" component={TechFuture} />
+                <Route exact path="/anti-epidemic" component={AntiEpidemic} />
+                <Route exact path="/interstellar-trip" component={InterstellarTrip} />
+                {/* redirect */}
+                <Redirect exact from="/tech-future/reload" to="/tech-future" />
             </Switch>
         </Router>
     </div>
