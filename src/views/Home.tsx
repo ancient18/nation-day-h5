@@ -6,6 +6,7 @@ import '../../src/assets/font/font.less'
 import { API_URL } from "../config"
 
 const Home = (props: any): ReactElement => {
+    // console.log(sessionStorage.getItem('stuID'));
     let [stuID, setStuID] = useState<any>(0);
     let stuIDNode: HTMLInputElement | null, coverNode: HTMLDivElement | null, loginPopNode: HTMLDivElement | null, rulePopNode: HTMLDivElement | null, stuIDShowNode: HTMLSpanElement | null, loginPopErrorNode: HTMLDivElement | null;
 
@@ -16,8 +17,8 @@ const Home = (props: any): ReactElement => {
         if (regu.test(stuID) && regu2.test(stuID)) {
             const response = await fetch(`${API_URL}/status?stu_number=${stuID}`)
             const data = await response.json()
-
             if (data.info === 'success') {
+                sessionStorage.setItem('stuID', stuID)
                 stuIDShowNode!.innerHTML = stuID
                 showHome()
             } else {
@@ -32,7 +33,6 @@ const Home = (props: any): ReactElement => {
             setTimeout(() => {
                 loginPopErrorNode!.style.display = 'none'
             }, 1000);
-            console.log('输入错误，请重新输入');
         }
     }
 
@@ -53,15 +53,17 @@ const Home = (props: any): ReactElement => {
         rulePopNode!.style!.transform = 'translateY(12.54vw)'
         coverNode!.style!.display = 'block';
     }
+
     const closeRulePop = () => {
         rulePopNode!.style!.transform = 'translateY(100vh)'
         coverNode!.style!.display = 'none';
     }
+
     return (
         <div>
             <div className="home">
-                <div className="cover" ref={currentNode => coverNode = currentNode}></div>
-                <div className="loginPop" ref={currentNode => loginPopNode = currentNode}>
+                <div className="cover" style={{ display: sessionStorage.getItem('stuID') ? 'none' : 'block' }} ref={currentNode => coverNode = currentNode}></div>
+                <div className="loginPop" style={{ display: sessionStorage.getItem('stuID') ? 'none' : 'block' }} ref={currentNode => loginPopNode = currentNode}>
                     <div className="loginPop-input-box" >
                         <input type="text" name="" id="" className="loginPop-input" ref={currentNode => stuIDNode = currentNode} />
                         <div className="loginPop-input-error" ref={currentNode => loginPopErrorNode = currentNode}>请输入正确的学号</div>
@@ -71,11 +73,10 @@ const Home = (props: any): ReactElement => {
                 </div>
                 <ul>
                     <li className="button1" onClick={jumpToChooseGames} ></li>
-                    {/* <Route path="/selection" component={Harvest} ></Route> */}
                     <li className="button2" onClick={getRule}></li>
                     <li className="stuIDBox">
                         <span className="stuID" ref={currentNode => stuIDShowNode = currentNode}>
-                            **********
+                            {sessionStorage.getItem('stuID') ? sessionStorage.getItem('stuID') : '**********'}
                         </span>
                     </li>
                 </ul>
