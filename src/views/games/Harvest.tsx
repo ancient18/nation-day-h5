@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState, useRef } from "react";
 import { withRouter } from 'react-router-dom';
 import '../../assets/styles/harvest.less';
+import { CountDown } from "../../components";
 import insect1Img from '../../assets/images/harvest/insect1.png'
 import insect2Img from '../../assets/images/harvest/insect2.png'
 import branchImg from '../../assets/images/harvest/branch.png'
@@ -193,6 +194,7 @@ const Harvest = (props: any): ReactElement => {
     const coverNode: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
     const successPopNode: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
     const containerNode: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
+    let timer: NodeJS.Timer;
 
     const jumpToChooseGames = () => {
         props.history.push('/selection')
@@ -202,7 +204,7 @@ const Harvest = (props: any): ReactElement => {
         setTimeout(() => {
             clearInterval(timer)  //清除添加物体的interval
             config.isLast = true
-        }, 15000)
+        }, 18000)
 
         //给予物体状态
         const changeItemStatus = (item: Item, gameOverPopNode: React.RefObject<HTMLDivElement>, coverNode: React.RefObject<HTMLDivElement>) => {
@@ -225,97 +227,105 @@ const Harvest = (props: any): ReactElement => {
         // 设置定时调用生成新物品
         let intervalTime = [150, 160, 170, 180, 190, 200]
         let type: string, img: any;
-        let timer = setInterval(() => {
-            if (config.isNew) {
-                switch (itemTypes[parseInt((Math.random() * 8).toString())]) {
-                    case 'wheat1':
-                        config.wheatNum++;
-                        img = wheat1Img
-                        type = 'wheat1'
-                        break;
-                    case 'wheat2':
-                        config.wheatNum++;
-                        img = wheat2Img
-                        type = 'wheat2'
-                        break;
-                    case 'branch':
-                        img = branchImg
-                        type = 'branch'
-                        break;
-                    case 'maple':
-                        img = mapleImg
-                        type = 'maple'
-                        break;
-                    case 'mushroom':
-                        img = mushroomImg
-                        type = 'mushroom'
-                        break;
-                    case 'vine':
-                        img = vineImg
-                        type = 'vine'
-                    case 'insect1':
-                        img = insect1Img
-                        type = 'insect1'
-                        break;
-                    case 'insect1':
-                        img = insect1Img
-                        type = 'insect1'
-                        break;
-                    case 'insect2':
-                        img = insect2Img
-                        type = 'insect2'
-                        break;
+        setTimeout(() => {
+            timer = setInterval(() => {
+                if (config.isNew) {
+                    switch (itemTypes[parseInt((Math.random() * 8).toString())]) {
+                        case 'wheat1':
+                            config.wheatNum++;
+                            img = wheat1Img
+                            type = 'wheat1'
+                            break;
+                        case 'wheat2':
+                            config.wheatNum++;
+                            img = wheat2Img
+                            type = 'wheat2'
+                            break;
+                        case 'branch':
+                            img = branchImg
+                            type = 'branch'
+                            break;
+                        case 'maple':
+                            img = mapleImg
+                            type = 'maple'
+                            break;
+                        case 'mushroom':
+                            img = mushroomImg
+                            type = 'mushroom'
+                            break;
+                        case 'vine':
+                            img = vineImg
+                            type = 'vine'
+                        case 'insect1':
+                            img = insect1Img
+                            type = 'insect1'
+                            break;
+                        case 'insect1':
+                            img = insect1Img
+                            type = 'insect1'
+                            break;
+                        case 'insect2':
+                            img = insect2Img
+                            type = 'insect2'
+                            break;
+                    }
+                    const vector: Vector = {
+                        x: randomX(),
+                        y: -15
+                    }
+                    const itemObj: Item = {
+                        type,
+                        img,
+                        visible: true,
+                        coordinate: vector,
+                        key: config.itemNum++,
+                        boxStyle: type,
+                        isStop: false,
+                    }
+                    setItems((items: Item[]) => [...items, itemObj])
+                    changeItemStatus(itemObj, gameOverPopNode, coverNode)
                 }
-                const vector: Vector = {
-                    x: randomX(),
-                    y: -15
-                }
-                const itemObj: Item = {
-                    type,
-                    img,
-                    visible: true,
-                    coordinate: vector,
-                    key: config.itemNum++,
-                    boxStyle: type,
-                    isStop: false,
-                }
-                setItems((items: Item[]) => [...items, itemObj])
-                changeItemStatus(itemObj, gameOverPopNode, coverNode)
-            }
-        }, intervalTime[parseInt((Math.random() * 6).toString())])
+            }, intervalTime[parseInt((Math.random() * 6).toString())])
+        }, 4000)
+
     }, [])
     return (
-        <div className="container" ref={containerNode}>
-            <ul className='item-list' ref={itemsRef}>
-                {items.map(item => {
-                    return (
-                        <li key={item.key} >
-                            <ul id={`star-ul-${item.key}`}>
-                                <li style={{ backgroundImage: `url(${click1Img})` }} className="click1-icon"></li>
-                                <li style={{ backgroundImage: `url(${click2Img})` }} className="click2-icon"></li>
-                                <li style={{ backgroundImage: `url(${click3Img})` }} className="click3-icon"></li>
-                                <li style={{ backgroundImage: `url(${click4Img})` }} className="click4-icon"></li>
-                                <li style={{ backgroundImage: `url(${click5Img})` }} className="click5-icon"></li>
-                                <li style={{ backgroundImage: `url(${click6Img})` }} className="click6-icon"></li>
-                                <li style={{ backgroundImage: `url(${click7Img})` }} className="click7-icon"></li>
-                                <li style={{ backgroundImage: `url(${click8Img})` }} className="click8-icon"></li>
-                                <li style={{ backgroundImage: `url(${click9Img})` }} className="click9-icon"></li>
-                            </ul>
-                            <div className={item.boxStyle} style={{ display: item.visible ? 'block' : 'none', backgroundImage: `url(${item.img})` }}>
-                            </div>
-                        </li>
-                    )
-                })}
-            </ul>
-            <div className="cover" ref={coverNode}></div>
-            <div className="successPop" ref={successPopNode}>
-                <div className="successPopBackBtn" onClick={jumpToChooseGames}></div>
-            </div>
-            <div className="gameOverPop" ref={gameOverPopNode}>
-                <div className="gameOverBtn1" onClick={() => location.reload()} ></div>
-                <div className="gameOverBtn2" onClick={jumpToChooseGames}></div>
+        <div>
+
+            <div className="container" ref={containerNode}>
+                <CountDown />
+                <ul className='item-list' ref={itemsRef}>
+                    {items.map(item => {
+                        return (
+                            <li key={item.key} >
+                                <ul id={`star-ul-${item.key}`}>
+                                    <li style={{ backgroundImage: `url(${click1Img})` }} className="click1-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click2Img})` }} className="click2-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click3Img})` }} className="click3-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click4Img})` }} className="click4-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click5Img})` }} className="click5-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click6Img})` }} className="click6-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click7Img})` }} className="click7-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click8Img})` }} className="click8-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click9Img})` }} className="click9-icon"></li>
+                                </ul>
+                                <div className={item.boxStyle} style={{ display: item.visible ? 'block' : 'none', backgroundImage: `url(${item.img})` }}>
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
+                <div className="cover" ref={coverNode}></div>
+                <div className="successPop" ref={successPopNode}>
+                    <div className="successPopBackBtn" onClick={jumpToChooseGames}></div>
+                </div>
+                <div className="gameOverPop" ref={gameOverPopNode}>
+                    <div className="gameOverBtn1" onClick={() => location.reload()} ></div>
+                    <div className="gameOverBtn2" onClick={jumpToChooseGames}></div>
+                </div>
             </div>
         </div>
+
     )
 }
 
