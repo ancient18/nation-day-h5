@@ -173,14 +173,17 @@ const TechFuture = (): ReactElement => {
 
         init();
 
-        const graphicTimer = setInterval(() => graphicalUpdate(context), 1000 / FPS)
+        const tempTimer = setInterval(() => graphicalUpdate(context), 1000 / FPS)
 
         // 3, 2, 1, Go 倒计时后才会进行物理运动的更新；
         // 但倒计时的同时会同时进行显示的渲染，避免白屏。
         let frameTimer: NodeJS.Timer;
         const countdownTimer = setTimeout(() => {
+            // 清除临时渲染计时器，使得系统只存在一个计时器，优化性能
+            clearInterval(tempTimer);
             frameTimer = setInterval(() => {
                 physicalUpdate();
+                graphicalUpdate(context)
 
                 // 判断是否游戏是否成功
                 if (gameState === "PLAYING") {
@@ -188,7 +191,6 @@ const TechFuture = (): ReactElement => {
                         setGameState("TO_SUCCESS");
                         setTimeout(() => {
                             setGameState("SUCCESS");
-                            clearInterval(graphicTimer);
                             clearInterval(frameTimer);
                         }, 1000)
                     }
@@ -198,7 +200,6 @@ const TechFuture = (): ReactElement => {
                     const item = items[i];
                     if (item.visible && item.coordinate.x + item.size.x < player.coordinate.x) {
                         setGameState("FAILURE");
-                        clearInterval(graphicTimer);
                         clearInterval(frameTimer);
                         break;
                     }
@@ -207,7 +208,7 @@ const TechFuture = (): ReactElement => {
         }, 4000)
 
         return () => {
-            clearInterval(graphicTimer);
+            clearInterval(tempTimer);
             clearInterval(frameTimer);
             clearTimeout(countdownTimer);
         }

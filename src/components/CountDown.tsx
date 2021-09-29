@@ -2,50 +2,55 @@ import { ReactElement, useEffect, useRef } from "react";
 import "../assets/styles/countDown.less";
 
 const CountDown = (): ReactElement => {
-  let countRef: any = useRef();
+    let countRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    let countdown:any  = countRef.current;
-    console.log(countdown);
-    let go = countdown.querySelector(".go");
-    let one = countdown.querySelector(".one");
-    let two = countdown.querySelector(".two");
-    let three = countdown.querySelector(".three");
+    let goRef = useRef<HTMLDivElement>(null);
+    let oneRef = useRef<HTMLDivElement>(null);
+    let twoRef = useRef<HTMLDivElement>(null);
+    let threeRef = useRef<HTMLDivElement>(null);
 
-    function fn(ball:any) {
-      return new Promise((resolve, reject) => {
-        ball.style.display = "table";
-        setTimeout(function () {
-          ball.style.transform = `scale(${1})`;
-          setTimeout(function () {
-            ball.style.display = "none";
-            resolve(fn);
-          }, 1000);
-        }, 20);
-      });
-    }
+    useEffect(() => {
+        let countdown = countRef.current;
 
-    // fn(three).then((fn)=>{fn(two).then((fn)=>{fn(one).then((fn)=>{fn(go)})})})
+        let go = goRef.current!;
+        let one = oneRef.current!;
+        let two = twoRef.current!;
+        let three = threeRef.current!;
 
-    async function Transition() {
-      await fn(three);
-      await fn(two);
-      await fn(one);
-      await fn(go);
-      countdown.style.display = "none";
-    }
+        function fn(ball: HTMLDivElement) {
+            return new Promise(resolve => {
+                ball.style.display = "table";
+                setTimeout(function () {
+                    ball.style.transform = `scale(${1})`;
+                    setTimeout(function () {
+                        ball.style.display = "none";
+                        resolve(fn);
+                    }, 1000);
+                }, 20);
+            });
+        }
 
-    Transition();
-  }, []);
+        // fn(three).then((fn)=>{fn(two).then((fn)=>{fn(one).then((fn)=>{fn(go)})})})
 
-  return (
-    <div className="countdown" ref={countRef}>
-      <div className="go"></div>
-      <div className="one"></div>
-      <div className="two"></div>
-      <div className="three"></div>
-    </div>
-  );
+        async function transition() {
+            await fn(three);
+            await fn(two);
+            await fn(one);
+            await fn(go);
+            countdown!.style.display = "none";
+        }
+
+        transition();
+    }, []);
+
+    return (
+        <div className="countdown" ref={countRef}>
+            <div className="go" ref={goRef}></div>
+            <div className="one" ref={oneRef}></div>
+            <div className="two" ref={twoRef}></div>
+            <div className="three" ref={threeRef}></div>
+        </div>
+    );
 };
 
 export default CountDown;
