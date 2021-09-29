@@ -1,6 +1,12 @@
 import { ReactElement, useEffect, useState, useRef } from "react";
 import { withRouter } from 'react-router-dom';
+
 import '../../assets/styles/harvest.less';
+
+import { CountDown } from "../../components";
+
+import { API_URL } from "../../config";
+
 import insect1Img from '../../assets/images/harvest/insect1.png'
 import insect2Img from '../../assets/images/harvest/insect2.png'
 import branchImg from '../../assets/images/harvest/branch.png'
@@ -36,7 +42,7 @@ interface Item {
 }
 
 //一些基础配置
-const config = {
+let config = {
     isNew: true, //  控制是否生成新物体,
     isStop: false, //stop用来当点击障碍物或者漏点麦穗的时候来停下物体移动
     newTimes: 1,
@@ -60,44 +66,10 @@ function randomX() {
     else
         config.newTimes++;
     return x
-    // switch (config.newTimes) {
-    // case 1:
-    //     config.newTimes++;
-    //     x = (Math.random() * 25 + 0) / 3.75
-    //     return x
-    // case 2:
-    //     config.newTimes++;
-    //     x = (Math.random() * 25 + 128.4) / 3.75
-    //     return x
-    // case 3:
-    //     config.newTimes = 1;
-    //     x = (Math.random() * 25 + 128.4 * 2) / 3.75
-    //     return x
-    // default:
-    //     return 0;
-    // }
 }
 
 // 物体向下移动
 function changeY(node: HTMLLIElement, item: Item, setItems: ((func: (items: Item[]) => Item[]) => void), gameOverPopNode: React.RefObject<HTMLDivElement>, coverNode: React.RefObject<HTMLDivElement>): void {
-    // const timer = setInterval(() => {
-    //     if (item.coordinate.y <= 100 && !item.isStop) {
-    //         item.coordinate.y += 1.5;
-    //         node.style.transform = 'translateY(' + item.coordinate.y + 'vh)'
-    //     }
-    //     else {
-    //         clearInterval(timer)
-    //         if ((item.type === 'wheat1' || item.type === 'wheat2') && !item.isStop) {
-    //             if (item.visible) {
-    //                 stopMoveAndNew(setItems)
-    //                 gameOver(gameOverPopNode, coverNode)
-    //             }
-    //         }
-    //         if (item.type !== 'wheat1' && item.type !== 'wheat2' && !item.isStop) {
-    //             node.style.zIndex = '-100'
-    //         }
-    //     }
-    // }, 16.5)
     setTimeout(() => {
         if (item.coordinate.y <= 99 && !item.isStop) {
             item.coordinate.y += 1;
@@ -113,7 +85,6 @@ function changeY(node: HTMLLIElement, item: Item, setItems: ((func: (items: Item
                 }
             }
             if (item.type !== 'wheat1' && item.type !== 'wheat2' && !item.isStop) {
-                // node.style.zIndex = '-100'
                 node.style.display = 'none' //使障碍物消失
             }
         }
@@ -129,12 +100,28 @@ const gameOver = (successPopNode: React.RefObject<HTMLDivElement>, coverNode: Re
 }
 
 // 游戏成功
-const success = (gameOverPopNode: React.RefObject<HTMLDivElement>, containerNode: React.RefObject<HTMLDivElement>, coverNode: React.RefObject<HTMLDivElement>) => {
+const success = async (gameOverPopNode: React.RefObject<HTMLDivElement>, containerNode: React.RefObject<HTMLDivElement>, coverNode: React.RefObject<HTMLDivElement>) => {
     containerNode!.current!.style!.overflowY = 'scroll'
     gameOverPopNode!.current!.style.display = 'block'
     gameOverPopNode!.current!.style.top = '37.6vw'
     containerNode!.current!.style!.height = '130vh'
     coverNode!.current!.style.display = 'block'
+    if (sessionStorage.getItem('stuID')) {
+        const res = await fetch(`${API_URL}/complete/harvest`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'stu_number': sessionStorage.getItem('stuID')
+            })
+        })
+        const data = await res.json()
+        // console.log(data);
+    } else {
+        localStorage.setItem("harvest", 'true')
+        // console.log(localStorage.getItem('harvest'));
+    }
 }
 
 // 游戏成功
@@ -193,16 +180,18 @@ const Harvest = (props: any): ReactElement => {
     const coverNode: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
     const successPopNode: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
     const containerNode: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
+    let timer: NodeJS.Timer; //生成新物体的setinterval
 
     const jumpToChooseGames = () => {
         props.history.push('/selection')
     }
 
     useEffect(() => {
+
         setTimeout(() => {
             clearInterval(timer)  //清除添加物体的interval
             config.isLast = true
-        }, 15000)
+        }, 18000)
 
         //给予物体状态
         const changeItemStatus = (item: Item, gameOverPopNode: React.RefObject<HTMLDivElement>, coverNode: React.RefObject<HTMLDivElement>) => {
@@ -225,97 +214,116 @@ const Harvest = (props: any): ReactElement => {
         // 设置定时调用生成新物品
         let intervalTime = [150, 160, 170, 180, 190, 200]
         let type: string, img: any;
-        let timer = setInterval(() => {
-            if (config.isNew) {
-                switch (itemTypes[parseInt((Math.random() * 8).toString())]) {
-                    case 'wheat1':
-                        config.wheatNum++;
-                        img = wheat1Img
-                        type = 'wheat1'
-                        break;
-                    case 'wheat2':
-                        config.wheatNum++;
-                        img = wheat2Img
-                        type = 'wheat2'
-                        break;
-                    case 'branch':
-                        img = branchImg
-                        type = 'branch'
-                        break;
-                    case 'maple':
-                        img = mapleImg
-                        type = 'maple'
-                        break;
-                    case 'mushroom':
-                        img = mushroomImg
-                        type = 'mushroom'
-                        break;
-                    case 'vine':
-                        img = vineImg
-                        type = 'vine'
-                    case 'insect1':
-                        img = insect1Img
-                        type = 'insect1'
-                        break;
-                    case 'insect1':
-                        img = insect1Img
-                        type = 'insect1'
-                        break;
-                    case 'insect2':
-                        img = insect2Img
-                        type = 'insect2'
-                        break;
+        setTimeout(() => {
+            timer = setInterval(() => {
+                if (config.isNew) {
+                    switch (itemTypes[parseInt((Math.random() * 8).toString())]) {
+                        case 'wheat1':
+                            config.wheatNum++;
+                            img = wheat1Img
+                            type = 'wheat1'
+                            break;
+                        case 'wheat2':
+                            config.wheatNum++;
+                            img = wheat2Img
+                            type = 'wheat2'
+                            break;
+                        case 'branch':
+                            img = branchImg
+                            type = 'branch'
+                            break;
+                        case 'maple':
+                            img = mapleImg
+                            type = 'maple'
+                            break;
+                        case 'mushroom':
+                            img = mushroomImg
+                            type = 'mushroom'
+                            break;
+                        case 'vine':
+                            img = vineImg
+                            type = 'vine'
+                        case 'insect1':
+                            img = insect1Img
+                            type = 'insect1'
+                            break;
+                        case 'insect1':
+                            img = insect1Img
+                            type = 'insect1'
+                            break;
+                        case 'insect2':
+                            img = insect2Img
+                            type = 'insect2'
+                            break;
+                    }
+                    const vector: Vector = {
+                        x: randomX(),
+                        y: -15
+                    }
+                    const itemObj: Item = {
+                        type,
+                        img,
+                        visible: true,
+                        coordinate: vector,
+                        key: config.itemNum++,
+                        boxStyle: type,
+                        isStop: false,
+                    }
+                    setItems((items: Item[]) => [...items, itemObj])
+                    changeItemStatus(itemObj, gameOverPopNode, coverNode)
                 }
-                const vector: Vector = {
-                    x: randomX(),
-                    y: -15
-                }
-                const itemObj: Item = {
-                    type,
-                    img,
-                    visible: true,
-                    coordinate: vector,
-                    key: config.itemNum++,
-                    boxStyle: type,
-                    isStop: false,
-                }
-                setItems((items: Item[]) => [...items, itemObj])
-                changeItemStatus(itemObj, gameOverPopNode, coverNode)
+            }, intervalTime[parseInt((Math.random() * 6).toString())])
+        }, 4000)
+        return () => {
+            clearInterval(timer)
+            config = {
+                isNew: true, //  控制是否生成新物体,
+                isStop: false, //stop用来当点击障碍物或者漏点麦穗的时候来停下物体移动
+                newTimes: 1,
+                isSuccess: true, //  设置是否成功
+                isLast: false,
+                itemNum: 0, //  物体数
+                wheatNum: 0,  //  麦穗数
             }
-        }, intervalTime[parseInt((Math.random() * 6).toString())])
+        }
     }, [])
     return (
-        <div className="container" ref={containerNode}>
-            <ul className='item-list' ref={itemsRef}>
-                {items.map(item => {
-                    return (
-                        <li key={item.key} >
-                            <ul id={`star-ul-${item.key}`}>
-                                <li style={{ backgroundImage: `url(${click1Img})` }} className="click1-icon"></li>
-                                <li style={{ backgroundImage: `url(${click2Img})` }} className="click2-icon"></li>
-                                <li style={{ backgroundImage: `url(${click3Img})` }} className="click3-icon"></li>
-                                <li style={{ backgroundImage: `url(${click4Img})` }} className="click4-icon"></li>
-                                <li style={{ backgroundImage: `url(${click5Img})` }} className="click5-icon"></li>
-                                <li style={{ backgroundImage: `url(${click6Img})` }} className="click6-icon"></li>
-                                <li style={{ backgroundImage: `url(${click7Img})` }} className="click7-icon"></li>
-                                <li style={{ backgroundImage: `url(${click8Img})` }} className="click8-icon"></li>
-                                <li style={{ backgroundImage: `url(${click9Img})` }} className="click9-icon"></li>
-                            </ul>
-                            <div className={item.boxStyle} style={{ display: item.visible ? 'block' : 'none', backgroundImage: `url(${item.img})` }}>
-                            </div>
-                        </li>
-                    )
-                })}
-            </ul>
-            <div className="cover" ref={coverNode}></div>
-            <div className="successPop" ref={successPopNode}>
-                <div className="successPopBackBtn" onClick={jumpToChooseGames}></div>
-            </div>
-            <div className="gameOverPop" ref={gameOverPopNode}>
-                <div className="gameOverBtn1" onClick={() => location.reload()} ></div>
-                <div className="gameOverBtn2" onClick={jumpToChooseGames}></div>
+        <div>
+
+            <div className="container" ref={containerNode}>
+                <CountDown />
+                <ul className='item-list' ref={itemsRef}>
+                    {items.map(item => {
+                        return (
+                            <li key={item.key} >
+                                <ul id={`star-ul-${item.key}`}>
+                                    <li style={{ backgroundImage: `url(${click1Img})` }} className="click1-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click2Img})` }} className="click2-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click3Img})` }} className="click3-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click4Img})` }} className="click4-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click5Img})` }} className="click5-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click6Img})` }} className="click6-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click7Img})` }} className="click7-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click8Img})` }} className="click8-icon"></li>
+                                    <li style={{ backgroundImage: `url(${click9Img})` }} className="click9-icon"></li>
+                                </ul>
+                                <div className={item.boxStyle} style={{ display: item.visible ? 'block' : 'none', backgroundImage: `url(${item.img})` }}>
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
+                <div className="cover" ref={coverNode}></div>
+                <div className="successPop" ref={successPopNode}>
+                    <div className="successPopBackBtn" onClick={jumpToChooseGames}></div>
+                </div>
+                <div className="gameOverPop" ref={gameOverPopNode}>
+                    <div className="gameOverBtn1" onClick={() => location.reload()} ></div>
+                    <div className="gameOverBtn2" onClick={jumpToChooseGames}></div>
+                </div>
             </div>
         </div>
+
     )
 }
 
