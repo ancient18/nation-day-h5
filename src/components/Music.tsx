@@ -5,34 +5,31 @@ import bgm from '../assets/music/bgm.mp3'
 const Music = (): ReactElement => {
     let music = new Audio(bgm);
     let isMusic = false;
-    document.body.addEventListener('touchstart', () => {
-        playMusic()
-        isMusic = true;
-    })
-    function controlMusic() {
-        if (!isMusic) {
-            isMusic = true;
-            playMusic()
-            console.log(isMusic);
-        } else {
-            isMusic = false;
-            stopMusic()
-        }
-    }
-    // document!.querySelector('.musicBtn')!.addEventListener('touchmove', () => {
-    // })
+    let musicBtnNode: HTMLDivElement | null;
+
+    document.body.addEventListener('touchstart', playMusicFirst)
+
+    const controlMusic = () => isMusic ? stopMusic() : playMusic()
+
     function playMusic(): void {
         music.play()
+        isMusic = true
+        musicBtnNode!.classList.add('musicBtn-play')
     }
+
     function stopMusic(): void {
         music.pause()
+        isMusic = false
+        musicBtnNode!.classList.remove('musicBtn-play')
     }
-    // setTimeout(() => {
-    //     musicNode.pause()
-    //     musicNode.load()
-    // }, 10)
+
+    function playMusicFirst(): void {
+        playMusic()
+        document.body.removeEventListener('touchstart', playMusicFirst)
+    }
+
     return (
-        <div className="musicBtn" onClick={controlMusic}>
+        <div className="musicBtn" onTouchEnd={controlMusic} ref={currentNode => musicBtnNode = currentNode}>
         </div >
     )
 }
