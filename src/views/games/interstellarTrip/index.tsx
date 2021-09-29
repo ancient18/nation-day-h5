@@ -36,11 +36,55 @@ let changeBtn: staticPicture
 
 const FPS = 100;
 
+const height = document.documentElement.clientHeight;
+const width = document.documentElement.clientWidth;
+
+const ratio = width / 375;
+
+/* 这里修改这个数组是为了对屏幕的宽度和高度做适配
+    coordinate.x 和 coordinate 分别加上 size.x/2 和 size.y/2 是因为 
+    视觉给的图都是从左边框和上边框的中心位置开始计算
+    但是实际 canvas 绘图是从左上角绘制
+*/
+StonesProperties.forEach((item) => {
+    // item.coordinate.x = (item.coordinate.x - item.size.x * ratio / 2) * ratio
+    item.coordinate.x = (item.coordinate.x) * ratio
+    item.coordinate.y = item.coordinate.y - 2400 + height
+    item.size.x = item.size.x * ratio
+    item.size.y = item.size.y * ratio
+    item.velocity = { x: 0, y: (width * 6.4 - height) / (15 * FPS) }
+})
+
+Stones = Array.from({ length: 27 }, (_, i) => (
+    new MoveItem(StonesProperties[i])
+))
+
+player = new MoveItem({
+    coordinate: { x: (width - 60 * ratio) / 2, y: height - 150 * ratio },
+    size: { x: 60 * ratio, y: 82 * ratio },
+    velocity: { x: 0, y: 0 },
+    destroyed: false,
+    src: SpacecraftSrc
+})
+
+light = new MoveItem({
+    coordinate: { x: (width - 25 * ratio) / 2, y: height - 85 * ratio },
+    size: { x: 25 * ratio, y: 43 * ratio },
+    velocity: { x: 0, y: 0 },
+    destroyed: false,
+    src: spaceLight
+})
+
+bgc = new MoveItem({
+    coordinate: { x: 0, y: -width * 6.4 + height },
+    size: { x: width, y: width * 6.4 },
+    velocity: { x: 0, y: (width * 6.4 - height) / (15 * FPS) },
+    src: BgcSrc,
+})
+
 const InterstellarTrip = (): ReactElement => {
     const canvasRef: React.RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null)
     let context: CanvasRenderingContext2D
-    let height: number = 0
-    let width: number = 0
     let coordX: number = 0
     let coordY: number = 0
     let counter: number = 0
@@ -97,54 +141,12 @@ const InterstellarTrip = (): ReactElement => {
     }
     let timer: NodeJS.Timeout
     useEffect(() => {
-        height = document.documentElement.clientHeight;
-        width = document.documentElement.clientWidth;
+
         canvasRef.current?.setAttribute("height", height.toString());
         canvasRef.current?.setAttribute("width", width.toString());
         context = canvasRef.current?.getContext('2d')!;
         /*算出比例，根据比例适配不同屏幕 */
-        const ratio = width / 375;
 
-        /* 这里修改这个数组是为了对屏幕的宽度和高度做适配
-            coordinate.x 和 coordinate 分别加上 size.x/2 和 size.y/2 是因为 
-            视觉给的图都是从左边框和上边框的中心位置开始计算
-            但是实际 canvas 绘图是从左上角绘制
-        */
-        StonesProperties.forEach((item) => {
-            // item.coordinate.x = (item.coordinate.x - item.size.x * ratio / 2) * ratio
-            item.coordinate.x = (item.coordinate.x) * ratio
-            item.coordinate.y = item.coordinate.y - 2400 + height
-            item.size.x = item.size.x * ratio
-            item.size.y = item.size.y * ratio
-            item.velocity = { x: 0, y: (width * 6.4 - height) / (15 * FPS) }
-        })
-
-        Stones = Array.from({ length: 27 }, (_, i) => (
-            new MoveItem(StonesProperties[i])
-        ))
-
-        player = new MoveItem({
-            coordinate: { x: (width - 60 * ratio) / 2, y: height - 150 * ratio },
-            size: { x: 60 * ratio, y: 82 * ratio },
-            velocity: { x: 0, y: 0 },
-            destroyed: false,
-            src: SpacecraftSrc
-        })
-
-        light = new MoveItem({
-            coordinate: { x: (width - 25 * ratio) / 2, y: height - 85 * ratio },
-            size: { x: 25 * ratio, y: 43 * ratio },
-            velocity: { x: 0, y: 0 },
-            destroyed: false,
-            src: spaceLight
-        })
-
-        bgc = new MoveItem({
-            coordinate: { x: 0, y: -width * 6.4 + height },
-            size: { x: width, y: width * 6.4 },
-            velocity: { x: 0, y: (width * 6.4 - height) / (15 * FPS) },
-            src: BgcSrc,
-        })
 
         timer = setInterval(() => {
             if (coordX <= lastX + player.size.x + 30
@@ -218,15 +220,15 @@ const InterstellarTrip = (): ReactElement => {
 
     return (
         <div className={styles.interstellar_trip}>
-            {/* {(() => {
-                if (state == 2) {
+            {(() => {
+                if (state == 3) {
                     return (
                         <>
                             <Mask />
                             <Success />
                         </>
                     )
-                } else if (state == 3) {
+                } else if (state == 2) {
                     return (
                         <>
                             <Mask />
@@ -241,9 +243,9 @@ const InterstellarTrip = (): ReactElement => {
                 onTouchStart={spaceMoveStart}
                 onTouchMove={spaceMoved}
                 onTouchEnd={spaceMoveEnd} >
-            </canvas> */}
+            </canvas>
 
-            <Loading></Loading>
+            {/* <Loading></Loading> */}
         </div>
     )
 }
