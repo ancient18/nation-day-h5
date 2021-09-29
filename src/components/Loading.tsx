@@ -12,6 +12,7 @@ import { ReactElement, useRef, useEffect, useState } from 'react'
 const Loading = (): ReactElement => {
     const rollsRef: React.RefObject<HTMLImageElement> = useRef<HTMLImageElement>(null)
     const contentRef: React.RefObject<HTMLImageElement> = useRef<HTMLImageElement>(null)
+    const cloudsRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
     const bgcRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
     const height = document.documentElement.clientHeight
     const width = document.documentElement.clientWidth;
@@ -19,8 +20,10 @@ const Loading = (): ReactElement => {
     useEffect(() => {
         const rolls = rollsRef.current
         const content = contentRef.current
+        const cloudsBox = cloudsRef.current
         bgcRef.current!.style.backgroundPositionY = `-${width * 800 / 375 - height}px`
         let timer = setTimeout(() => {
+            console.log('1')
             setPercentage(percentage => percentage + 1)
             content!.style.clipPath = `polygon(0 0,${percentage}% 0,${percentage}% 100%,0 100%)`
             // content?.setAttribute("clip-path", `polygon(0 0,${percentage}% 0,${percentage}% 100%,0 100%)`)
@@ -30,21 +33,29 @@ const Loading = (): ReactElement => {
                 rolls!.style.transform = `translateX(${(40 + 310 * percentage / 100 - 100) / 3.75}vw)`
 
         }, 2500 / 100)
+
+        let timer2 = setTimeout(() => {
+            const cloudsImage = document.createElement('img');
+            cloudsImage.setAttribute('src', clouds)
+            cloudsImage.setAttribute('class', styles.clouds)
+            cloudsImage.setAttribute('transform', `translateX${(10 + 310 * percentage / 100 - 100) / 3.75}vw`)
+            cloudsBox!.appendChild(cloudsImage)
+        }, 100)
+
         if (percentage === 100) {
-            clearInterval(timer)
+            clearTimeout(timer)
+            clearTimeout(timer2)
         }
         return () => {
-            clearInterval(timer)
+            clearTimeout(timer)
+            clearTimeout(timer2)
         }
     })
     return (
         <div ref={bgcRef} className={styles.loading}>
             <div className={styles.progress_clouds}></div>
-            <div className={styles.progress_rolls}>
+            <div ref={cloudsRef} className={styles.progress_rolls}>
                 <img ref={rollsRef} className={styles.rolls} src={rolls} />
-                <img src={clouds} className={styles.clouds1} />
-                <img src={clouds} className={styles.clouds2} />
-                <img src={clouds} className={styles.clouds3} />
             </div>
             <div className={styles.progress_flag}>
                 <img src={flag} />
