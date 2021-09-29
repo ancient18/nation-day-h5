@@ -15,9 +15,10 @@
             height: ( 51.4vw / 3.75);
         }
         .clouds {
+            display: float;
             width: ( 51vw / 3.75 );
             height: ( 44vw / 3.75);
-            animation: break_wind 0.8s ease-out 1.7s;
+            animation: break_wind 1s ease-out .2s;
             opacity: 0;
         }
     }
@@ -45,13 +46,13 @@
         img {
             width: (50vw / 3.75);
             height: (40vw / 3.75);
-            transform:translate(80vw,54vw);
-            animation: raise_flag 2.9s linear;
+            // transform:translate(80vw,54vw);
+            // animation: raise_flag 2.9s linear;
         }
     }
     .progress_percentage {
-        transform:translate(48vw,71vw);
-        font-family: Zhan;
+        transform:translate(46vw,71vw);
+        font-family: LianMeng;
         font-size:20px;
         color: #c84d1c;
     }
@@ -81,13 +82,10 @@
 
 @keyframes break_wind {
     0% {
-        opacity: 0;
+        opacity: 1;
         transform:translateX(-10vw)
     }
-    60% {
-        opacity: 1;
-        transform:translateX(-12vw)
-    }
+
     100% {
         opacity: 0;
         transform:translateX(-14vw)
