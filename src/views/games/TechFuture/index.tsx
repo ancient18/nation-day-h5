@@ -51,12 +51,12 @@ function init() {
 }
 
 function drawSprite(ctx: CanvasRenderingContext2D, reward: Reward) {
-    ctx.strokeRect(
-        reward.coordinate.x - camera.x,
-        reward.coordinate.y - camera.y,
-        reward.size.x,
-        reward.size.y
-    );
+    // ctx.strokeRect(
+    //     reward.coordinate.x - camera.x,
+    //     reward.coordinate.y - camera.y,
+    //     reward.size.x,
+    //     reward.size.y
+    // );
     ctx.drawImage(
         reward.image,
         reward.coordinate.x - camera.x,
@@ -69,12 +69,12 @@ function drawSprite(ctx: CanvasRenderingContext2D, reward: Reward) {
 function graphicalUpdate(context: CanvasRenderingContext2D) {
     context.drawImage(background, -camera.x, -camera.y, height * background.width / background.height, height);
 
-    context.strokeRect(
-        player.coordinate.x + player.collision.left - camera.x,
-        player.coordinate.y + player.collision.top - camera.y,
-        player.collision.width,
-        player.collision.height
-    );
+    // context.strokeRect(
+    //     player.coordinate.x + player.collision.left - camera.x,
+    //     player.coordinate.y + player.collision.top - camera.y,
+    //     player.collision.width,
+    //     player.collision.height
+    // );
     context.drawImage(
         player.image,
         player.coordinate.x - camera.x,
@@ -168,7 +168,7 @@ const TechFuture = (): ReactElement => {
         canvasRef.current.setAttribute("height", height.toString());
         canvasRef.current.setAttribute("width", width.toString());
         context = canvasRef.current.getContext('2d')!;
-        context.strokeStyle = "red"
+        // context.strokeStyle = "red"
         
         init();
 
