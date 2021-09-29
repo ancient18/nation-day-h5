@@ -3,7 +3,7 @@ import { useRef, ReactElement, useEffect, useState } from "react";
 import '../../../assets/styles/techFuture.less';
 
 import { background, juanjuan } from "../../../assets/images/tech-future/images";
-import { items } from "./items";
+import { items } from "./data/items";
 
 import FailureWindow from "./components/FailureWindow";
 import SuccessWindow from "./components/SuccessWindow";

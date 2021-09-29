@@ -1,7 +1,7 @@
 const height = document.documentElement.clientHeight;
 const width = document.documentElement.clientWidth;
 
-import { itemImages } from "../../../assets/images/tech-future/images";
+import { itemImages } from "../../../../assets/images/tech-future/images";
 
 const items: Reward[] = [
     // rocket
