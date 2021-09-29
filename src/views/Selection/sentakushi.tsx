@@ -27,7 +27,7 @@ const Sentakushi = ({ type, done }: Props): ReactElement => {
     const [expand, setExpand] = useState(false);
     return (
         <div
-            className={`sentakushi ${type} ${expand ? "expanded" : ""}`}
+            className={`sentakushi ${type} ${expand ? "expanded" : ""} ${done ? "done" : ""}`}
         >
             <img
                 className="triangle"
@@ -36,7 +36,7 @@ const Sentakushi = ({ type, done }: Props): ReactElement => {
             ></img>
             <img
                 className="preview"
-                src={images[`${type}`]}
+                src={images[`${type}${done ? "Done" : ""}`]}
                 onClick={() => setExpand(!expand)}
             ></img>
             <Link to={mapImageName(type)}>
