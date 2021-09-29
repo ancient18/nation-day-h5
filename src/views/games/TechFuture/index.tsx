@@ -7,9 +7,10 @@ import { items } from "./data/items";
 
 import FailureWindow from "./components/FailureWindow";
 import SuccessWindow from "./components/SuccessWindow";
+import CountDown from "../../../components/CountDown";
 
-const height = document.documentElement.clientHeight ;
-const width = document.documentElement.clientWidth ;
+const height = document.documentElement.clientHeight;
+const width = document.documentElement.clientWidth;
 
 const FPS = 60;
 const gravity = 600;
@@ -43,7 +44,7 @@ function init() {
         status: "normal",
         image: juanjuan,
     }
-    
+
     camera = {
         x: 0,
         y: 0
@@ -161,7 +162,7 @@ function liftPlayer() {
 
 const TechFuture = (): ReactElement => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [gameState, setGameState] = useState<"TO_SUCCESS" |"SUCCESS" | "FAILURE" | "PLAYING">("PLAYING");
+    const [gameState, setGameState] = useState<"TO_SUCCESS" | "SUCCESS" | "FAILURE" | "PLAYING">("PLAYING");
     let context: CanvasRenderingContext2D;
     useEffect(() => {
         if (!canvasRef.current) return;
@@ -169,41 +170,52 @@ const TechFuture = (): ReactElement => {
         canvasRef.current.setAttribute("width", width.toString());
         context = canvasRef.current.getContext('2d')!;
         // context.strokeStyle = "red"
-        
+
         init();
 
-        const frameTimer = setInterval(() => {
-            if (!context) return;
-            physicalUpdate();
-            graphicalUpdate(context);
-    
-            if (gameState === "PLAYING") {
-                if (items.every(item => !item.visible)) {
-                    setGameState("TO_SUCCESS");
-                    setTimeout(() => {
-                        setGameState("SUCCESS");
-                        clearInterval(frameTimer)
-                    }, 1000)
+        const graphicTimer = setInterval(() => graphicalUpdate(context), 1000 / FPS)
+
+        // 3, 2, 1, Go 倒计时后才会进行物理运动的更新；
+        // 但倒计时的同时会同时进行显示的渲染，避免白屏。
+        let frameTimer: NodeJS.Timer;
+        const countdownTimer = setTimeout(() => {
+            frameTimer = setInterval(() => {
+                physicalUpdate();
+
+                // 判断是否游戏是否成功
+                if (gameState === "PLAYING") {
+                    if (items.every(item => !item.visible)) {
+                        setGameState("TO_SUCCESS");
+                        setTimeout(() => {
+                            setGameState("SUCCESS");
+                            clearInterval(graphicTimer);
+                            clearInterval(frameTimer);
+                        }, 1000)
+                    }
                 }
-            }
-            
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i];
-                if (item.visible && item.coordinate.x + item.size.x < player.coordinate.x) {
-                    setGameState("FAILURE");
-                    clearInterval(frameTimer);
-                    break;
+                // 判断是否游戏是否失败
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+                    if (item.visible && item.coordinate.x + item.size.x < player.coordinate.x) {
+                        setGameState("FAILURE");
+                        clearInterval(graphicTimer);
+                        clearInterval(frameTimer);
+                        break;
+                    }
                 }
-            }
-        }, 1000 / FPS);
+            }, 1000 / FPS);
+        }, 4000)
 
         return () => {
+            clearInterval(graphicTimer);
             clearInterval(frameTimer);
+            clearTimeout(countdownTimer);
         }
     }, []);
 
 
     return <div className="tech-future">
+        <CountDown />
         {(() => {
             if (gameState === "FAILURE") {
                 return <FailureWindow />
