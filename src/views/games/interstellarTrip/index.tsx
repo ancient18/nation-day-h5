@@ -18,6 +18,8 @@ import { fillPicture, isColliding } from "./utils"
 
 import { Success, Mask, Failure } from "./cpns"
 
+import { API_URL } from "../../../config"
+
 let Stones: MoveItem[]
 
 let player: MoveItem
@@ -207,6 +209,19 @@ const InterstellarTrip = (): ReactElement => {
                     light.coordinate.y += -(width * 6.4 - height) / (15 * FPS)
                     if (player.coordinate.y <= 10) {
                         clearInterval(timer)
+                        const stuID = sessionStorage.getItem('stuID') ? sessionStorage.getItem('stuID') : false
+                        if (stuID) {
+                            fetch(`${API_URL}/complete/interstellar_trip`,
+                                {
+                                    body: JSON.stringify({ 'stu_number': stuID }),
+                                    headers: {
+                                        'content-type': 'application/json'
+                                    },
+                                    method: 'POST'
+                                })
+                        } else {
+                            localStorage.setItem("interstellar_trip", 'true')
+                        }
                         setState(2)
                     }
                 } else if (!player.destroyed) {
