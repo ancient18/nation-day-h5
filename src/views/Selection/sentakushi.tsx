@@ -30,6 +30,11 @@ const Sentakushi = ({ type, done }: Props): ReactElement => {
             className={`sentakushi ${type} ${expand ? "expanded" : ""}`}
         >
             <img
+                className="triangle"
+                src={images.triangle}
+                onClick={() => setExpand(!expand)}
+            ></img>
+            <img
                 className="preview"
                 src={images[`${type}`]}
                 onClick={() => setExpand(!expand)}
