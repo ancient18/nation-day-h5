@@ -4,6 +4,7 @@ import rolls from "../assets/images/loading/rolls.png"
 import flag from "../assets/images/loading/flag.png"
 import loadingContent from "../assets/images/loading/loading_content.png"
 import loadingFrame from "../assets/images/loading/loading_frame.png"
+import clouds from "../assets/images/loading/clouds.png"
 
 import { ReactElement, useRef, useEffect, useState } from 'react'
 
@@ -25,11 +26,14 @@ const Loading = (): ReactElement => {
             // content?.setAttribute("clip-path", `polygon(0 0,${percentage}% 0,${percentage}% 100%,0 100%)`)
             // rolls!.style.transform = `translateX(${3 + 
             //     }vw)`
-            if (percentage > 16 && percentage < 95)
-                rolls!.style.transform = `translateX(${(40 + 310 * percentage / 100 - 90) / 3.75}vw)`
+            if (percentage > 18 && percentage < 95)
+                rolls!.style.transform = `translateX(${(40 + 310 * percentage / 100 - 100) / 3.75}vw)`
 
         }, 2500 / 100)
         if (percentage === 100) {
+            clearInterval(timer)
+        }
+        return () => {
             clearInterval(timer)
         }
     })
@@ -37,7 +41,10 @@ const Loading = (): ReactElement => {
         <div ref={bgcRef} className={styles.loading}>
             <div className={styles.progress_clouds}></div>
             <div className={styles.progress_rolls}>
-                <img ref={rollsRef} src={rolls} />
+                <img ref={rollsRef} className={styles.rolls} src={rolls} />
+                <img src={clouds} className={styles.clouds1} />
+                <img src={clouds} className={styles.clouds2} />
+                <img src={clouds} className={styles.clouds3} />
             </div>
             <div className={styles.progress_flag}>
                 <img src={flag} />

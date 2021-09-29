@@ -1,3 +1,4 @@
+@import "./fonts.less";
 
 .loading {
     position: relative;
@@ -9,9 +10,29 @@
     overflow: hidden;
     .progress_rolls {
         transform:translate(10vw,75vw);
-        img {
-        width: ( 80vw / 3.75 );
-        height: ( 51.4vw / 3.75);
+        .rolls {
+            width: ( 80vw / 3.75 );
+            height: ( 51.4vw / 3.75);
+        }
+        .clouds1 {
+            width: ( 51vw / 3.75 );
+            height: ( 44vw / 3.75);
+            animation: break_wind 0.8s ease-out 1.2s;
+            opacity: 0;
+        }
+        .clouds2 {
+            width: ( 51vw / 3.75 );
+            height: ( 44vw / 3.75);
+            margin-left: 5vw;
+            animation: break_wind 0.8s linear 1.9s;
+            opacity: 0;
+        }
+        .clouds3 {
+            width: ( 51vw / 3.75 );
+            height: ( 44vw / 3.75);
+            margin-left: 5vw;
+            animation: break_wind 0.4s linear 2.6s;
+            opacity: 0;
         }
     }
     .progress_bar {
@@ -43,8 +64,12 @@
         }
     }
     .progress_percentage {
-        transform:translate(48vw,71vw)
+        transform:translate(48vw,71vw);
+        font-family: Zhan;
+        font-size:20px;
+        color: #c84d1c;
     }
+
 }
 
 // @keyframes progress{
@@ -65,5 +90,20 @@
     // }
     100% {
         transform:translate(80vw,54vw);
+    }
+}
+
+@keyframes break_wind {
+    0% {
+        opacity: 0;
+        transform:translateX(-10vw)
+    }
+    60% {
+        opacity: 1;
+        transform:translateX(-12vw)
+    }
+    100% {
+        opacity: 0;
+        transform:translateX(-14vw)
     }
 }
