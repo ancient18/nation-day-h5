@@ -1,7 +1,12 @@
 import { ReactElement, useEffect, useState, useRef } from "react";
 import { withRouter } from 'react-router-dom';
+
 import '../../assets/styles/harvest.less';
+
 import { CountDown } from "../../components";
+
+import { API_URL } from "../../config";
+
 import insect1Img from '../../assets/images/harvest/insect1.png'
 import insect2Img from '../../assets/images/harvest/insect2.png'
 import branchImg from '../../assets/images/harvest/branch.png'
@@ -37,7 +42,7 @@ interface Item {
 }
 
 //一些基础配置
-const config = {
+let config = {
     isNew: true, //  控制是否生成新物体,
     isStop: false, //stop用来当点击障碍物或者漏点麦穗的时候来停下物体移动
     newTimes: 1,
@@ -61,44 +66,10 @@ function randomX() {
     else
         config.newTimes++;
     return x
-    // switch (config.newTimes) {
-    // case 1:
-    //     config.newTimes++;
-    //     x = (Math.random() * 25 + 0) / 3.75
-    //     return x
-    // case 2:
-    //     config.newTimes++;
-    //     x = (Math.random() * 25 + 128.4) / 3.75
-    //     return x
-    // case 3:
-    //     config.newTimes = 1;
-    //     x = (Math.random() * 25 + 128.4 * 2) / 3.75
-    //     return x
-    // default:
-    //     return 0;
-    // }
 }
 
 // 物体向下移动
 function changeY(node: HTMLLIElement, item: Item, setItems: ((func: (items: Item[]) => Item[]) => void), gameOverPopNode: React.RefObject<HTMLDivElement>, coverNode: React.RefObject<HTMLDivElement>): void {
-    // const timer = setInterval(() => {
-    //     if (item.coordinate.y <= 100 && !item.isStop) {
-    //         item.coordinate.y += 1.5;
-    //         node.style.transform = 'translateY(' + item.coordinate.y + 'vh)'
-    //     }
-    //     else {
-    //         clearInterval(timer)
-    //         if ((item.type === 'wheat1' || item.type === 'wheat2') && !item.isStop) {
-    //             if (item.visible) {
-    //                 stopMoveAndNew(setItems)
-    //                 gameOver(gameOverPopNode, coverNode)
-    //             }
-    //         }
-    //         if (item.type !== 'wheat1' && item.type !== 'wheat2' && !item.isStop) {
-    //             node.style.zIndex = '-100'
-    //         }
-    //     }
-    // }, 16.5)
     setTimeout(() => {
         if (item.coordinate.y <= 99 && !item.isStop) {
             item.coordinate.y += 1;
@@ -114,7 +85,6 @@ function changeY(node: HTMLLIElement, item: Item, setItems: ((func: (items: Item
                 }
             }
             if (item.type !== 'wheat1' && item.type !== 'wheat2' && !item.isStop) {
-                // node.style.zIndex = '-100'
                 node.style.display = 'none' //使障碍物消失
             }
         }
@@ -130,12 +100,28 @@ const gameOver = (successPopNode: React.RefObject<HTMLDivElement>, coverNode: Re
 }
 
 // 游戏成功
-const success = (gameOverPopNode: React.RefObject<HTMLDivElement>, containerNode: React.RefObject<HTMLDivElement>, coverNode: React.RefObject<HTMLDivElement>) => {
+const success = async (gameOverPopNode: React.RefObject<HTMLDivElement>, containerNode: React.RefObject<HTMLDivElement>, coverNode: React.RefObject<HTMLDivElement>) => {
     containerNode!.current!.style!.overflowY = 'scroll'
     gameOverPopNode!.current!.style.display = 'block'
     gameOverPopNode!.current!.style.top = '37.6vw'
     containerNode!.current!.style!.height = '130vh'
     coverNode!.current!.style.display = 'block'
+    if (sessionStorage.getItem('stuID')) {
+        const res = await fetch(`${API_URL}/complete/harvest`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'stu_number': sessionStorage.getItem('stuID')
+            })
+        })
+        const data = await res.json()
+        // console.log(data);
+    } else {
+        localStorage.setItem("harvest", 'true')
+        // console.log(localStorage.getItem('harvest'));
+    }
 }
 
 // 游戏成功
@@ -194,13 +180,14 @@ const Harvest = (props: any): ReactElement => {
     const coverNode: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
     const successPopNode: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
     const containerNode: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null)
-    let timer: NodeJS.Timer;
+    let timer: NodeJS.Timer; //生成新物体的setinterval
 
     const jumpToChooseGames = () => {
         props.history.push('/selection')
     }
 
     useEffect(() => {
+
         setTimeout(() => {
             clearInterval(timer)  //清除添加物体的interval
             config.isLast = true
@@ -287,7 +274,18 @@ const Harvest = (props: any): ReactElement => {
                 }
             }, intervalTime[parseInt((Math.random() * 6).toString())])
         }, 4000)
-
+        return () => {
+            clearInterval(timer)
+            config = {
+                isNew: true, //  控制是否生成新物体,
+                isStop: false, //stop用来当点击障碍物或者漏点麦穗的时候来停下物体移动
+                newTimes: 1,
+                isSuccess: true, //  设置是否成功
+                isLast: false,
+                itemNum: 0, //  物体数
+                wheatNum: 0,  //  麦穗数
+            }
+        }
     }, [])
     return (
         <div>
