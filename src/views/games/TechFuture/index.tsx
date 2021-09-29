@@ -2,17 +2,13 @@ import { useRef, ReactElement, useEffect, useState } from "react";
 
 import '../../../assets/styles/techFuture.less';
 
-import { background } from "../../../assets/images/tech-future/images";
-
 import FailureWindow from "./components/FailureWindow";
 import SuccessWindow from "./components/SuccessWindow";
 import CountDown from "../../../components/CountDown";
 
 import {
     height, width,
-    FPS, gravity,
-    initalPlayerWidth, initalPlayerHeight,
-    player, camera, items,
+    FPS, player, items,
     init
 } from "./data"
 
