@@ -210,6 +210,7 @@ const InterstellarTrip = (): ReactElement => {
                     if (player.coordinate.y <= 10) {
                         clearInterval(timer)
                         const stuID = sessionStorage.getItem('stuID') ? sessionStorage.getItem('stuID') : false
+                        // const stuID = 1;
                         if (stuID) {
                             fetch(`${API_URL}/complete/interstellar_trip`,
                                 {
@@ -219,6 +220,7 @@ const InterstellarTrip = (): ReactElement => {
                                     },
                                     method: 'POST'
                                 })
+                            // .then(res => console.log(res))
                         } else {
                             localStorage.setItem("interstellar_trip", 'true')
                         }
