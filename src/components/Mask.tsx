@@ -1,9 +1,16 @@
 import { ReactElement } from 'react'
 
-export default function Mask() {
+type Props = {
+    index:number
+}
+
+const Mask = (props: Props): ReactElement => {
+    
     return (
         <div>
 
         </div>
     )
 }
+
+export default Mask

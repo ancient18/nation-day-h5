@@ -1,7 +1,7 @@
 import { ReactElement, useState } from "react";
 import { withRouter } from 'react-router-dom'
 import '../../src/assets/styles/home.less'
-import '../../src/assets/font/font.less'
+import '../../src/assets/styles/font.less'
 
 import { API_URL } from "../config"
 

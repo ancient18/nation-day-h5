@@ -8,31 +8,24 @@ import techFutureDone from './tech-future-done.png';
 import interstellarTripDone from './interstellar-trip-done.png';
 import harvestDone from './harvest-done.png';
 
-import antiEpidemicExpand from './anti-epidemic-expand.png';
-import techFutureExpand from './tech-future-expand.png';
-import interstellarTripExpand from './interstellar-trip-expand.png';
-import harvestExpand from './harvest-expand.png';
-
 import startGame from './start-game.png';
 import background from './background.png';
+import triangle from './triangle.png';
 
 export {
     antiEpidemic,
     antiEpidemicDone,
-    antiEpidemicExpand,
 
     techFuture,
     techFutureDone,
-    techFutureExpand,
 
     interstellarTrip,
     interstellarTripDone,
-    interstellarTripExpand,
     
     harvest,
     harvestDone,
-    harvestExpand,
 
     background,
-    startGame
+    startGame,
+    triangle
 }

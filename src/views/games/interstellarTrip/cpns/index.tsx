@@ -1,6 +1,6 @@
-import { Mask } from "./mask";
-import { Failure } from "./failure";
-import { Success } from "./success";
+import { Mask } from "./Mask";
+import { Failure } from "./Failure";
+import { Success } from "./Success";
 
 
 export { Mask, Failure, Success };

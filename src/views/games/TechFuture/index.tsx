@@ -17,41 +17,46 @@ const gravity = 600;
 const initalPlayerWidth = 138 / 667 * height;
 const initalPlayerHeight = 80 / 667 * height;
 
-const player: Player = {
-    coordinate: {
-        x: 0.055 * height,
-        y: 100,
-    },
-    velocity: {
-        x: 300,
-        y: 0,
-    },
-    size: {
-        x: initalPlayerWidth,
-        y: initalPlayerHeight
-    },
-    collision: {
-        top: 17 / 667 * height,
-        height: 57 / 667 * height,
-        left: 30 / 667 * height,
-        width: 100 / 667 * height
-    },
-    status: "normal",
-    image: juanjuan,
-}
+let player: Player;
+let camera: Vector;
 
-const camera: Vector = {
-    x: 0,
-    y: 0
+function init() {
+    player = {
+        coordinate: {
+            x: 0.055 * height,
+            y: height / 2,
+        },
+        velocity: {
+            x: 300,
+            y: 0,
+        },
+        size: {
+            x: initalPlayerWidth,
+            y: initalPlayerHeight
+        },
+        collision: {
+            top: 17 / 667 * height,
+            height: 57 / 667 * height,
+            left: 30 / 667 * height,
+            width: 100 / 667 * height
+        },
+        status: "normal",
+        image: juanjuan,
+    }
+    
+    camera = {
+        x: 0,
+        y: 0
+    }
 }
 
 function drawSprite(ctx: CanvasRenderingContext2D, reward: Reward) {
-    ctx.strokeRect(
-        reward.coordinate.x - camera.x,
-        reward.coordinate.y - camera.y,
-        reward.size.x,
-        reward.size.y
-    );
+    // ctx.strokeRect(
+    //     reward.coordinate.x - camera.x,
+    //     reward.coordinate.y - camera.y,
+    //     reward.size.x,
+    //     reward.size.y
+    // );
     ctx.drawImage(
         reward.image,
         reward.coordinate.x - camera.x,
@@ -64,12 +69,12 @@ function drawSprite(ctx: CanvasRenderingContext2D, reward: Reward) {
 function graphicalUpdate(context: CanvasRenderingContext2D) {
     context.drawImage(background, -camera.x, -camera.y, height * background.width / background.height, height);
 
-    context.strokeRect(
-        player.coordinate.x + player.collision.left - camera.x,
-        player.coordinate.y + player.collision.top - camera.y,
-        player.collision.width,
-        player.collision.height
-    );
+    // context.strokeRect(
+    //     player.coordinate.x + player.collision.left - camera.x,
+    //     player.coordinate.y + player.collision.top - camera.y,
+    //     player.collision.width,
+    //     player.collision.height
+    // );
     context.drawImage(
         player.image,
         player.coordinate.x - camera.x,
@@ -163,8 +168,9 @@ const TechFuture = (): ReactElement => {
         canvasRef.current.setAttribute("height", height.toString());
         canvasRef.current.setAttribute("width", width.toString());
         context = canvasRef.current.getContext('2d')!;
-        context.strokeStyle = "red"
-        player.coordinate.y = height / 2;
+        // context.strokeStyle = "red"
+        
+        init();
 
         const frameTimer = setInterval(() => {
             if (!context) return;
