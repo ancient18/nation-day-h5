@@ -1,6 +1,13 @@
-import { ReactElement, useRef, useEffect, useState, TouchEventHandler } from "react";
+import {
+    ReactElement,
+    useRef,
+    useEffect,
+    useState,
+    TouchEventHandler,
+} from "react";
 import "../../../assets/styles/AntiEpidemic/AntiEpidemic.less";
 import BigDiv from "./BigDiv";
+import CountDown from "../../../components/CountDown";
 
 const AntiEpidemic = (): ReactElement => {
     let boxRef: any = useRef();
@@ -27,24 +34,25 @@ const AntiEpidemic = (): ReactElement => {
         console.log(window.location.pathname);
         console.log(window.location);
 
-        defate.querySelector(".left")!.addEventListener("touchstart", function () {
+        defate.querySelector(".left")!.addEventListener("touchend", function () {
             location.reload();
             defate.style.display = "none";
         });
 
-        defate.querySelector(".right")!.addEventListener("touchstart", function () {
-            location.href = "/#/"
+        defate.querySelector(".right")!.addEventListener("touchend", function () {
+            location.href = "/#/selection";
             // location.hash.replace("#/");
             defate.style.display = "none";
         });
 
-        victory.querySelector(".bottom")!.addEventListener("touchstart", function () {
-            console.log(1);
-            location.href = "/#/"
-            // location.hash.replace("#/");
-            console.log(location.hash);
-            victory.style.display = "none";
-        });
+        victory
+            .querySelector(".bottom")!
+            .addEventListener("touchend", function () {
+                location.href = "/#/selection";
+                // location.hash.replace("#/");
+                console.log(location.hash);
+                victory.style.display = "none";
+            });
 
         // 设置垂直居中
         box.style.marginTop =
@@ -91,11 +99,11 @@ const AntiEpidemic = (): ReactElement => {
             for (let i = 0, len = allDiv.length; i < len; i++) {
                 allDiv[i].style.transform = `rotateY(${180}deg)`;
                 setTimeout(function () {
-                    (allDiv[i].querySelector(".front") as HTMLElement).style.display = "none";
-                }, 120)
-
+                    (allDiv[i].querySelector(".front") as HTMLElement).style.display =
+                        "none";
+                }, 300);
             }
-        }, 3000);
+        }, 5000);
 
         // 游戏开始运动
 
@@ -116,26 +124,32 @@ const AntiEpidemic = (): ReactElement => {
                 clearTimeout(timer);
                 // 添加点击事件,动画完成后才能点击
                 setTimeout(function () {
-                    box.addEventListener("touchstart", fn);
+                    box.addEventListener("touchend", fn);
                 }, 1000);
             }, 8000);
-        }, 5000);
+        }, 6000);
 
         // 点击事件
         function fn(e: any) {
             // console.log(e.target.style["cursor"]);
             // 移除点击事件
-            box.removeEventListener("touchstart", fn);
+            box.removeEventListener("touchend", fn);
             if (e.path[1] === allDiv[4]) {
                 // 找到没带口罩的卷卷
                 e.path[1].style.transform = `rotateY(${0}deg)`;
-                e.path[1].querySelector(".front").style.display = "table";
+                setTimeout(function () {
+                    e.path[1].querySelector(".front").style.display = "table";
+                }, 300);
                 // 延迟一秒翻开其余盒子
                 setTimeout(function () {
                     for (let i = 0, len = allDiv.length; i < len; i++) {
                         if (i !== 4) {
                             allDiv[i].style.transform = `rotateY(${0}deg)`;
-                            (allDiv[i].querySelector(".front") as HTMLElement).style.display = "table";
+                            setTimeout(function () {
+                                (
+                                    allDiv[i].querySelector(".front") as HTMLElement
+                                ).style.display = "table";
+                            }, 300);
                         }
                     }
                 }, 1000);
@@ -146,13 +160,19 @@ const AntiEpidemic = (): ReactElement => {
                 // 没找到
                 e.path[1].style.transform = `rotateY(${0}deg)`;
                 console.log(e.path[0]);
-                e.path[1].querySelector(".front").style.display = "table";
+                setTimeout(function () {
+                    e.path[1].querySelector(".front").style.display = "table";
+                }, 300);
                 // 延迟一秒翻开其余盒子
                 setTimeout(function () {
                     for (let i = 0, len = allDiv.length; i < len; i++) {
                         if (e.target !== e.path[1]) {
                             allDiv[i].style.transform = `rotateY(${0}deg)`;
-                            (allDiv[i].querySelector(".front") as HTMLElement).style.display = "table";
+                            setTimeout(function () {
+                                (
+                                    allDiv[i].querySelector(".front") as HTMLElement
+                                ).style.display = "table";
+                            }, 300);
                         }
                     }
                 }, 1000);
@@ -165,6 +185,7 @@ const AntiEpidemic = (): ReactElement => {
 
     return (
         <div className="body">
+            <CountDown/>
             <div className="box" ref={boxRef}>
                 <BigDiv />
                 <BigDiv />
