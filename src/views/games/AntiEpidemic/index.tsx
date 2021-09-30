@@ -126,7 +126,7 @@ const AntiEpidemic = (): ReactElement => {
                 setTimeout(function () {
                     box.addEventListener("touchend", fn);
                 }, 1000);
-            }, 1000);
+            }, 6000);
         }, 6000);
 
         // 点击事件
