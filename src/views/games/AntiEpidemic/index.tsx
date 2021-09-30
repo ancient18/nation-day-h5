@@ -8,7 +8,7 @@ import {
 import "../../../assets/styles/AntiEpidemic/AntiEpidemic.less";
 import BigDiv from "./BigDiv";
 import CountDown from "../../../components/CountDown";
-import Share  from "../../../components/Share";
+import { API_URL } from "../../../config";
 
 const AntiEpidemic = (): ReactElement => {
     let boxRef: any = useRef();
@@ -162,6 +162,29 @@ const AntiEpidemic = (): ReactElement => {
                         window.setTimeout(function () {
                             victory.style.display = "table";
                         }, 2000);
+
+                        if (sessionStorage.getItem('stuID')) {
+
+                            // 给后端发请求
+
+                            async function an() {
+                                const res = await fetch(`${API_URL}/anti_epidemic`, {
+                                    method: "POST",
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        'stu_number': sessionStorage.getItem('stuID')
+                                    })
+                                })
+                                const data = await res.json()
+                            }
+                            an();
+                            // console.log(data);
+                        } else {
+                            localStorage.setItem("anti_epidemic", 'true')
+                            
+                        }
                     }
                 }
             }
