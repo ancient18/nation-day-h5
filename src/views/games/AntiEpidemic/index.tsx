@@ -5,11 +5,20 @@ import {
     useState,
     TouchEventHandler,
 } from "react";
+
+import {
+    Link
+} from "react-router-dom";
+
 import "../../../assets/styles/AntiEpidemic/AntiEpidemic.less";
 import BigDiv from "./BigDiv";
 import CountDown from "../../../components/CountDown";
+// import Share from "../../../components/Share"
 import { API_URL } from "../../../config";
-
+import choose from "../../../assets/images/AntiEpidemic/choose.png";
+import front from "../../../assets/images/AntiEpidemic/front.png";
+import arrow from "../../../assets/images/AntiEpidemic/arrow.png";
+ 
 const AntiEpidemic = (): ReactElement => {
     let boxRef: any = useRef();
     // let btRef = useRef();
@@ -17,9 +26,12 @@ const AntiEpidemic = (): ReactElement => {
     let victoryRef: any = useRef();
     let [flag, setflag] = useState(false);
 
+    
+
     const change = () => {
         setflag(!flag);
     };
+
 
     useEffect(() => {
         if (!boxRef.current) return;
@@ -36,27 +48,12 @@ const AntiEpidemic = (): ReactElement => {
             allDiv[i].querySelector(".back").innerHTML=i;
         }
 
-        // allDiv[4].querySelector(".back").innerHTML="卷卷";
-
         defate.querySelector(".left")!.addEventListener("touchend", function () {
             location.reload();
-            defate.style.display = "none";
+            
         });
 
-        defate.querySelector(".right")!.addEventListener("touchend", function () {
-            location.href = "/#/selection";
-            // location.hash.replace("#/");
-            defate.style.display = "none";
-        });
-
-        victory
-            .querySelector(".bottom")!
-            .addEventListener("touchend", function () {
-                location.href = "/#/selection";
-                // location.hash.replace("#/");
-                console.log(location.hash);
-                victory.style.display = "none";
-            });
+        
 
         // 设置垂直居中
         box.style.marginTop =
@@ -64,8 +61,7 @@ const AntiEpidemic = (): ReactElement => {
 
         let arr: any = [];
 
-        (allDiv[4].querySelector(".front") as HTMLElement).style.backgroundImage =
-            "url(/src/assets/images/AntiEpidemic/front.png)";
+        (allDiv[4].querySelector(".front") as HTMLElement).style.backgroundImage =`url(${front})`;
 
         // px转化为vw
         function Transform(length: number) {
@@ -130,7 +126,7 @@ const AntiEpidemic = (): ReactElement => {
                 setTimeout(function () {
                     box.addEventListener("touchend", fn);
                 }, 1000);
-            }, 6000);
+            }, 1000);
         }, 6000);
 
         // 点击事件
@@ -238,12 +234,20 @@ const AntiEpidemic = (): ReactElement => {
             </div>
             <div className="defate" ref={defateRef}>
                 <div className="left"></div>
-                <div className="right"></div>
+                <div className="right">
+                <Link to="/selection">
+                    <img src={choose} alt=""/>
+                </Link>
+                </div>
             </div>
 
             <div className="victory" ref={victoryRef}>
                 <div className="backgroundImage">
-                    <div className="bottom"></div>
+                    <div className="bottom">
+                        <Link to="/selection">
+                            <img src={arrow} alt=""/>
+                        </Link>
+                    </div>
                 </div>
             </div>
             {/* <button ref={btRef}>点我开始游戏</button> */}
