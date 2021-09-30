@@ -62,7 +62,7 @@ const Home = (props: any): ReactElement => {
     }
 
     const closeRulePop = () => {
-        rulePopNode!.style!.transform = 'translateY(100vh)'
+        rulePopNode!.style!.transform = 'translateY(-144.95vw)'
         coverNode!.style!.display = 'none';
     }
 
