@@ -208,10 +208,16 @@ const InterstellarTrip = (): ReactElement => {
                     player.coordinate.y += -(width * 6.4 - height) / (15 * FPS)
                     light.coordinate.y += -(width * 6.4 - height) / (15 * FPS)
                     Stones.forEach(item => {
-                        item.changeSpeed({ x: 0, y: (width * 6.4 - height) / (15 * FPS) })
                         isColliding(player, item)
                     })
-                    if (player.coordinate.y <= 10) {
+                    if (player.destroyed) {
+                        context.clearRect(0, 0, width, height)
+                        fillPicture(context, bgc)
+                        fillPicture(context, Stones)
+                        setState(3)
+                        clearInterval(timer)
+                    }
+                    if (player.coordinate.y <= 10 && !player.destroyed) {
                         clearInterval(timer)
                         const stuID = sessionStorage.getItem('stuID') ? sessionStorage.getItem('stuID') : false
                         // const stuID = 1;
@@ -264,14 +270,14 @@ const InterstellarTrip = (): ReactElement => {
     return (
         <div className={styles.interstellar_trip}>
             {(() => {
-                if (state == 2) {
+                if (state == 3) {
                     return (
                         <>
                             <Mask />
                             <Success />
                         </>
                     )
-                } else if (state == 3) {
+                } else if (state == 2) {
                     return (
                         <>
                             <Mask />
