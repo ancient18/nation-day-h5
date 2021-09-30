@@ -1,5 +1,5 @@
 import juanjuanSrc from "./juanjuan.png"
-import backgroundSrc from "./background.png"
+import backgroundSrc from "./background.jpg"
 import failureSrc from "./failure.png"
 import successSrc from "./success.png"
 import selectGameSrc from "./select_game.png"
