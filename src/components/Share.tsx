@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useRef } from "react";
 import "../assets/styles/share.less";
 import {
-    Link
+	Link
 } from "react-router-dom";
 
 import day1 from "../assets/images/share/day.png"
@@ -11,15 +11,24 @@ import back from "../assets/images/share/back.png"
 import juanImg from "../assets/images/share/juan.png"
 
 const Share = (): ReactElement => {
-	let endRef = useRef();
+	let endRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		let end = endRef.current;
+<<<<<<< HEAD
 		let day = end.querySelector(".day");
 		// let left = end.querySelector(".left");
 		// let right = end.querySelector(".right");
 		let img = end.querySelector(".img");
 		let code = img.querySelector("img");
+=======
+		let day = end?.querySelector(".day");
+		let left = end?.querySelector(".left");
+		let right = end?.querySelector(".right");
+		let img = end?.querySelector(".img");
+		let code = img?.querySelector("img");
+
+>>>>>>> 34c2083bfb06a79879dc1bbbf839622dbfabffea
 		let arrImg = [0, 1];
 		function randomSort(a: number, b: number) {
 			return Math.random() > 0.5 ? 1 : -1;
@@ -29,7 +38,7 @@ const Share = (): ReactElement => {
 
 		if (arrImg[0] === 0) {
 			day.style.backgroundImage = `url(${day1})`
-			
+
 		} else {
 			day.style.backgroundImage = `url(${day2})`;
 			day.style.height = "71.5vh";
@@ -57,7 +66,7 @@ const Share = (): ReactElement => {
 			</div>
 			{/* <div className="left">
 				<Link to="/selection">
-					<img src={back} alt=""/>
+					<img src={back} alt="" />
 				</Link>
 			</div> */}
 			{/* <div className="right"></div> */}
