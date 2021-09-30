@@ -207,6 +207,10 @@ const InterstellarTrip = (): ReactElement => {
                     light.coordinate.x += light.velocity.x
                     player.coordinate.y += -(width * 6.4 - height) / (15 * FPS)
                     light.coordinate.y += -(width * 6.4 - height) / (15 * FPS)
+                    Stones.forEach(item => {
+                        item.changeSpeed({ x: 0, y: (width * 6.4 - height) / (15 * FPS) })
+                        isColliding(player, item)
+                    })
                     if (player.coordinate.y <= 10) {
                         clearInterval(timer)
                         const stuID = sessionStorage.getItem('stuID') ? sessionStorage.getItem('stuID') : false
