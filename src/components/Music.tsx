@@ -5,9 +5,10 @@ import bgm from '../assets/music/bgm.mp3'
 const Music = (): ReactElement => {
     let music = new Audio(bgm);
     let isMusic = false;
+    let touchTimes = 0; // 针对以Chromium为内核的浏览器的不允许自动播放音频，采取点击两次
     let musicBtnNode: HTMLDivElement | null;
 
-    document.body.addEventListener('touchstart', playMusicFirst)
+    document.body.addEventListener('touchstart', playMusicFirstAndSecond)
 
     const controlMusic = () => isMusic ? stopMusic() : playMusic()
 
@@ -23,9 +24,11 @@ const Music = (): ReactElement => {
         musicBtnNode!.classList.remove('musicBtn-play')
     }
 
-    function playMusicFirst(): void {
+    function playMusicFirstAndSecond(): void {
+        touchTimes++;
         playMusic()
-        document.body.removeEventListener('touchstart', playMusicFirst)
+        if (touchTimes === 2)
+            document.body.removeEventListener('touchstart', playMusicFirstAndSecond)
     }
 
     return (
