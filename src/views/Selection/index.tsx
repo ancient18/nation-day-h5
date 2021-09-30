@@ -55,14 +55,17 @@ const Selection = (): ReactElement => {
         tech_future: false,
     });
 
-    const [obj, setObj] = useState({ flag: false });
+    const [obj, setObj] = useState({ flag: false, click: false });
+
+    let shareRef = useRef();
+
 
     useEffect(() => {
         getState().then((state) => setDones(state));
     }, []);
 
-    // <<<<<<< HEAD
     useEffect(() => {
+
         console.log(dones);
         //    if(dones["harvest"]==true&&dones["interstellar_trip"]==true&&dones["anti_epidemic"]==true&&dones["tech_future"]==true){
         //        if(localStorage["flag"]){
@@ -79,43 +82,40 @@ const Selection = (): ReactElement => {
             dones["anti_epidemic"] == true &&
             dones["tech_future"] == true
         ) {
-            setObj({ flag: true });
+            setObj({ flag: true, click: false });
         }
     }, [dones]);
 
-    // if(localStorage.flag==true){
-    //        return (
-    //         <div className="selection">
-    //             <Share />
-    //             <div className="content">
-    //                 <div className="sentakushis">
-    //                     <Sentakushi type="harvest" done={dones.harvest} />
-    //                     <Sentakushi type="interstellarTrip" done={dones.interstellar_trip} />
-    //                     <Sentakushi type="antiEpidemic" done={dones.anti_epidemic} />
-    //                     <Sentakushi type="techFuture" done={dones.tech_future} />
-    //                 </div>
-    //                 <p>当前总积分： {getScore(dones)}</p>
-    //             </div>
-    //         </div>
-    //     )
-    // }else{
+    
+    const shareClick = () => {
 
-    // }
+        setObj({ click: !obj.click, flag: true });
 
-    // =======
-    // >>>>>>> 34c2083bfb06a79879dc1bbbf839622dbfabffea
+        console.log(obj);
+    }
+
+    const fn = () => {
+        setObj({ click: !obj.click, flag: true });
+    }
+
+
+
     return (
         <div className="selection">
-            <Share pro={obj} />
+            {obj.flag ? <Share pro={{ fn, flag: true }} /> : <></>}
+            {obj.click ? <Share pro={{ fn }} /> : <></>}
+
             <div className="content">
                 <div className="sentakushis">
                     <Sentakushi type="harvest" done={dones.harvest} />
                     <Sentakushi type="interstellarTrip" done={dones.interstellar_trip} />
                     <Sentakushi type="antiEpidemic" done={dones.anti_epidemic} />
                     <Sentakushi type="techFuture" done={dones.tech_future} />
+
                 </div>
                 <p>当前总积分： {getScore(dones)}</p>
             </div>
+            {obj.flag ? <div className="share" onClick={shareClick} ref={shareRef}></div> : <></>}
         </div>
     );
 };

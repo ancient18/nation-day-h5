@@ -20,10 +20,10 @@ import front from "../../../assets/images/AntiEpidemic/front.png";
 import arrow from "../../../assets/images/AntiEpidemic/arrow.png";
  
 const AntiEpidemic = (): ReactElement => {
-    let boxRef: any = useRef();
+    let boxRef = useRef();
     // let btRef = useRef();
-    let defateRef: any = useRef();
-    let victoryRef: any = useRef();
+    let defateRef = useRef();
+    let victoryRef = useRef();
     let [flag, setflag] = useState(false);
 
     
@@ -59,7 +59,7 @@ const AntiEpidemic = (): ReactElement => {
         box.style.marginTop =
             document.body.clientHeight * 0.5 - document.body.clientWidth * 0.4 + "px";
 
-        let arr: any = [];
+        let arr = [];
 
         (allDiv[4].querySelector(".front") as HTMLElement).style.backgroundImage =`url(${front})`;
 
@@ -130,7 +130,7 @@ const AntiEpidemic = (): ReactElement => {
         }, 6000);
 
         // 点击事件
-        function fn(e: any) {
+        function fn(e) {
             console.log(e.target.innerHTML);
             
             // 移除点击事件
@@ -164,7 +164,7 @@ const AntiEpidemic = (): ReactElement => {
                             // 给后端发请求
 
                             async function an() {
-                                const res = await fetch(`${API_URL}/anti_epidemic`, {
+                                const res = await fetch(`${API_URL}/complete/anti_epidemic`, {
                                     method: "POST",
                                     headers: {
                                         'Content-Type': 'application/json'

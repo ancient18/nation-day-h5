@@ -9,7 +9,7 @@ import back from "../assets/images/share/back.png";
 import juanImg from "../assets/images/share/juan.png";
 import smallcode from "../assets/images/share/smallcode.png";
 
-const Share = (pro: any): ReactElement => {
+const Share = (fn, flag): ReactElement => {
     let endRef: React.RefObject<HTMLDivElement> = useRef < HTMLDivElement > (null);
 
     useEffect(() => {
@@ -19,12 +19,24 @@ const Share = (pro: any): ReactElement => {
         let img = end.querySelector(".img");
         let code = img.querySelector("img");
         let cha = end.querySelector(".cha");
+        // console.log(pro);
 
-        // if(pro.flag==true){
+        console.log(fn.pro);
+
+
+
+        // if(pro.click==true){
+        //     console.log(1);
         // 	end.style.display="table";
         // }
 
+        console.log(flag);
+
         cha.addEventListener("click", function () {
+            if (!fn.pro.flag) {
+                fn.pro.fn();
+            }
+
             end.style.display = "none";
         });
 
@@ -57,7 +69,6 @@ const Share = (pro: any): ReactElement => {
                 <div className="cha"></div>
                 <div className="juan">
                     <img src={smallcode} alt="" />
-                    {/* <div className="code"></div> */}
                 </div>
             </div>
             <div className="img">
