@@ -37,6 +37,7 @@ const CountDown = (): ReactElement => {
             await fn(two);
             await fn(one);
             await fn(go);
+            
             countdown!.style.display = "none";
         }
 
