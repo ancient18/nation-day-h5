@@ -5,12 +5,36 @@ import Sentakushi from "./sentakushi";
 import "../../assets/styles/selection.less";
 import { API_URL } from "../../config"
 
-function getScore(dones: {
+type GameDones = {
     "harvest": boolean,
     "interstellar_trip": boolean,
     "anti_epidemic": boolean,
     "tech_future": boolean,
-}) {
+}
+
+async function getState(): Promise<GameDones> {
+    if (sessionStorage.getItem("stuID")) {
+        const res = await fetch(`${API_URL}/status?stu_number=${sessionStorage.getItem("stuID")}`)
+        const data = await res.json()
+        if (data.info !== "success") return {
+            "harvest": false,
+            "interstellar_trip": false,
+            "anti_epidemic": false,
+            "tech_future": false,
+        };
+        return data.data
+
+    } else {
+        return {
+            "harvest": localStorage.getItem("harvest") ? true : false,
+            "interstellar_trip": localStorage.getItem("interstellar_trip") ? true : false,
+            "anti_epidemic": localStorage.getItem("anti_epidemic") ? true : false,
+            "tech_future": localStorage.getItem("tech_future") ? true : false,
+        };
+    }
+}
+
+function getScore(dones: GameDones) {
     let score = 0;
     if (dones.harvest) score += 50;
     if (dones.interstellar_trip) score += 50;
@@ -29,17 +53,8 @@ const Selection = (): ReactElement => {
     })
 
     useEffect(() => {
-        fetch(`${API_URL}/status`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.info !== "success") return;
-                setDones(data.data)
-            })
+        getState().then(state => setDones(state))
     }, [])
-
-    useEffect(() => {
-        console.log(dones)
-    }, [dones])
 
     return (
         <div className="selection">

@@ -2,14 +2,11 @@
 .home{
     position: relative;
     background-image: url(../images/home/home-background-image.png);
-    // background-size: cover;
     background-size: 100%;
     background-repeat: no-repeat;
-    // background-size: 100% 100%;
     top: 0;
     left: 0;
     width: 100vw;
-    // height: 667./@vv;
     height: 100vh;
     overflow: hidden;
     .cover {
@@ -23,7 +20,6 @@
         z-index: 99;
     }
     .loginPop{
-        // display: none;
         z-index: 1000;
         background-image: url(../images/home/home-loginPop.png);
         position: absolute;
@@ -47,10 +43,12 @@
             border: none;
             background-color: #FAF8EC;
             margin: 13./@vv 0 0 18./@vv;
-            font-family: Zhan;
+            font-family: LianMeng;
             color: #C84D1B;
             font-size: 12./@vv;
             padding: 0;
+            display: inline-block;
+            max-width: 90%;
         }
         .loginPopConfirm{
             width: 186.99px;
@@ -102,8 +100,8 @@
             background-image: url(../images/home/home-stuID.png);
             background-size: cover;
             .stuID{
-                font-size: 19./@vv;
-                font-family: Zhan;
+                font-size: 12./@vv;
+                font-family: LianMeng;
                 color: #C84D1C;
                 position: absolute;
                 top: 0;
@@ -113,19 +111,13 @@
                 height: 19./@vv;
                 text-align: center;
                 margin-top: 50./@vv;
-                // width: 100%;
-                // margin-left: 64./@vv;
-                // margin-top: 50./@vv;
-                // top: 457./@vv;
-                // margin: 48./@vv 0 0 68./@vv;
             }
         }
     }
     .rulePop{
         position: absolute;
         left: 34./@vv;
-        // transform: translateX(34./@vv);
-        transform: translateY(100vh);
+        transform: translateY(-543.5./@vv);
         background-image: url(../images/home/home-rule.png);
         width: 307./@vv;
         height: 543.5./@vv;

@@ -2,7 +2,7 @@ import { ReactElement, useRef, useEffect, useState } from "react";
 
 import styles from "../../../assets/styles/interstellarTrip.module.less"
 
-import { Loading } from "../../../components"
+import { CountDown } from "../../../components"
 // type中导出一些类和接口
 import {
     ISpaceship, IBaseStone, Vector, IPicture,
@@ -17,6 +17,8 @@ import { spaceLight } from './type'
 import { fillPicture, isColliding } from "./utils"
 
 import { Success, Mask, Failure } from "./cpns"
+
+import { API_URL } from "../../../config"
 
 let Stones: MoveItem[]
 
@@ -36,8 +38,6 @@ let changeBtn: staticPicture
 
 const FPS = 100;
 
-
-
 const InterstellarTrip = (): ReactElement => {
     const canvasRef: React.RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null)
     let context: CanvasRenderingContext2D
@@ -54,8 +54,6 @@ const InterstellarTrip = (): ReactElement => {
     const width = document.documentElement.clientWidth;
 
     const ratio = width / 375;
-
-
 
     /* 这里修改这个数组是为了对屏幕的宽度和高度做适配
         coordinate.x 和 coordinate 分别加上 size.x/2 和 size.y/2 是因为 
@@ -151,14 +149,22 @@ const InterstellarTrip = (): ReactElement => {
     }
     let timer: NodeJS.Timeout
     useEffect(() => {
-
         canvasRef.current?.setAttribute("height", height.toString());
         canvasRef.current?.setAttribute("width", width.toString());
         context = canvasRef.current?.getContext('2d')!;
+
         /*算出比例，根据比例适配不同屏幕 */
         if (status === "LOADING") {
-            let timer0 = setTimeout(() => {
+            if (!context) return
+            let timer0 = setInterval(() => {
+                fillPicture(context, bgc)
+                fillPicture(context, player)
+                fillPicture(context, light)
+                fillPicture(context, Stones)
+            }, 100)
+            setTimeout(() => {
                 setStatus("COMPLETED")
+                clearInterval(timer0)
             }, 4000)
         }
         if (status === "COMPLETED") {
@@ -201,8 +207,33 @@ const InterstellarTrip = (): ReactElement => {
                     light.coordinate.x += light.velocity.x
                     player.coordinate.y += -(width * 6.4 - height) / (15 * FPS)
                     light.coordinate.y += -(width * 6.4 - height) / (15 * FPS)
-                    if (player.coordinate.y <= 10) {
+                    Stones.forEach(item => {
+                        isColliding(player, item)
+                    })
+                    if (player.destroyed) {
+                        context.clearRect(0, 0, width, height)
+                        fillPicture(context, bgc)
+                        fillPicture(context, Stones)
+                        setState(3)
                         clearInterval(timer)
+                    }
+                    if (player.coordinate.y <= 10 && !player.destroyed) {
+                        clearInterval(timer)
+                        const stuID = sessionStorage.getItem('stuID') ? sessionStorage.getItem('stuID') : false
+                        // const stuID = 1;
+                        if (stuID) {
+                            fetch(`${API_URL}/complete/interstellar_trip`,
+                                {
+                                    body: JSON.stringify({ 'stu_number': stuID }),
+                                    headers: {
+                                        'content-type': 'application/json'
+                                    },
+                                    method: 'POST'
+                                })
+                            // .then(res => console.log(res))
+                        } else {
+                            localStorage.setItem("interstellar_trip", 'true')
+                        }
                         setState(2)
                     }
                 } else if (!player.destroyed) {
@@ -238,7 +269,7 @@ const InterstellarTrip = (): ReactElement => {
 
     return (
         <div className={styles.interstellar_trip}>
-            {/* {(() => {
+            {(() => {
                 if (state == 2) {
                     return (
                         <>
@@ -257,19 +288,16 @@ const InterstellarTrip = (): ReactElement => {
             })()}
             {(() => {
                 if (status == 'LOADING') {
-                    return (<Loading></Loading>)
-                } else {
-                    return (<canvas
-                        ref={canvasRef}
-                        id={styles.interstellartrip}
-                        onTouchStart={spaceMoveStart}
-                        onTouchMove={spaceMoved}
-                        onTouchEnd={spaceMoveEnd} >
-                    </canvas>)
+                    return (<CountDown />)
                 }
-            })()} */}
-
-            <Loading></Loading>
+            })()}
+            <canvas
+                ref={canvasRef}
+                id={styles.interstellartrip}
+                onTouchStart={spaceMoveStart}
+                onTouchMove={spaceMoved}
+                onTouchEnd={spaceMoveEnd} >
+            </canvas>
         </div>
     )
 }
