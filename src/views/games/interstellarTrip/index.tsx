@@ -270,14 +270,14 @@ const InterstellarTrip = (): ReactElement => {
     return (
         <div className={styles.interstellar_trip}>
             {(() => {
-                if (state == 3) {
+                if (state == 2) {
                     return (
                         <>
                             <Mask />
                             <Success />
                         </>
                     )
-                } else if (state == 2) {
+                } else if (state == 3) {
                     return (
                         <>
                             <Mask />
