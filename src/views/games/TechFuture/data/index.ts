@@ -38,7 +38,7 @@ export const height = document.documentElement.clientHeight;
 export const width = document.documentElement.clientWidth;
 
 export const FPS = 60;
-export const gravity = 600;
+export const gravity = 600; 
 
 export const initalPlayerWidth = 138 / 667 * height;
 export const initalPlayerHeight = 80 / 667 * height;
