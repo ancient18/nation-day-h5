@@ -1,6 +1,6 @@
 {
   "name": "national-day-h5-2021",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "serve": "npx webpack serve --mode=development",
