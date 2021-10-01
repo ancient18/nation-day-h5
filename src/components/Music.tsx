@@ -4,6 +4,7 @@ import bgm from '../assets/music/bgm.mp3'
 
 const Music = (): ReactElement => {
     let music = new Audio(bgm);
+    music.loop = true;
     let isMusic = false;
     let touchTimes = 0; // 针对以Chromium为内核的浏览器的不允许自动播放音频，采取点击两次
     let musicBtnNode: HTMLDivElement | null;
