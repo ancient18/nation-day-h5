@@ -10,7 +10,7 @@ import { API_URL } from "../config"
 const Home = (props: any): ReactElement => {
     let [stuID, setStuID] = useState<any>(0);
     const [status, setStatus] = useState<"LOADING" | "BEGIN">("LOADING")
-    let stuIDNode: HTMLInputElement | null, coverNode: HTMLDivElement | null, loginPopNode: HTMLDivElement | null, rulePopNode: HTMLDivElement | null, stuIDShowNode: HTMLSpanElement | null, loginPopErrorNode: HTMLDivElement | null;
+    let stuIDNode: HTMLTextAreaElement | null, coverNode: HTMLDivElement | null, loginPopNode: HTMLDivElement | null, rulePopNode: HTMLDivElement | null, stuIDShowNode: HTMLSpanElement | null, loginPopErrorNode: HTMLDivElement | null;
     setTimeout(() => {
         if (status === "LOADING") {
             setStatus("BEGIN")
@@ -76,7 +76,7 @@ const Home = (props: any): ReactElement => {
                         <div className="cover" style={{ display: sessionStorage.getItem('stuID') ? 'none' : 'block' }} ref={currentNode => coverNode = currentNode}></div>
                         <div className="loginPop" style={{ display: sessionStorage.getItem('stuID') ? 'none' : 'block' }} ref={currentNode => loginPopNode = currentNode}>
                             <div className="loginPop-input-box" >
-                                <input type="text" name="" id="" className="loginPop-input" ref={currentNode => stuIDNode = currentNode} />
+                                <textarea name="" id="" className="loginPop-input" ref={currentNode => stuIDNode = currentNode} />
                                 <div className="loginPop-input-error" ref={currentNode => loginPopErrorNode = currentNode}>请输入正确的学号</div>
                             </div>
                             <div className="loginPopConfirm" onClick={handleConfirmID}></div>
