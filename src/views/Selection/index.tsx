@@ -85,8 +85,9 @@ const Selection = (): ReactElement => {
                 localStorage.setItem("flag", "true");
 
             } else {
-                setObj({ flag: false, click: false, share: true });
+                setObj({ flag: true, click: false, share: true });
             }
+            
 
 
         }
@@ -104,10 +105,9 @@ const Selection = (): ReactElement => {
         setObj({ click: !obj.click, flag: true, share: false });
     }
 
-
-
     return (
         <div className="selection">
+            
             {obj.flag ? <Share pro={{ fn, flag: true }} /> : <></>}
             {obj.click ? <Share pro={{ fn }} /> : <></>}
 
@@ -117,7 +117,6 @@ const Selection = (): ReactElement => {
                     <Sentakushi type="interstellarTrip" done={dones.interstellar_trip} />
                     <Sentakushi type="antiEpidemic" done={dones.anti_epidemic} />
                     <Sentakushi type="techFuture" done={dones.tech_future} />
-
                 </div>
                 <p>当前总积分： {getScore(dones)}</p>
             </div>
