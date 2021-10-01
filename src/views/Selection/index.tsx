@@ -55,9 +55,12 @@ const Selection = (): ReactElement => {
         tech_future: false,
     });
 
-    const [obj, setObj] = useState({ flag: false, click: false });
+    const [obj, setObj] = useState({ flag: false, click: false, share: false });
 
     let shareRef = useRef();
+
+    // localStorage.removeItem("flag")
+    // console.log(localStorage);
 
 
     useEffect(() => {
@@ -67,14 +70,7 @@ const Selection = (): ReactElement => {
     useEffect(() => {
 
         console.log(dones);
-        //    if(dones["harvest"]==true&&dones["interstellar_trip"]==true&&dones["anti_epidemic"]==true&&dones["tech_future"]==true){
-        //        if(localStorage["flag"]){
-        //         localStorage.setItem("flag","false")
-        //        }
-        //        else{
-        //         localStorage.setItem("flag","true")
-        //        }
-        //    }
+
 
         if (
             dones["harvest"] == true &&
@@ -82,20 +78,30 @@ const Selection = (): ReactElement => {
             dones["anti_epidemic"] == true &&
             dones["tech_future"] == true
         ) {
-            setObj({ flag: true, click: false });
+
+            // 只有第一次挑战成功才会自动出现弹窗
+            if (!localStorage.flag) {
+                setObj({ flag: true, click: false, share: false });
+                localStorage.setItem("flag", "true");
+
+            } else {
+                setObj({ flag: false, click: false, share: true });
+            }
+
+
         }
     }, [dones]);
 
-    
+
     const shareClick = () => {
 
-        setObj({ click: !obj.click, flag: true });
+        setObj({ click: !obj.click, flag: true, share: false });
 
         console.log(obj);
     }
 
     const fn = () => {
-        setObj({ click: !obj.click, flag: true });
+        setObj({ click: !obj.click, flag: true, share: false });
     }
 
 
@@ -115,7 +121,7 @@ const Selection = (): ReactElement => {
                 </div>
                 <p>当前总积分： {getScore(dones)}</p>
             </div>
-            {obj.flag ? <div className="share" onClick={shareClick} ref={shareRef}></div> : <></>}
+            {obj.flag || obj.share ? <div className="share" onClick={shareClick} ref={shareRef}></div> : <></>}
         </div>
     );
 };
