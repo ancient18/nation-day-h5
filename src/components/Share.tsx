@@ -1,62 +1,81 @@
 import { ReactElement, useEffect, useRef } from "react";
 import "../assets/styles/share.less";
+import { Link } from "react-router-dom";
 
-const Share = (): ReactElement => {
-	let endRef = useRef();
+import day1 from "../assets/images/share/day.png";
+import day2 from "../assets/images/share/day1.png";
+import code1 from "../assets/images/share/code.png";
+import back from "../assets/images/share/back.png";
+import juanImg from "../assets/images/share/juan.png";
+import smallcode from "../assets/images/share/smallcode.png";
 
-	useEffect(() => {
-		let end = endRef.current;
-		let day = end.querySelector(".day");
-		let left = end.querySelector(".left");
-		let right = end.querySelector(".right");
-		let img = end.querySelector(".img");
-		let code = img.querySelector("img");
+const Share = (fn, flag): ReactElement => {
+    let endRef: React.RefObject<HTMLDivElement> = useRef < HTMLDivElement > (null);
 
-		let arrImg = [0, 1];
+    useEffect(() => {
+        let end = endRef.current;
 
-		function randomSort(a: number, b: number) {
-			return Math.random() > 0.5 ? 1 : -1;
-		}
+        let day = end.querySelector(".day");
+        let img = end.querySelector(".img");
+        let code = img.querySelector("img");
+        let cha = end.querySelector(".cha");
+        // console.log(pro);
 
-		arrImg.sort(randomSort);
+        console.log(fn.pro);
 
-		if (arrImg[0] === 0) {
-			day.style.backgroundImage = "url(/src/assets/images/share/day.png)";
-		} else {
-			day.style.backgroundImage = "url(/src/assets/images/share/day1.png)";
-			day.style.height = "75vh";
-		}
 
-		left.addEventListener("click", function () {
-			location.href = "/#/selection";
-		});
 
-		right.addEventListener("click", function () {
-			img.style.display = "table";
-		});
+        // if(pro.click==true){
+        //     console.log(1);
+        // 	end.style.display="table";
+        // }
 
-		img.addEventListener("click", function () {
-			img.style.display = "none";
-		});
+        console.log(flag);
 
-		code.style.marginTop =
-			document.body.clientHeight * 0.5 - document.body.clientWidth * 0.5 + "px";
-	}, []);
+        cha.addEventListener("click", function () {
+            if (!fn.pro.flag) {
+                fn.pro.fn();
+            }
 
-	return (
-		<div className="end" ref={endRef}>
-			<div className="day">
-				<div className="juan">
-					<div className="code"></div>
-				</div>
-			</div>
-			<div className="left"></div>
-			<div className="right"></div>
-			<div className="img">
-				<img src="/src/assets/images/share/code.png" alt="" />
-			</div>
-		</div>
-	);
+            end.style.display = "none";
+        });
+
+        let arrImg = [0, 1];
+        function randomSort(a: number, b: number) {
+            return Math.random() > 0.5 ? 1 : -1;
+        }
+
+        arrImg.sort(randomSort);
+
+        if (arrImg[0] === 0) {
+            day.style.backgroundImage = `url(${day1})`;
+            cha.style.top = "9vw";
+        } else {
+            day.style.backgroundImage = `url(${day2})`;
+            day.style.height = "71.5vh";
+        }
+
+        img.addEventListener("click", function () {
+            img.style.display = "none";
+        });
+
+        code.style.marginTop =
+            document.body.clientHeight * 0.5 - document.body.clientWidth * 0.5 + "px";
+    }, []);
+
+    return (
+        <div className="end" ref={endRef}>
+            <div className="day">
+                <div className="cha"></div>
+                <div className="juan">
+                    <img src={smallcode} alt="" />
+                </div>
+            </div>
+            <div className="img">
+                <img src={code1} alt="" />
+            </div>
+        </div>
+    );
 };
 
 export default Share;
