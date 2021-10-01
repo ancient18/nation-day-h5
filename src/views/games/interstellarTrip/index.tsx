@@ -232,7 +232,7 @@ const InterstellarTrip = (): ReactElement => {
                                 })
                             // .then(res => console.log(res))
                         } else {
-                            localStorage.setItem("interstellar_trip", 'true')
+                            sessionStorage.setItem("interstellar_trip", 'true')
                         }
                         setState(2)
                     }

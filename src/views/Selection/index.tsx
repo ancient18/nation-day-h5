@@ -27,12 +27,12 @@ async function getState(): Promise<GameDones> {
         return data.data;
     } else {
         return {
-            harvest: localStorage.getItem("harvest") ? true : false,
-            interstellar_trip: localStorage.getItem("interstellar_trip")
+            harvest: sessionStorage.getItem("harvest") ? true : false,
+            interstellar_trip: sessionStorage.getItem("interstellar_trip")
                 ? true
                 : false,
-            anti_epidemic: localStorage.getItem("anti_epidemic") ? true : false,
-            tech_future: localStorage.getItem("tech_future") ? true : false,
+            anti_epidemic: sessionStorage.getItem("anti_epidemic") ? true : false,
+            tech_future: sessionStorage.getItem("tech_future") ? true : false,
         };
     }
 }

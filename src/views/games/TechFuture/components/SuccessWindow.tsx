@@ -16,7 +16,7 @@ const SuccessWindow = (): ReactElement => {
                 })
             })
         } else {
-            localStorage.setItem("tech_future", "true")
+            sessionStorage.setItem("tech_future", "true")
         }
     }, [])
     return <div className="success-window">

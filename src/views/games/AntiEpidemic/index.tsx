@@ -178,7 +178,7 @@ const AntiEpidemic = (): ReactElement => {
                             an();
                             // console.log(data);
                         } else {
-                            localStorage.setItem("anti_epidemic", 'true')
+                            sessionStorage.setItem("anti_epidemic", 'true')
                             
                         }
                     }

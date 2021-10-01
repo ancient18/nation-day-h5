@@ -119,7 +119,7 @@ const success = async (gameOverPopNode: React.RefObject<HTMLDivElement>, contain
         const data = await res.json()
         // console.log(data);
     } else {
-        localStorage.setItem("harvest", 'true')
+        sessionStorage.setItem("harvest", 'true')
         // console.log(localStorage.getItem('harvest'));
     }
 }
