@@ -85,7 +85,7 @@ const Selection = (): ReactElement => {
                 localStorage.setItem("flag", "true");
 
             } else {
-                setObj({ flag: true, click: false, share: true });
+                setObj({ flag: false, click: false, share: true });
             }
             
 
