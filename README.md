@@ -1,14 +1,10 @@
 ## 项目名
 
-national-day-h5-2021
-
-
+欢乐邮你 玩转国庆
 
 ## 项目简介
 
 由喜庆丰收、星际遨游、全民抗疫、科技未来组成的国庆综合游戏H5
-
-
 
 ## 目录结构
 
@@ -268,16 +264,12 @@ national-day-h5-2021
         index.html
 ```
 
-
-
 ## 技术栈
 
 - React
 - React Router
 - TypeScript
 - Less
-
-
 
 ## 项目运行方式
 
@@ -289,13 +281,9 @@ npm run serve
 npm run build
 ```
 
-
-
 ## 项目亮点/难点
 
 ### 喜庆丰收
-
-
 
 ### 星际遨游
 
@@ -310,8 +298,6 @@ npm run build
 ......
 
 ### ......
-
-
 
 ## 项目存在的不足、优化
 
@@ -333,25 +319,17 @@ npm run build
 
 ### ......
 
-
-
 ## 接口文档
 
 https://www.showdoc.com.cn/1606788020053482/
-
-
 
 ## 项目上线时间
 
 2021.10.1
 
-
-
 ## 代码的 GitHub/GitLab 地址
 
 https://gitlab.redrock.team/web/fe/national-day-h5-2021
-
-
 
 ## 项目的线上地址
 
