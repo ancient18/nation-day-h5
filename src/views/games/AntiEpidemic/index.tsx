@@ -18,7 +18,7 @@ import { API_URL } from "../../../config";
 import choose from "../../../assets/images/AntiEpidemic/choose.png";
 import front from "../../../assets/images/AntiEpidemic/front.png";
 import arrow from "../../../assets/images/AntiEpidemic/arrow.png";
- 
+
 const AntiEpidemic = (): ReactElement => {
     let boxRef = useRef();
     // let btRef = useRef();
@@ -26,7 +26,7 @@ const AntiEpidemic = (): ReactElement => {
     let victoryRef = useRef();
     let [flag, setflag] = useState(false);
 
-    
+
 
     const change = () => {
         setflag(!flag);
@@ -38,22 +38,22 @@ const AntiEpidemic = (): ReactElement => {
         if (!defateRef.current) return;
         if (!victoryRef.current) return;
         // 渲染完成后获取 DOM 元素
-        let box = boxRef.current; //外面的大盒子
-        let allDiv = Array.from(box.querySelectorAll(".big")) as HTMLElement[]; //里面的九个盒子
+        let box: HTMLElement = boxRef.current; //外面的大盒子
+        let allDiv: HTMLElement[] = Array.from(box.querySelectorAll(".big")) as HTMLElement[]; //里面的九个盒子
         // let bt = btRef.current; //按钮
-        let defate = defateRef.current;
+        let defate: HTMLElement = defateRef.current;
         let victory = victoryRef.current;
 
-        for(let i = 0, len = allDiv.length; i < len; i++){
-            allDiv[i].querySelector(".back").innerHTML=i;
+        for (let i = 0, len = allDiv.length; i < len; i++) {
+            allDiv[i].querySelector(".back").innerHTML = i;
         }
 
         defate.querySelector(".left")!.addEventListener("touchend", function () {
             location.reload();
-            
+
         });
 
-        
+
 
         // 设置垂直居中
         box.style.marginTop =
@@ -61,7 +61,7 @@ const AntiEpidemic = (): ReactElement => {
 
         let arr = [];
 
-        (allDiv[4].querySelector(".front") as HTMLElement).style.backgroundImage =`url(${front})`;
+        (allDiv[4].querySelector(".front") as HTMLElement).style.backgroundImage = `url(${front})`;
 
         // px转化为vw
         function Transform(length: number) {
@@ -132,13 +132,13 @@ const AntiEpidemic = (): ReactElement => {
         // 点击事件
         function fn(e) {
             console.log(e.target.innerHTML);
-            
+
             // 移除点击事件
             box.removeEventListener("touchend", fn);
-           console.log(e);
-            if(e.target.innerHTML==4){
-                for(let i=0, len = allDiv.length; i < len;i++){
-                    if(allDiv[i].querySelector(".back").innerHTML==4){
+            console.log(e);
+            if (e.target.innerHTML == 4) {
+                for (let i = 0, len = allDiv.length; i < len; i++) {
+                    if (allDiv[i].querySelector(".back").innerHTML == 4) {
                         allDiv[i].style.transform = `rotateY(${0}deg)`;
                         setTimeout(function () {
                             allDiv[i].querySelector(".front").style.display = "table";
@@ -179,7 +179,7 @@ const AntiEpidemic = (): ReactElement => {
                             // console.log(data);
                         } else {
                             sessionStorage.setItem("anti_epidemic", 'true')
-                            
+
                         }
                     }
                 }
@@ -187,15 +187,15 @@ const AntiEpidemic = (): ReactElement => {
             else {
                 console.log(e);
                 // 没找到
-                for(let i=0, len = allDiv.length; i < len;i++){
-                    if(allDiv[i].querySelector(".back").innerHTML==e.target.innerHTML){
+                for (let i = 0, len = allDiv.length; i < len; i++) {
+                    if (allDiv[i].querySelector(".back").innerHTML == e.target.innerHTML) {
                         allDiv[i].style.transform = `rotateY(${0}deg)`;
                         setTimeout(function () {
                             allDiv[i].querySelector(".front").style.display = "table";
                         }, 300);
                         setTimeout(function () {
                             for (let i = 0, len = allDiv.length; i < len; i++) {
-                                if (allDiv[i].querySelector(".back").innerHTML!=e.target.innerHTML) {
+                                if (allDiv[i].querySelector(".back").innerHTML != e.target.innerHTML) {
                                     allDiv[i].style.transform = `rotateY(${0}deg)`;
                                     setTimeout(function () {
                                         (
@@ -212,7 +212,7 @@ const AntiEpidemic = (): ReactElement => {
                 }
 
 
-               
+
             }
         }
     }, [flag]);
@@ -220,7 +220,7 @@ const AntiEpidemic = (): ReactElement => {
     return (
         <div className="body">
             {/* <Share/> */}
-            <CountDown/>
+            <CountDown />
             <div className="box" ref={boxRef}>
                 <BigDiv />
                 <BigDiv />
@@ -235,9 +235,9 @@ const AntiEpidemic = (): ReactElement => {
             <div className="defate" ref={defateRef}>
                 <div className="left"></div>
                 <div className="right">
-                <Link to="/selection">
-                    <img src={choose} alt=""/>
-                </Link>
+                    <Link to="/selection">
+                        <img src={choose} alt="" />
+                    </Link>
                 </div>
             </div>
 
@@ -245,7 +245,7 @@ const AntiEpidemic = (): ReactElement => {
                 <div className="backgroundImage">
                     <div className="bottom">
                         <Link to="/selection">
-                            <img src={arrow} alt=""/>
+                            <img src={arrow} alt="" />
                         </Link>
                     </div>
                 </div>
